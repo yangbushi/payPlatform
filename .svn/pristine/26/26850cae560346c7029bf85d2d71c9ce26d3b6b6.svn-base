@@ -1,0 +1,140 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class YyghYhxx implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Short yhid;
+
+    private String yhxm;
+
+    private String yhmm;
+
+    private String yhzsxm;
+
+    private String yhxb;
+
+    private String yhgh;
+
+    private Long yhzid;
+
+    private Short passErrNum;
+
+    private Short yhszt;
+
+    private String yhmmwtda;
+
+    private String yhsjh;
+
+    private Short yhsfky;
+
+    private Short yhipzt;
+
+    public Short getYhid() {
+        return yhid;
+    }
+
+    public void setYhid(Short yhid) {
+        this.yhid = yhid;
+    }
+
+    public String getYhxm() {
+        return yhxm;
+    }
+
+    public void setYhxm(String yhxm) {
+        this.yhxm = yhxm;
+    }
+
+    public String getYhmm() {
+        return yhmm;
+    }
+
+    public void setYhmm(String yhmm) {
+        this.yhmm = yhmm;
+    }
+
+    public String getYhzsxm() {
+        return yhzsxm;
+    }
+
+    public void setYhzsxm(String yhzsxm) {
+        this.yhzsxm = yhzsxm;
+    }
+
+    public String getYhxb() {
+        return yhxb;
+    }
+
+    public void setYhxb(String yhxb) {
+        this.yhxb = yhxb;
+    }
+
+    public String getYhgh() {
+        return yhgh;
+    }
+
+    public void setYhgh(String yhgh) {
+        this.yhgh = yhgh;
+    }
+
+    public Long getYhzid() {
+        return yhzid;
+    }
+
+    public void setYhzid(Long yhzid) {
+        this.yhzid = yhzid;
+    }
+
+    public Short getPassErrNum() {
+        return passErrNum;
+    }
+
+    public void setPassErrNum(Short passErrNum) {
+        this.passErrNum = passErrNum;
+    }
+
+    public Short getYhszt() {
+        return yhszt;
+    }
+
+    public void setYhszt(Short yhszt) {
+        this.yhszt = yhszt;
+    }
+
+    public String getYhmmwtda() {
+        return yhmmwtda;
+    }
+
+    public void setYhmmwtda(String yhmmwtda) {
+        this.yhmmwtda = yhmmwtda;
+    }
+
+    public String getYhsjh() {
+        return yhsjh;
+    }
+
+    public void setYhsjh(String yhsjh) {
+        this.yhsjh = yhsjh;
+    }
+
+    public Short getYhsfky() {
+        return yhsfky;
+    }
+
+    public void setYhsfky(Short yhsfky) {
+        this.yhsfky = yhsfky;
+    }
+
+    public Short getYhipzt() {
+        return yhipzt;
+    }
+
+    public void setYhipzt(Short yhipzt) {
+        this.yhipzt = yhipzt;
+    }
+}

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.GhRateHosMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.GhRateHos" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PATIENT_ID" property="patientId" jdbcType="DECIMAL" />
+    <result column="HOS_ID" property="hosId" jdbcType="DECIMAL" />
+    <result column="RATE_GUIDE_SERVICE" property="rateGuideService" jdbcType="DECIMAL" />
+    <result column="RATE_WAITING_TIME" property="rateWaitingTime" jdbcType="DECIMAL" />
+    <result column="RATE_CONTENT" property="rateContent" jdbcType="VARCHAR" />
+    <result column="RATE_TIME" property="rateTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PATIENT_ID, HOS_ID, RATE_GUIDE_SERVICE, RATE_WAITING_TIME, RATE_CONTENT, RATE_TIME
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.GhRateHosExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GH_RATE_HOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.GhRateHosExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GH_RATE_HOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.GhRateHosExample" >
+    delete from GH_RATE_HOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.GhRateHosExample" resultType="java.lang.Integer" >
+    select count(*) from GH_RATE_HOS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update GH_RATE_HOS
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.patientId != null" >
+        PATIENT_ID = #{record.patientId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hosId != null" >
+        HOS_ID = #{record.hosId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rateGuideService != null" >
+        RATE_GUIDE_SERVICE = #{record.rateGuideService,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rateWaitingTime != null" >
+        RATE_WAITING_TIME = #{record.rateWaitingTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rateContent != null" >
+        RATE_CONTENT = #{record.rateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rateTime != null" >
+        RATE_TIME = #{record.rateTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update GH_RATE_HOS
+    set ID = #{record.id,jdbcType=DECIMAL},
+      PATIENT_ID = #{record.patientId,jdbcType=DECIMAL},
+      HOS_ID = #{record.hosId,jdbcType=DECIMAL},
+      RATE_GUIDE_SERVICE = #{record.rateGuideService,jdbcType=DECIMAL},
+      RATE_WAITING_TIME = #{record.rateWaitingTime,jdbcType=DECIMAL},
+      RATE_CONTENT = #{record.rateContent,jdbcType=VARCHAR},
+      RATE_TIME = #{record.rateTime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from GH_RATE_HOS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from GH_RATE_HOS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.GhRateHos" >
+    insert into GH_RATE_HOS (ID, PATIENT_ID, HOS_ID, 
+      RATE_GUIDE_SERVICE, RATE_WAITING_TIME, RATE_CONTENT, 
+      RATE_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{patientId,jdbcType=DECIMAL}, #{hosId,jdbcType=DECIMAL}, 
+      #{rateGuideService,jdbcType=DECIMAL}, #{rateWaitingTime,jdbcType=DECIMAL}, #{rateContent,jdbcType=VARCHAR}, 
+      #{rateTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.GhRateHos" >
+    insert into GH_RATE_HOS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      PATIENT_ID,
+      HOS_ID,
+      RATE_GUIDE_SERVICE,
+      RATE_WAITING_TIME,
+      RATE_CONTENT,
+      RATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      #{patientId,jdbcType=DECIMAL},
+      #{hosId,jdbcType=DECIMAL},
+      #{rateGuideService,jdbcType=DECIMAL},
+      #{rateWaitingTime,jdbcType=DECIMAL},
+      #{rateContent,jdbcType=VARCHAR},
+      #{rateTime,jdbcType=DATE},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.GhRateHos" >
+    update GH_RATE_HOS
+    <set >
+      <if test="patientId != null" >
+        PATIENT_ID = #{patientId,jdbcType=DECIMAL},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=DECIMAL},
+      </if>
+      <if test="rateGuideService != null" >
+        RATE_GUIDE_SERVICE = #{rateGuideService,jdbcType=DECIMAL},
+      </if>
+      <if test="rateWaitingTime != null" >
+        RATE_WAITING_TIME = #{rateWaitingTime,jdbcType=DECIMAL},
+      </if>
+      <if test="rateContent != null" >
+        RATE_CONTENT = #{rateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="rateTime != null" >
+        RATE_TIME = #{rateTime,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.GhRateHos" >
+    update GH_RATE_HOS
+    set PATIENT_ID = #{patientId,jdbcType=DECIMAL},
+      HOS_ID = #{hosId,jdbcType=DECIMAL},
+      RATE_GUIDE_SERVICE = #{rateGuideService,jdbcType=DECIMAL},
+      RATE_WAITING_TIME = #{rateWaitingTime,jdbcType=DECIMAL},
+      RATE_CONTENT = #{rateContent,jdbcType=VARCHAR},
+      RATE_TIME = #{rateTime,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

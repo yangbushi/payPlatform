@@ -1,0 +1,53 @@
+package com.tynet.model;
+
+import java.util.Date;
+
+/** 
+ * 类说明 
+ * @author  bijy
+ * @version V1.0  创建时间：2012-10-11 下午2:13:05 
+ */
+public class Review {
+	private String docId;
+	private Date operDate;
+	private String patientId;
+	private String patientName;
+	private String patientCard;
+	public String getPatientName() {
+		return patientName;
+	}
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+	public String getPatientCard() {
+		return patientCard;
+	}
+	public void setPatientCard(String patientCard) {
+		this.patientCard = patientCard;
+	}
+	private String reviewContent;
+	public String getDocId() {
+		return docId;
+	}
+	public void setDocId(String docId) {
+		this.docId = docId;
+	}
+	public Date getOperDate() {
+		return operDate;
+	}
+	public void setOperDate(Date operDate) {
+		this.operDate = operDate;
+	}
+	public String getPatientId() {
+		return patientId;
+	}
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+	public String getReviewContent() {
+		return reviewContent;
+	}
+	public void setReviewContent(String reviewContent) {
+		this.reviewContent = reviewContent;
+	}
+}

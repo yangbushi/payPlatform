@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.YyghDxtxMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.YyghDxtx" >
+    <result column="DDID" property="ddid" jdbcType="DECIMAL" />
+    <result column="YYRQ" property="yyrq" jdbcType="CHAR" />
+    <result column="YYSJ" property="yysj" jdbcType="CHAR" />
+    <result column="YYXH" property="yyxh" jdbcType="DECIMAL" />
+    <result column="SXWBZ" property="sxwbz" jdbcType="CHAR" />
+    <result column="QHMM" property="qhmm" jdbcType="CHAR" />
+    <result column="HZXM" property="hzxm" jdbcType="VARCHAR" />
+    <result column="SJHM" property="sjhm" jdbcType="VARCHAR" />
+    <result column="YYMC" property="yymc" jdbcType="VARCHAR" />
+    <result column="KSMC" property="ksmc" jdbcType="VARCHAR" />
+    <result column="YSMC" property="ysmc" jdbcType="VARCHAR" />
+    <result column="YYID" property="yyid" jdbcType="CHAR" />
+    <result column="push_Status" property="pushStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DDID, YYRQ, YYSJ, YYXH, SXWBZ, QHMM, HZXM, SJHM, YYMC, KSMC, YSMC, YYID, pushStatus
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.YyghDxtxExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from YYGH_DXTX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.YyghDxtxExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from YYGH_DXTX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.YyghDxtxExample" >
+    delete from YYGH_DXTX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.YyghDxtxExample" resultType="java.lang.Integer" >
+    select count(*) from YYGH_DXTX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update YYGH_DXTX
+    <set >
+      <if test="record.ddid != null" >
+        DDID = #{record.ddid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.yyrq != null" >
+        YYRQ = #{record.yyrq,jdbcType=CHAR},
+      </if>
+      <if test="record.yysj != null" >
+        YYSJ = #{record.yysj,jdbcType=CHAR},
+      </if>
+      <if test="record.yyxh != null" >
+        YYXH = #{record.yyxh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sxwbz != null" >
+        SXWBZ = #{record.sxwbz,jdbcType=CHAR},
+      </if>
+      <if test="record.qhmm != null" >
+        QHMM = #{record.qhmm,jdbcType=CHAR},
+      </if>
+      <if test="record.hzxm != null" >
+        HZXM = #{record.hzxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sjhm != null" >
+        SJHM = #{record.sjhm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yymc != null" >
+        YYMC = #{record.yymc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ksmc != null" >
+        KSMC = #{record.ksmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysmc != null" >
+        YSMC = #{record.ysmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yyid != null" >
+        YYID = #{record.yyid,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update YYGH_DXTX
+    set DDID = #{record.ddid,jdbcType=DECIMAL},
+      YYRQ = #{record.yyrq,jdbcType=CHAR},
+      YYSJ = #{record.yysj,jdbcType=CHAR},
+      YYXH = #{record.yyxh,jdbcType=DECIMAL},
+      SXWBZ = #{record.sxwbz,jdbcType=CHAR},
+      QHMM = #{record.qhmm,jdbcType=CHAR},
+      HZXM = #{record.hzxm,jdbcType=VARCHAR},
+      SJHM = #{record.sjhm,jdbcType=VARCHAR},
+      YYMC = #{record.yymc,jdbcType=VARCHAR},
+      KSMC = #{record.ksmc,jdbcType=VARCHAR},
+      YSMC = #{record.ysmc,jdbcType=VARCHAR},
+      YYID = #{record.yyid,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <insert id="insert" parameterType="com.tynet.model.YyghDxtx" >
+    insert into YYGH_DXTX (DDID, YYRQ, YYSJ, YYXH, 
+      SXWBZ, QHMM, HZXM, SJHM, 
+      YYMC, KSMC, YSMC, YYID
+      )
+    values (#{ddid,jdbcType=DECIMAL}, #{yyrq,jdbcType=CHAR}, #{yysj,jdbcType=CHAR}, #{yyxh,jdbcType=DECIMAL}, 
+      #{sxwbz,jdbcType=CHAR}, #{qhmm,jdbcType=CHAR}, #{hzxm,jdbcType=VARCHAR}, #{sjhm,jdbcType=VARCHAR}, 
+      #{yymc,jdbcType=VARCHAR}, #{ksmc,jdbcType=VARCHAR}, #{ysmc,jdbcType=VARCHAR}, #{yyid,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.YyghDxtx" >
+    insert into YYGH_DXTX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      DDID,
+      YYRQ,
+      YYSJ,
+      YYXH,
+      SXWBZ,
+      QHMM,
+      HZXM,
+      SJHM,
+      YYMC,
+      KSMC,
+      YSMC,
+      YYID,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{ddid,jdbcType=DECIMAL},
+      #{yyrq,jdbcType=CHAR},
+      #{yysj,jdbcType=CHAR},
+      #{yyxh,jdbcType=DECIMAL},
+      #{sxwbz,jdbcType=CHAR},
+      #{qhmm,jdbcType=CHAR},
+      #{hzxm,jdbcType=VARCHAR},
+      #{sjhm,jdbcType=VARCHAR},
+      #{yymc,jdbcType=VARCHAR},
+      #{ksmc,jdbcType=VARCHAR},
+      #{ysmc,jdbcType=VARCHAR},
+      #{yyid,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <select id="selectByDdids" resultMap="BaseResultMap">
+	select * from YYGH_DXTX where yyrq
+	=
+	to_char(sysdate+1,'YYYYMMDD') and
+	push_status is null and
+	DDID in
+	<foreach item="item" index="index" collection="array" open="("
+		separator="," close=")">
+		#{item}
+	</foreach>
+</select>
+  <update id="setPush">
+	update YYGH_DXTX set push_status = 1
+	where
+	DDID in
+	<foreach item="item" index="index" collection="array" open="("
+		separator="," close=")">
+		#{item}
+	</foreach>
+  </update>
+</mapper>

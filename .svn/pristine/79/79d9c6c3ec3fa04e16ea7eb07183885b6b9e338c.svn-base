@@ -1,0 +1,65 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class GhTjApp implements Serializable {
+    private Long appId;
+
+    private String appIco;
+
+    private String appName;
+
+    private String appIntro;
+
+    private String appDownload;
+
+    private Long appDowncount;
+
+    public Long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Long appId) {
+        this.appId = appId;
+    }
+
+    public String getAppIco() {
+        return appIco;
+    }
+
+    public void setAppIco(String appIco) {
+        this.appIco = appIco;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+    public String getAppIntro() {
+        return appIntro;
+    }
+
+    public void setAppIntro(String appIntro) {
+        this.appIntro = appIntro;
+    }
+
+    public String getAppDownload() {
+        return appDownload;
+    }
+
+    public void setAppDownload(String appDownload) {
+        this.appDownload = appDownload;
+    }
+
+    public Long getAppDowncount() {
+        return appDowncount;
+    }
+
+    public void setAppDowncount(Long appDowncount) {
+        this.appDowncount = appDowncount;
+    }
+}

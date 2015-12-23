@@ -1,0 +1,95 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class DzSymptom implements Serializable {
+    private Long symId;
+
+    private String symName;
+
+    private Long partId;
+
+    private String symInfo;
+
+    private String symTip;
+
+    private String symCrowd;
+
+    private String symState;
+
+    private Short symMinage;
+
+    private Short symMaxage;
+
+    public Long getSymId() {
+        return symId;
+    }
+
+    public void setSymId(Long symId) {
+        this.symId = symId;
+    }
+
+    public String getSymName() {
+        return symName;
+    }
+
+    public void setSymName(String symName) {
+        this.symName = symName;
+    }
+
+    public Long getPartId() {
+        return partId;
+    }
+
+    public void setPartId(Long partId) {
+        this.partId = partId;
+    }
+
+    public String getSymInfo() {
+        return symInfo;
+    }
+
+    public void setSymInfo(String symInfo) {
+        this.symInfo = symInfo;
+    }
+
+    public String getSymTip() {
+        return symTip;
+    }
+
+    public void setSymTip(String symTip) {
+        this.symTip = symTip;
+    }
+
+    public String getSymCrowd() {
+        return symCrowd;
+    }
+
+    public void setSymCrowd(String symCrowd) {
+        this.symCrowd = symCrowd;
+    }
+
+    public String getSymState() {
+        return symState;
+    }
+
+    public void setSymState(String symState) {
+        this.symState = symState;
+    }
+
+    public Short getSymMinage() {
+        return symMinage;
+    }
+
+    public void setSymMinage(Short symMinage) {
+        this.symMinage = symMinage;
+    }
+
+    public Short getSymMaxage() {
+        return symMaxage;
+    }
+
+    public void setSymMaxage(Short symMaxage) {
+        this.symMaxage = symMaxage;
+    }
+}

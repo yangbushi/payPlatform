@@ -1,0 +1,108 @@
+package com.herenit.cloud.connector;
+
+import java.lang.reflect.Method;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.base.commons.utils.SpringContextUtil;
+import com.herenit.api.bean.RequestParam;
+import com.herenit.api.bean.ResponseMessage;
+import com.herenit.api.bean.v1.AccessToken;
+import com.herenit.api.bean.v1.Accessor;
+import com.herenit.api.webservice.AccessService;
+import com.herenit.cloud.Constant;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.bean.RestfulBean;
+import com.herenit.cloud.dao.AppFunctionMapper;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.exception.FrontendModule;
+import com.herenit.cloud.manager.AccessManager;
+import com.herenit.cloud.manager.impl.ServiceExecutor;
+import com.tynet.util.Utils;
+
+@Service("frontendService")
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class FrontendService implements AccessService {
+	public static Logger logger = LoggerFactory.getLogger("logfile");
+	public static Logger timeLog = LoggerFactory.getLogger("CloudTimeLog");
+	
+	@Autowired
+	private AccessManager accessManager;
+
+	@POST
+	@Path("{funcode}")
+	public String service(@PathParam("funcode") String funcode, String arg0,
+			@Context HttpServletRequest request)  {
+			long startTime = System.currentTimeMillis();
+			logger.info(arg0);
+			JSONObject args = JSON.parseObject(arg0);
+			try {
+				RestfulBean bean = RestfulBean.beanCache.get("@javax.ws.rs.Path(value=" + funcode + ")");
+				if (bean != null) {
+					Object serviceBean = SpringContextUtil.getBean(bean.getBeanName());
+					String re = null;
+					if (serviceBean != null) {
+						Method method = serviceBean.getClass().getMethod(bean.getMethodName(),new Class[] { JSONObject.class });
+						re = (String) method.invoke(serviceBean,
+								new Object[] { (args != null) ? args: new JSONObject() });
+						logger.info("runtime:[" + (System.currentTimeMillis()-startTime) + "] rerult:" + re);
+						return re;
+					}
+				}
+				logger.info("runtime:[" + (System.currentTimeMillis()-startTime) + "] rerult:" + FrontendModule.FRONTEND_0001.getMessage());
+				return Utils.GetRetJSONString(FrontendModule.FRONTEND_0001.getCode(), FrontendModule.FRONTEND_0001.getMessage(),
+						null);
+			} catch (Exception e) {
+				logger.error(arg0, e);
+				e.printStackTrace();
+				logger.error("runtime:[" + (System.currentTimeMillis()-startTime) + "] rerult:" + FrontendModule.FRONTEND_0004.getMessage(), e);
+				return Utils.GetRetJSONString(FrontendModule.FRONTEND_0004.getCode(),FrontendModule.FRONTEND_0004.getMessage(), 
+						null);
+			}
+	}
+
+	@POST
+	@Path("100101")
+	public ResponseMessage<?> check(RequestParam<?> arg0) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("{}", arg0);
+		}
+		return new ResponseMessage<Object>(CODE.OK.value(), Constant.SUCCESS);
+	}
+
+	@POST
+	@Path("100102")
+	public ResponseMessage<AccessToken> authenticate(RequestParam<Accessor> arg0) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("{}", arg0);
+		}
+		AccessToken token = null;
+		try {
+			token = accessManager.authenticate(arg0.getArgs());
+			return new ResponseMessage<AccessToken>(CODE.OK.value(),
+					Constant.SUCCESS, token);
+		} catch (BusException e) {
+			return new ResponseMessage<AccessToken>(CODE.FAIL.value(),
+					e.getMessage(), token);
+		}
+	}
+
+}

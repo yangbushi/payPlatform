@@ -1,0 +1,151 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+public class YyghDxtx implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long ddid;
+
+	private String yyrq;
+
+	private String yysj;
+
+	private BigDecimal yyxh;
+
+	private String sxwbz;
+
+	private String qhmm;
+
+	private String hzxm;
+
+	private String sjhm;
+
+	private String yymc;
+
+	private String ksmc;
+
+	private String ysmc;
+
+	private String yyid;
+
+	private String msg;
+
+	private String pushStatus;
+
+	public Long getDdid() {
+		return ddid;
+	}
+
+	public void setDdid(Long ddid) {
+		this.ddid = ddid;
+	}
+
+	public String getYyrq() {
+		return yyrq;
+	}
+
+	public void setYyrq(String yyrq) {
+		this.yyrq = yyrq;
+	}
+
+	public String getYysj() {
+		return yysj;
+	}
+
+	public void setYysj(String yysj) {
+		this.yysj = yysj;
+	}
+
+	public BigDecimal getYyxh() {
+		return yyxh;
+	}
+
+	public void setYyxh(BigDecimal yyxh) {
+		this.yyxh = yyxh;
+	}
+
+	public String getSxwbz() {
+		return sxwbz;
+	}
+
+	public void setSxwbz(String sxwbz) {
+		this.sxwbz = sxwbz;
+	}
+
+	public String getQhmm() {
+		return qhmm;
+	}
+
+	public void setQhmm(String qhmm) {
+		this.qhmm = qhmm;
+	}
+
+	public String getHzxm() {
+		return hzxm;
+	}
+
+	public void setHzxm(String hzxm) {
+		this.hzxm = hzxm;
+	}
+
+	public String getSjhm() {
+		return sjhm;
+	}
+
+	public void setSjhm(String sjhm) {
+		this.sjhm = sjhm;
+	}
+
+	public String getYymc() {
+		return yymc;
+	}
+
+	public void setYymc(String yymc) {
+		this.yymc = yymc;
+	}
+
+	public String getKsmc() {
+		return ksmc;
+	}
+
+	public void setKsmc(String ksmc) {
+		this.ksmc = ksmc;
+	}
+
+	public String getYsmc() {
+		return ysmc;
+	}
+
+	public void setYsmc(String ysmc) {
+		this.ysmc = ysmc;
+	}
+
+	public String getYyid() {
+		return yyid;
+	}
+
+	public void setYyid(String yyid) {
+		this.yyid = yyid;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public String getPushStatus() {
+		return pushStatus;
+	}
+
+	public void setPushStatus(String pushStatus) {
+		this.pushStatus = pushStatus;
+	}
+}

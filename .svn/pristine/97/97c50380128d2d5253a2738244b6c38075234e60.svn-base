@@ -1,0 +1,29 @@
+package com.defray.bean;
+
+public class AlipayInfoBean implements java.io.Serializable {
+
+	private static final long serialVersionUID = -2540017060686870793L;
+	private String subject;
+	private String outTradeNo;
+	private String totalFee;
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public String getOutTradeNo() {
+		return outTradeNo;
+	}
+	public void setOutTradeNo(String outTradeNo) {
+		this.outTradeNo = outTradeNo;
+	}
+	public String getTotalFee() {
+		return totalFee;
+	}
+	public void setTotalFee(String totalFee) {
+		this.totalFee = totalFee;
+	}
+	
+	
+}

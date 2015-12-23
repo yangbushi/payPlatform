@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.TParamsMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.TParams" >
+    <id column="jian" property="key" jdbcType="VARCHAR" />
+    <result column="zhi" property="value" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    JIAN,ZHI
+  </sql>
+  	<select id="queryValue" resultType="java.lang.String" parameterType="java.lang.String">
+  		select ZHI from T_PARAMS where jian=#{key}
+  	</select>
+  	<insert id="saveValue" parameterType="com.tynet.model.TParams">
+  		insert into T_PARAMS (<include refid="Base_Column_List" />) values(#{key,jdbcType=VARCHAR},#{value,jdbcType=VARCHAR})
+  	</insert>
+  	<update id="updateValue" parameterType="com.tynet.model.TParams">
+  		update T_PARAMS set zhi=#{value} where jian=#{key} 
+  	</update>
+</mapper>

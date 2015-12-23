@@ -1,0 +1,134 @@
+package com.herenit.cloud.manager;
+
+import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.dict.ImplType;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.exception.FrontendModule;
+import com.herenit.cloud.model.AppDeploy;
+import com.herenit.cloud.model.AppFunction;
+import com.herenit.cloud.util.RequestForwarder;
+import com.tynet.util.Utils;
+
+public abstract class AbstractExecuteStrategy extends DeployManager implements ExecuteStrategy {
+	protected static final Logger log = LoggerFactory.getLogger(AbstractExecuteStrategy.class);
+	public static Logger hisTimeLog = LoggerFactory.getLogger("HisTimeLog");
+
+	@Value("#{config['deploy.id']}")
+	private String deployId;
+
+	@Override
+	public String execute(AppFunction fun, JSONObject params)
+			throws BusException {
+		// 根据业务的实现类型决定调用那个目标“云”还是“医院”服务
+		String depId = ImplType.Cloud.value().equals(fun.getImplType()) ? deployId : params.getString("hosId");
+		if (StringUtils.isEmpty(depId)) {
+			if (logger.isErrorEnabled()){
+				logger.error("Function '{}' need parameter 'hosId'.",fun.getFuncode());
+			}
+			throw FrontendModule.FRONTEND_0006;
+		}
+		// 查询部署信息，如url，连接类型，uri类型等
+		AppDeploy deploy = appDeployDao.selectByPrimaryKey(depId);
+		if (deploy == null) {
+			if (logger.isErrorEnabled()){
+				logger.error("Need config table 'APP_DEPLOY' with 'DEPLOY_ID' as '{}'.",depId);
+			}
+			throw FrontendModule.FRONTEND_0002;
+		}
+
+		// 获取需要访问的url，固定url或者带参数的url
+		String  url = "";
+		if ("100212".equals(fun.getFuncode())) {
+			url = findURL(deploy, "10021202");
+		}else {
+			url = findURL(deploy, fun.getFuncode());
+		}
+		// 请求如果需要转发到医院或者云平台，需要替换为对应医院或者云平台的token信息
+		params.put("captcha", findToken(deploy));
+		Date date1=new Date();;
+		JSONObject jsonObject=new JSONObject();
+		jsonObject.put("result", "result");
+		try {
+			// 有些业务需要特别的前置处理，如科室排班，医生查询，医生排班查询等等
+			JSONObject req = beforeRequestHandler(deploy, fun, params);
+			// 请求目标服务
+//			System.out.println("req==="+req.toJSONString());
+			String result = RequestForwarder.request(url, req.toJSONString());
+			//String result2 = new String(result.getBytes("iso8859-1"),"UTF-8");
+			
+//			log.info("医院ID："+deploy.getDeployId()+"；执行"+fun.getFunname()+"("+fun.getFuncode()+")用时："+(new Date().getTime()-date1.getTime())/1000+"秒");
+//			System.out.println("result==="+result);
+			//模拟医院返回的下订单成功和取消订单成功的消息
+			//String result = "{\"state\": \"0\",\"result\": \"\",\"data\": {\"scheme\": {\"numno\": \"2\",\"schid\": \"神外科刘*副教授\",\"schdate\": \"20141114\",\"ampm\": \"1\",\"cardid\": \"130106199810080664\"}}}";
+			//String result = "{\"state\": \"0\",\"result\": \"取消成功\",\"data\": null}";
+			
+			if(result.contains("null")){
+				result = result.replace("null", "\"\"");
+			}
+			//System.out.println("result2==="+result2);
+			
+			// 解析为json字符串
+			JSONObject ret = JSON.parseObject(result);
+			hisTimeLog.info("start-record:"+params.toJSONString()+"^"+jsonObject.toJSONString()+"^"+(new Date().getTime()-date1.getTime())+"end-record");
+			// 有些业务需要特别的后置处理，如排班信息可能需要把院内信息替换为平台信息
+			JSONObject resp = postResponseHandler(deploy, fun, params, ret);
+//			System.out.println("resp==="+resp);
+			// 将执行结果返回
+			return resp == null ? null : resp.toJSONString();
+		} catch (BusException e) {
+			hisTimeLog.info("start-record:"+params.toJSONString()+"^"+Utils.GetRetJSONString("1", e.getMessage(), null)+"^"+(new Date().getTime()-date1.getTime())+"end-record");
+			throw e;
+			
+		} catch (Exception e) {
+			hisTimeLog.info("start-record:"+params.toJSONString()+"^"+Utils.GetRetJSONString("1", "远程服务调用错误", null)+"^"+(new Date().getTime()-date1.getTime())+"end-record");
+			throw FrontendModule.FRONTEND_0005;
+		}
+	}
+	
+	/**
+	 * 根据部署及功能情况加工request参数（保持原生request不变化）,返回处理后的request对象
+	 * 
+	 * @param deploy
+	 * @param fun
+	 * @param request
+	 *            原生request
+	 * @return 返回加工后的真正请求的request
+	 * @throws BusException
+	 */
+	public abstract JSONObject beforeRequestHandler(AppDeploy deploy,
+			AppFunction fun,final JSONObject request) throws BusException;
+
+	/**
+	 * 根据部署及功能情况对response加工，返回真正的返回值（原生response不变化）
+	 * 
+	 * @param deploy
+	 * @param fun
+	 * @param request
+	 *            原生request
+	 * @param response
+	 *            原生response
+	 * @return 返回加工后的真正响应的response
+	 * @throws BusException
+	 */
+	public abstract JSONObject postResponseHandler(AppDeploy deploy,
+			AppFunction fun,final JSONObject request,final JSONObject response)
+			throws BusException;
+
+	
+
+	public String getDeployId() {
+		return deployId;
+	}
+
+	public void setDeployId(String deployId) {
+		this.deployId = deployId;
+	}
+}

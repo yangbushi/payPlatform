@@ -1,0 +1,65 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class GhMycollect implements Serializable {
+    private Long collectId;
+
+    private String collectType;
+
+    private String collectContent;
+
+    private String collectPatient;
+
+    private String deptId;
+    
+    private String collectCount;
+
+    public String getCollectCount() {
+		return collectCount;
+	}
+
+	public void setCollectCount(String collectCount) {
+		this.collectCount = collectCount;
+	}
+
+	public Long getCollectId() {
+        return collectId;
+    }
+
+    public void setCollectId(Long collectId) {
+        this.collectId = collectId;
+    }
+
+    public String getCollectType() {
+        return collectType;
+    }
+
+    public void setCollectType(String collectType) {
+        this.collectType = collectType;
+    }
+
+    public String getCollectContent() {
+        return collectContent;
+    }
+
+    public void setCollectContent(String collectContent) {
+        this.collectContent = collectContent;
+    }
+
+    public String getCollectPatient() {
+        return collectPatient;
+    }
+
+    public void setCollectPatient(String collectPatient) {
+        this.collectPatient = collectPatient;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+}

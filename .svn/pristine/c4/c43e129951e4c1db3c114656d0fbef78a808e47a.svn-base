@@ -1,0 +1,40 @@
+package com.tynet.dao;
+
+import com.tynet.model.GhRate;
+import com.tynet.model.GhRateExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface GhRateMapper {
+	int countByExample(GhRateExample example);
+
+	int deleteByExample(GhRateExample example);
+
+	List<GhRate> selectByExample(GhRateExample example);
+
+	int updateByExampleSelective(@Param("record") GhRate record, @Param("example") GhRateExample example);
+
+	int updateByExample(@Param("record") GhRate record, @Param("example") GhRateExample example);
+
+	List<GhRate> selectByExampleAndPage(GhRateExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(Long id);
+
+	int insert(GhRate record);
+
+	int insertSelective(GhRate record);
+
+	GhRate selectByPrimaryKey(Long id);
+
+	int updateByPrimaryKeySelective(GhRate record);
+
+	int updateByPrimaryKey(GhRate record);
+
+	List<GhRate> queryRateListByDocId(String docId);
+	List<GhRate> queryRateList(@Param("patId") String patId,@Param("schid") String schid);
+	
+	long selectRateDoc(Integer docId);
+}

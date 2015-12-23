@@ -1,0 +1,55 @@
+package com.tynet.dao;
+
+import com.tynet.model.DeptInfo;
+import com.tynet.model.GhDept;
+import com.tynet.model.GhDeptExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface GhDeptMapper {
+    int countByExample(GhDeptExample example);
+
+    int deleteByExample(GhDeptExample example);
+
+    List<GhDept> selectByExample(GhDeptExample example);
+
+    int updateByExampleSelective(@Param("record") GhDept record, @Param("example") GhDeptExample example);
+
+    int updateByExample(@Param("record") GhDept record, @Param("example") GhDeptExample example);
+
+    List<GhDept> selectByExampleAndPage(GhDeptExample example, RowBounds rowBound);
+    
+    List<GhDept> selectChildren(String hosId,String deptCode);
+
+    int deleteByPrimaryKey(Integer deptId);
+
+    int insert(GhDept record);
+
+    int insertSelective(GhDept record);
+
+    GhDept selectByPrimaryKey(Integer deptId);
+    
+    List<GhDept> selectDeptByDoc(String docId);
+
+    int updateByPrimaryKeySelective(GhDept record);
+
+    int updateByPrimaryKey(GhDept record);
+    
+    int updateBookCount(String deptId);
+
+    GhDept getDepartIdByHospitalIdName(String hospitalId, String deptName);
+
+	GhDept selectByPlatDeptId(@Param("platDeptId") String platDeptId,@Param("hosId") String hosId);
+	GhDept selectByPlatDeptId2(@Param("platDeptId") String platDeptId);
+	List<DeptInfo> selectList();
+	
+	DeptInfo selectInfo(String deptId);
+	
+	int selectNotStanDeptCount();
+	
+	List<GhDept> selectNotStanDept();
+	
+	List<GhDept> searchDeptByKey(@Param("key") String key,@Param("hosId") String hosId, @Param("areaId") String areaId);
+}

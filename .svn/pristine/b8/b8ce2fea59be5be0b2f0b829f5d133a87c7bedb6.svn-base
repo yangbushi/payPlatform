@@ -1,0 +1,38 @@
+package com.tynet.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.HosEmployees;
+import com.tynet.model.HosEmployeesExample;
+import com.tynet.model.HosEmployeesKey;
+
+@Repository
+public interface HosEmployeesMapper {
+	int countByExample(HosEmployeesExample example);
+
+	int deleteByExample(HosEmployeesExample example);
+
+	List<HosEmployees> selectByExample(HosEmployeesExample example);
+
+	int updateByExampleSelective(@Param("record") HosEmployees record, @Param("example") HosEmployeesExample example);
+
+	int updateByExample(@Param("record") HosEmployees record, @Param("example") HosEmployeesExample example);
+
+	List<HosEmployees> selectByExampleAndPage(HosEmployeesExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(HosEmployeesKey key);
+
+	int insert(HosEmployees record);
+
+	int insertSelective(HosEmployees record);
+
+	HosEmployees selectByPrimaryKey(HosEmployeesKey key);
+
+	int updateByPrimaryKeySelective(HosEmployees record);
+
+	int updateByPrimaryKey(HosEmployees record);
+}

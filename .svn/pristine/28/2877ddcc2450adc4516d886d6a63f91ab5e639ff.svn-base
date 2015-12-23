@@ -1,0 +1,97 @@
+package com.herenit.cloud.exception;
+
+public interface FrontendModule {
+
+	/**
+	 * 服务不存在
+	 */
+	public static BusException FRONTEND_0001 = new BusException("FRONTEND_0001","服务不存在");
+	/**
+	 * 服务配置错误
+	 */
+	public static BusException FRONTEND_0002 = new BusException("FRONTEND_0002","服务配置错误");
+	/**
+	 * 本地服务不存在
+	 */
+	public static BusException FRONTEND_0003 = new BusException("FRONTEND_0003","本地服务不存在");
+	/**
+	 * 本地服务执行错误
+	 */
+	public static BusException FRONTEND_0004 = new BusException("FRONTEND_0004","本地服务执行错误");
+	/**
+	 * 远程服务调用错误(当前网络不佳，请稍后再试)
+	 */
+	public static BusException FRONTEND_0005 = new BusException("FRONTEND_0005","当前网络不佳，请稍后再试");
+	/**
+	 * 缺少必要参数'hosId'
+	 */
+	public static BusException FRONTEND_0006 = new BusException("FRONTEND_0006","缺少必要参数'hosId'");
+	/**
+	 * 生成订单信息错误
+	 */
+	public static BusException FRONTEND_0007 = new BusException("FRONTEND_0007","生成订单信息错误");
+	/**
+	 * 订单不存在
+	 */
+	public static BusException FRONTEND_0008 = new BusException("FRONTEND_0008","订单不存在");
+	/**
+	 * 订单取消失败
+	 */
+	public static BusException FRONTEND_0009 = new BusException("FRONTEND_0009","订单取消失败");
+	
+	public static BusException FRONTEND_0010 = new BusException("FRONTEND_0010","预约下单时身份证号码不能为空！");
+	
+	public static BusException FRONTEND_0011 = new BusException("FRONTEND_0011","身份证号码格式错误！");
+	
+	public static BusException FRONTEND_0012 = new BusException("FRONTEND_0012","禁止男性挂妇科、产科！");
+	
+	public static BusException FRONTEND_0013 = new BusException("FRONTEND_0013","禁止成人挂儿科！");
+	
+	public static BusException FRONTEND_0014 = new BusException("FRONTEND_0014","该科室不存在！");
+	
+	public static BusException FRONTEND_0015 = new BusException("FRONTEND_0015","获取身份证生日产生错误！");
+	
+	public static BusException FRONTEND_0016 = new BusException("FRONTEND_0016","查询出错！");
+	
+	public static BusException FRONTEND_0017 = new BusException("FRONTEND_0017","用户不存在或密码错误！");
+	
+	public static BusException FRONTEND_0018 = new BusException("FRONTEND_0018","服务配置错误！");
+	
+	public static BusException FRONTEND_0020 = new BusException("FRONTEND_0020","验证就诊卡时出错！");
+	
+	public static BusException FRONTEND_0021 = new BusException("FRONTEND_0021","卡号未填写！");
+	
+	public static BusException FRONTEND_0022 = new BusException("FRONTEND_0022","请勿重复挂号！");
+	
+	public static BusException FRONTEND_0023 = new BusException("FRONTEND_0023","该用户不存在！");
+	
+	public static BusException FRONTEND_0024 = new BusException("FRONTEND_0024","所提供的信息不足以确定唯一订单！");
+	
+	public static BusException FRONTEND_0025 = new BusException("FRONTEND_0025","报告时间解析错误！");
+	
+	public static BusException FRONTEND_0026 = new BusException("FRONTEND_0026","挂号途径不能为空！");
+	
+	public static BusException FRONTEND_0027 = new BusException("FRONTEND_0027","排班编号不能为空！");
+	
+	public static BusException FRONTEND_0028 = new BusException("FRONTEND_0028","预约日期不能为空！");
+	
+	public static BusException FRONTEND_0029 = new BusException("FRONTEND_0029","上下午标志不能为空！");
+	
+	public static BusException FRONTEND_0030 = new BusException("FRONTEND_0030","缺少必要参数'args'");
+	
+	public static BusException FRONTEND_0031 = new BusException("FRONTEND_0031","时间段序号不能为空！");
+	
+	public static BusException FRONTEND_0032 = new BusException("FRONTEND_0032","订单ID不能为空");
+	
+	public static BusException FRONTEND_0033 = new BusException("FRONTEND_0033","排班信息不能为空！");
+	
+	public static BusException FRONTEND_0034 = new BusException("FRONTEND_0034","患者证件号码不能为空！");
+	//FRONTEND_0035被占用
+	public static BusException FRONTEND_0036 = new BusException("FRONTEND_0036","当前版本已不支持挂号，请下载新版本！");
+	
+	public static BusException FRONTEND_0037 = new BusException("FRONTEND_0037","请绑定诊疗卡号！");
+	
+	public static BusException FRONTEND_0038 = new BusException("FRONTEND_0038","7月1日前暂停APP挂号！");
+	
+	public static BusException FRONTEND_0039 = new BusException("FRONTEND_0039","暂无叫号！");
+}

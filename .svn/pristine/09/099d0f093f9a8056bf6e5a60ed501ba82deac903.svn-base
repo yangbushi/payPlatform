@@ -1,0 +1,56 @@
+package com.tynet.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.CmsType;
+import com.tynet.model.TBulletin;
+
+@Repository
+public interface TBulletinMapper {
+	List<TBulletin> selectList(String type);
+
+	List<TBulletin> selectList1(@Param("type") String type, @Param("hosId") String hosId);
+
+	List<TBulletin> selectMyBull(@Param("type") String type, @Param("patientId") String patientId);
+
+	TBulletin selectInfo(String bulletinId);
+
+	List<CmsType> selectFatherId(String pid);
+	List<CmsType> selectFatherIdAndHosId(@Param("pid") String pid,@Param("hosId") String hosId);
+	
+	List<TBulletin> selectChildren(String type);
+
+	/**
+	 * 
+	 * 
+	 * @param param
+	 *            3个值(type-类别ID source1-来源 hosids-医院ID)
+	 * @return
+	 */
+	List<TBulletin> selectListByHosIds(Map<String, Object> param);
+
+	/**
+	 * 查询推送最新一条数据
+	 * 
+	 * @param type
+	 * @param bulletinId
+	 * @return
+	 */
+	TBulletin selectPushFirst(@Param("type") String type, @Param("bulletinId") String bulletinId);
+
+	/**
+	 * 查询推送列表(最多10条)
+	 * 
+	 * @param type
+	 * @param bulletinId
+	 * @return
+	 */
+	List<TBulletin> selectPushList(@Param("type") String type, @Param("bulletinId") String bulletinId);
+	
+	List<TBulletin> selectByTypeId(@Param("typeId") String typeId, RowBounds rowBound);
+}

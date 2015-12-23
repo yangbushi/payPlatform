@@ -1,0 +1,25 @@
+package com.soft.gh.service;
+
+import java.io.IOException;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSONObject;
+import com.soft.gh.util.ConfigConst;
+
+public abstract interface TransactionService {
+    public static final String URL = ConfigConst.HTTP_URL;
+    public static final String DEFAULT_ENCODING = "utf-8";
+    public static final String DEFAULT_AREA_CODE = "9999";
+    public static final String TRANSPORT_REGISTE_PATIENT_INFO_CODE = "100100";
+    public static final String TRANSPORT_YYGH_ORDER = "100103";
+    public static final String TRANSPORT_YYGH_CANCEL_ORDER = "100104";
+    public static final String TRANSPORT_UPDATE_PATIENT = "100112";
+
+    public abstract JSONObject registerPatient(Map<String, String> paramMap) throws IOException;
+
+    public abstract JSONObject registerOrder(Map<String, String> paramMap) throws IOException;
+
+    public abstract JSONObject registerCancel(Map<String, String> paramMap) throws IOException;
+
+    public abstract JSONObject registerUpate(Map<String, String> paramMap) throws IOException;
+}

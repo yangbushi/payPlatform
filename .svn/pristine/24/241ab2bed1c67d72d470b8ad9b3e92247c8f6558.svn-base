@@ -1,0 +1,12 @@
+package com.soft.gh.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.soft.gh.domain.ShortMassage;
+
+@Repository
+public interface TShortMassageMapper {
+
+	int insert(ShortMassage shortMassage);
+	
+}

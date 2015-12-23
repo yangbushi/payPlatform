@@ -1,0 +1,113 @@
+package com.herenit.cloud.connector;
+
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.api.bean.RequestParam;
+import com.herenit.api.bean.ResponseMessage;
+import com.herenit.api.bean.v1.AccessToken;
+import com.herenit.api.bean.v1.Accessor;
+import com.herenit.api.webservice.AccessService;
+import com.herenit.cloud.Constant;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.dao.AppFunctionMapper;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.exception.FrontendModule;
+import com.herenit.cloud.manager.AccessManager;
+import com.herenit.cloud.manager.ExecuteStrategy;
+import com.herenit.cloud.manager.impl.ServiceExecutor;
+import com.herenit.cloud.model.AppFunction;
+import com.tynet.util.Utils;
+
+@Service("frontendService")
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class FrontendService implements AccessService {
+	public static Logger logger = LoggerFactory.getLogger("logfile");
+	public static Logger timeLog = LoggerFactory.getLogger("CloudTimeLog");
+	
+	@Autowired
+	private AccessManager accessManager;
+	@Autowired
+	private AppFunctionMapper appFunctionDao;
+
+	@Autowired
+	private ServiceExecutor serviceExecutor;
+
+
+	@POST
+	@Path("{funcode}")
+	public String service(@PathParam("funcode") String funcode, String arg0,
+			@Context HttpServletRequest request)  {
+			Date date1=new Date();
+			JSONObject jsonObject=new JSONObject();
+			jsonObject.put("result", "result");
+			String reString="";
+			JSONObject json = JSON.parseObject(arg0);
+		try {
+			json.put("clientIp", request != null ? request.getRemoteAddr(): "unknown");
+			AppFunction function = appFunctionDao.selectByPrimaryKey(funcode);
+			if (function == null) {
+				throw FrontendModule.FRONTEND_0001;
+			}
+
+			ExecuteStrategy strategy = null;
+			if (strategy == null) {
+				throw FrontendModule.FRONTEND_0002;
+			}
+			logger.info("执行"+funcode+"接口");
+			serviceExecutor.setExecuteStrategy(strategy);
+			reString=serviceExecutor.execute(function, json);
+			timeLog.info("start-record:"+json.toJSONString()+"^"+jsonObject.toJSONString()+"^"+(new Date().getTime()-date1.getTime())+"end-record");
+			return reString;
+		} catch (BusException e) {
+			e.printStackTrace();
+			reString=Utils.GetRetJSONString("1", e.getMessage(), null);
+			timeLog.info("start-record:"+json.toJSONString()+"^"+jsonObject.toJSONString()+"^"+(new Date().getTime()-date1.getTime())+"end-record");
+			return reString;
+		}
+	}
+
+	@POST
+	@Path("100101")
+	public ResponseMessage<?> check(RequestParam<?> arg0) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("{}", arg0);
+		}
+		return new ResponseMessage<Object>(CODE.OK.value(), Constant.SUCCESS);
+	}
+
+	@POST
+	@Path("100102")
+	public ResponseMessage<AccessToken> authenticate(RequestParam<Accessor> arg0) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("{}", arg0);
+		}
+		AccessToken token = null;
+		try {
+			token = accessManager.authenticate(arg0.getArgs());
+			return new ResponseMessage<AccessToken>(CODE.OK.value(),
+					Constant.SUCCESS, token);
+		} catch (BusException e) {
+			return new ResponseMessage<AccessToken>(CODE.FAIL.value(),
+					e.getMessage(), token);
+		}
+	}
+
+}

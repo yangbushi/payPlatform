@@ -1,0 +1,26 @@
+package com.tynet.util;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationContext;
+
+public class WebUtil {
+	/**
+	 * 获取客户端IP
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getClientIp(HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("X-Real-IP");
+		}
+		if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		
+		return ip;
+	}
+}

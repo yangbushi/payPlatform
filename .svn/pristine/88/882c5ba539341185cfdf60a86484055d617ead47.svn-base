@@ -1,0 +1,36 @@
+package com.tynet.dao;
+
+import com.tynet.model.JzVaccine;
+import com.tynet.model.JzVaccineExample;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface JzVaccineMapper {
+    int countByExample(JzVaccineExample example);
+
+    int deleteByExample(JzVaccineExample example);
+
+    List<JzVaccine> selectByExample(JzVaccineExample example);
+
+    int updateByExampleSelective(@Param("record") JzVaccine record, @Param("example") JzVaccineExample example);
+
+    int updateByExample(@Param("record") JzVaccine record, @Param("example") JzVaccineExample example);
+
+    List<JzVaccine> selectByExampleAndPage(JzVaccineExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(Long vaccineId);
+
+    int insert(JzVaccine record);
+
+    int insertSelective(JzVaccine record);
+
+    JzVaccine selectByPrimaryKey(Long vaccineId);
+
+    int updateByPrimaryKeySelective(JzVaccine record);
+
+    int updateByPrimaryKey(JzVaccine record);
+}

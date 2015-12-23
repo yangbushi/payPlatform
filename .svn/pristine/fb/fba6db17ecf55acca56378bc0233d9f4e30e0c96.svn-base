@@ -1,0 +1,392 @@
+package com.herenit.cloud.util;
+
+import java.util.ArrayList;
+
+
+public class xmlNode
+{
+	private String strTag = null;
+	private String strText = null;
+	private ArrayList<attrNode> attrNodes = null;
+	private ArrayList<xmlNode> childNodes = null;
+	private Object oAttach = null;
+	
+	public xmlNode()
+	{}
+	
+	public void deinit()
+	{
+		oAttach = null;
+		if (childNodes != null)
+		{
+			for (int i = 0; i < childNodes.size(); i++)
+			{
+				xmlNode me = childNodes.get(i);
+				me.deinit();
+			}	
+			childNodes.clear();
+		}
+		if (attrNodes != null)
+		{
+			attrNodes.clear();
+		}
+	}
+	
+	public void setObject(Object obj)
+	{
+		oAttach = obj;
+	}
+	
+	public Object getObject()
+	{
+		return oAttach;
+	}
+	
+	public xmlNode(String tag, String text)
+	{
+		strText = text;
+		strTag = tag;
+	}
+
+	public void setText(String text)
+	{
+		strText = text;
+	}
+	
+	public String getText()
+	{
+		return strText;
+	}
+	
+	public String getTag()
+	{
+		return strTag;
+	}
+	
+	public void setTag(String tag)
+	{
+		strTag = tag;
+	}
+	
+	public int getChildCount()
+	{
+		if (childNodes != null)
+		{
+			return childNodes.size();
+		}
+		return 0;
+	}
+	
+	public ArrayList<xmlNode> getChildNode()
+	{
+		return childNodes;
+	}
+	
+	public xmlNode getChildNode(int index)
+	{
+		if (childNodes != null)
+		{
+			if (index >=0 && index < childNodes.size())
+			{
+				return childNodes.get(index);
+			}
+		}
+		return null;
+	}
+	
+	public xmlNode getChildNode(String tag)
+	{
+		if (childNodes != null)
+		{
+			for (int i = 0; i < childNodes.size(); i++)
+			{
+				xmlNode child = childNodes.get(i);
+				if (tag.compareTo(child.getTag()) == 0)
+				{
+					return child;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public xmlNode getChildNode(String tag, int index)
+	{
+		int iCount = 0;
+		if (childNodes != null)
+		{
+			for (int i = 0; i < childNodes.size(); i++)
+			{
+				xmlNode child = childNodes.get(i);
+				if (tag.equals(child.getTag()))
+				{
+					if (index == iCount)
+					{
+						return child;
+					}
+					iCount++;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public xmlNode getChildNode(String tag, String attr, String value)
+	{
+		if (childNodes != null)
+		{
+			if (attr == null || value == null)
+			{
+				return getChildNode(tag);
+			}
+			
+			for (int i = 0; i < childNodes.size(); i++)
+			{
+				xmlNode child = childNodes.get(i);
+				if (tag.compareTo(child.getTag()) == 0)
+				{
+					if (value.compareTo(child.getAttrValue(attr)) == 0)
+					{
+						return child;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	public String getChildNodeText(String tag)
+	{
+		xmlNode child = getChildNode(tag);
+		if (child != null)
+		{
+			return child.getText();
+		}
+		return null;
+	}
+	
+	public int getAttrCount()
+	{
+		if (attrNodes != null)
+		{
+			return attrNodes.size();
+		}
+		return 0;
+	}
+	
+	public String getAttrKey(int index)
+	{
+		if (attrNodes != null)
+		{
+			if (index >=0 && index < attrNodes.size())
+			{
+				return attrNodes.get(index).getKey();
+			}
+		}
+		return null;
+	}
+	
+	public String getAttrValue(int index)
+	{
+		if (attrNodes != null)
+		{
+			if (index >=0 && index < attrNodes.size())
+			{
+				return attrNodes.get(index).getValue();
+			}
+		}
+		return null;
+	}
+	
+	public String getAttrValue(String key)
+	{
+		if (attrNodes != null)
+		{
+			for (int i = 0; i < attrNodes.size(); i++)
+			{
+				attrNode attr = attrNodes.get(i);
+				if (key.compareTo(attr.getKey()) == 0)
+				{
+					return attr.getValue();
+				}
+			}
+		}
+		return null;		
+	}
+	
+	public boolean setAttrValue(String key, String value)
+	{
+		boolean rs = false;
+		if (attrNodes != null)
+		{
+			for (int i = 0; i < attrNodes.size(); i++)
+			{
+				attrNode attr = attrNodes.get(i);
+				if (key.compareTo(attr.getKey()) == 0)
+				{
+					attr.setValue(value);
+					rs = true;
+					break;
+				}
+			}
+		}
+		return rs;		
+	}
+	
+	public attrNode addAttrdNode(String key, String value)
+	{
+		if (attrNodes == null)
+			attrNodes = new ArrayList<attrNode>(); 
+		attrNode me = new attrNode(key, value);
+		attrNodes.add(me);
+		return me;
+	}
+	
+	public attrNode addAttrdNode(attrNode me)
+	{
+		if (attrNodes == null)
+			attrNodes = new ArrayList<attrNode>(); 
+		attrNodes.add(me);
+		return me;
+	}
+	
+	public xmlNode addChildNode(String tag, String text)
+	{
+		if (childNodes == null)
+			childNodes = new ArrayList<xmlNode>(); 
+			
+		xmlNode me = new xmlNode(tag, text);
+		childNodes.add(me);
+		return me;
+	}
+	
+	public void addChildNode(xmlNode child)
+	{
+		if (childNodes == null)
+			childNodes = new ArrayList<xmlNode>(); 
+			
+		childNodes.add(child);
+	}
+	
+	public void delChildNode(xmlNode child)
+	{
+		if (childNodes != null)
+		{
+			child.deinit();
+			childNodes.remove(child);
+		}
+	}
+	
+
+	
+	public String createXML()
+	{	
+		String xml = "<" + strTag;
+
+		if (attrNodes != null)
+		{
+			for (int i = 0; i < attrNodes.size(); i++)
+			{
+				attrNode attr = attrNodes.get(i);
+				if (attr.getKey() != null && attr.getValue() != null)
+				{
+					xml += (" " + attr.getKey() + "=\"" + attr.getValue() + "\"");
+				}
+			}
+		}
+		xml += ">";
+
+		if (strText != null)
+		{
+			xml += strText;
+		}
+		if (childNodes != null)
+		{
+			for (int i = 0; i < childNodes.size(); i++)
+			{
+				xmlNode me = childNodes.get(i);
+				xml += me.createXML();
+			}
+		}
+
+		xml += ("</" + strTag + ">");
+		return xml;
+	}
+	
+	public xmlNode getXmlNode(String sTags)
+	{
+		xmlNode curObj = null;
+		String[] lsTag = sTags.split(":");
+		if  (lsTag.length > 1)
+		{
+			if (lsTag[0].compareTo(strTag) == 0)
+			{
+				curObj = this;
+				boolean rs = true;
+				for (int i = 1; rs && i < lsTag.length; i++)
+				{
+					rs = false;
+					if (curObj != null && curObj.childNodes != null)
+					{
+						for (xmlNode child : curObj.childNodes)
+						{
+							if (lsTag[i].compareTo(child.strTag) == 0)
+							{
+								curObj = child;
+								rs = true;
+								break;
+							}
+						}
+					}
+				}
+				if (!rs)
+				{
+					curObj = null;
+				}
+			}
+		}
+		return curObj;
+	}
+	
+	public String getText(String sTags)
+	{
+		xmlNode obj = getXmlNode(sTags);
+		if (obj != null)
+		{
+			return obj.strText;
+		}
+		return null;
+	}
+	
+	public boolean setText(String sTags, String sText)
+	{
+		xmlNode obj = getXmlNode(sTags);
+		if (obj != null)
+		{
+			obj.strText = sText;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean setAttrValue(String sTags, String sKey, String sValue)
+	{
+		xmlNode obj = getXmlNode(sTags);
+		if (obj != null)
+		{
+			return obj.setAttrValue(sKey, sValue);
+		}
+		return false;
+	}
+	
+	public String getAttrValue(String sTags, String sKey)
+	{
+		xmlNode obj = getXmlNode(sTags);
+		if (obj != null)
+		{
+			return obj.getAttrValue(sKey);
+		}
+		return null;
+	}
+
+}

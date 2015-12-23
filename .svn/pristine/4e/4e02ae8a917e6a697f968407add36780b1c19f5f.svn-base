@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.GhHospitalMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.GhHospital" >
+    <id column="HOS_ID" property="hosCode" jdbcType="VARCHAR" />
+    <result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+    <result column="ALIAS_NAME" property="aliasName" jdbcType="VARCHAR" />
+    <result column="HOS_TYPE" property="hosType" jdbcType="VARCHAR" />
+    <result column="HOS_LEVEL" property="hosLevel" jdbcType="VARCHAR" />
+    <result column="TCM" property="tcm" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="ADDRES" property="addres" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="PLAT_CODE" property="platCode" jdbcType="VARCHAR" />
+    <result column="INTRO" property="intro" jdbcType="VARCHAR" />
+    <result column="BOOK_COUNT" property="bookCount" jdbcType="DECIMAL" />
+    <result column="WEIBO" property="weibo" jdbcType="VARCHAR" />
+    <result column="WEIXIN" property="weixin" jdbcType="VARCHAR" />
+    <result column="GIS_LNG" property="gisLng" jdbcType="DECIMAL" />
+    <result column="GIS_LAT" property="gisLat" jdbcType="DECIMAL" />
+    <result column="SCH_TIME" property="schTime" jdbcType="VARCHAR" />
+    <result column="AREA_ID" property="areaId" jdbcType="VARCHAR" />
+    <result column="SHOW_NO" property="showNo" jdbcType="DECIMAL" />
+    <result column="HOS_STATE" property="hosState" jdbcType="VARCHAR" />
+    <result column="HOS_ROUTE" property="hosRoute" jdbcType="VARCHAR" />
+    <result column="TAKE_ADDR" property="takeAddr" jdbcType="VARCHAR" />
+    <result column="FEATURE_DEPT" property="featureDept" jdbcType="VARCHAR" />
+    <result column="PY_CODE" property="pyCode" jdbcType="VARCHAR" />
+    <result column="scan" property="scan" jdbcType="VARCHAR" />
+  </resultMap>
+    <resultMap id="hospitalInfoMap" type="com.tynet.model.HospitalInfo" extends="BaseResultMap">
+  	<result column="AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+  	<result column="LEVEL_NAME" property="levelName" jdbcType="VARCHAR" />
+  	<result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+  	<result column="RATE_HOSPITAL" property="rateHospital" jdbcType="VARCHAR" />
+  	<result column="GIS_LNG_IOS" property="gisLngIos" jdbcType="DECIMAL" />
+    <result column="GIS_LAT_IOS" property="gisLatIos" jdbcType="DECIMAL" />
+    <result column="YYGHXXTX" property="yyNotice" jdbcType="VARCHAR" />
+  </resultMap>
+    <resultMap id="hotHospitalInfoMap" type="com.tynet.model.GhHospital">
+    <id column="HOS_ID" property="hosCode" jdbcType="VARCHAR" />
+    <result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+    <result column="PLAT_CODE" property="platCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="hospitalListMap" type="com.tynet.model.HospitalInfo" extends="BaseResultMap">
+  	<result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+  	<result column="LEVEL_NAME" property="levelName" jdbcType="VARCHAR" />
+  	<result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+  	<result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+  	<result column="AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+  	<result column="RATE_HOSPITAL" property="rateHospital" jdbcType="VARCHAR" />
+  	<result column="COLLECT_ID" property="collectId" jdbcType="DECIMAL" />
+  </resultMap>
+   <resultMap id="BaseScanMap" type="com.tynet.model.HospitalInfo" extends="BaseResultMap">
+  </resultMap>
+  
+  <resultMap id="iosMap" type="com.tynet.model.HospitalInfo" extends="BaseResultMap">
+  	<result column="GIS_LNG_IOS" property="gisLngIos" jdbcType="DECIMAL" />
+    <result column="GIS_LAT_IOS" property="gisLatIos" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    HOS_ID, HOS_NAME, ALIAS_NAME, HOS_TYPE, HOS_LEVEL, TCM, TEL, ADDRES, URL, PLAT_CODE, 
+    INTRO, BOOK_COUNT, WEIBO, WEIXIN, GIS_LNG, GIS_LAT, SCH_TIME, AREA_ID, SHOW_NO, HOS_STATE
+  </sql>
+  <sql id="Hos_Column_Info" >
+    HOS_ID, HOS_NAME, ALIAS_NAME, HOS_TYPE, HOS_LEVEL, TCM, TEL, ADDRES, URL, PLAT_CODE, 
+    INTRO, BOOK_COUNT, WEIBO, WEIXIN, GIS_LNG, GIS_LAT, SCH_TIME, AREA_ID, SHOW_NO, HOS_STATE,LEVEL_NAME
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+<select id="selectListByAreaCode" resultMap="hospitalListMap" parameterType="java.lang.String">
+select t.hos_id,t.hos_name,t.alias_name,t.addres,t.book_count,t.level_name,t.hos_state,gr.rate_hospital  from (select distinct hos.hos_id,hos.hos_name,hos.alias_name,hos.addres, hos.book_count,lev.level_name,hos.hos_state,hos.show_no from gh_hospital hos,cb_hos_level lev where hos.hos_level=lev.level_id 
+and area_id=#{areaCode} and hos_state=0 ) t left join (select round(avg(rate_hospital),1) rate_hospital,hos_id from gh_rate group by hos_id) gr on t.hos_id=gr.hos_id order by nvl(SHOW_NO,999),nvl(t.BOOK_COUNT,0) desc
+</select> 
+ <select id="selectInfo" resultMap="hospitalInfoMap" parameterType="java.lang.String">
+    select t.hos_id,t.hos_name,t.alias_name,t.take_addr,t.feature_dept,t.hos_route,t.hos_type,
+    t.type_name,t.hos_level,t.level_name,t.tcm,t.tel,t.addres,t.url,t.plat_code,
+    t.book_count,t.weibo,t.weixin,t.sch_time,t.gis_lng,t.gis_lat,t.gis_lng_ios,
+    t.gis_lat_ios,t.hos_state,t.intro,t.YYGHXXTX,gr.rate_hospital 
+from (
+select h.hos_id,h.hos_name,h.alias_name,h.take_addr,
+h.feature_dept,h.hos_route,h.hos_type,t.type_name,
+h.hos_level,l.level_name,h.tcm,h.tel,h.addres,
+h.url,h.plat_code,h.book_count,h.weibo,h.weixin,h.sch_time,h.gis_lng,
+h.gis_lat,h.gis_lng_ios,h.gis_lat_ios,h.hos_state,h.intro ,h.YYGHXXTX
+from gh_hospital h,cb_hos_level l,cb_hos_type t 
+where h.hos_level=l.level_id and h.hos_type=t.type_code and h.hos_id=#{hosId}) t
+left join (select round(avg(rate_hospital),1) rate_hospital,hos_id from gh_rate group by hos_id) gr on t.hos_id=gr.hos_id
+  </select>
+  <select id="selectIndexHos" resultMap="hospitalInfoMap">
+    select t.hos_id,t.hos_name,t.alias_name,t.take_addr,t.feature_dept,t.hos_route,t.hos_type,t.type_name,t.hos_level,t.level_name,t.tcm,t.tel,t.addres,t.url,t.plat_code,t.book_count,t.weibo,t.weixin,t.sch_time,t.gis_lng,t.gis_lat,t.hos_state,t.intro,gr.rate_hospital 
+from (select h.hos_id,h.hos_name,h.alias_name,h.take_addr,h.feature_dept,h.hos_route,h.hos_type,t.type_name,h.hos_level,l.level_name,h.tcm,h.tel,h.addres,h.url,h.plat_code,h.book_count,h.weibo,h.weixin,h.sch_time,h.gis_lng,h.gis_lat,h.hos_state,h.intro from gh_hospital h,cb_hos_level l,cb_hos_type t where h.hos_level=l.level_id and h.hos_type=t.type_code 
+and hos_id in 
+<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+    #{item}
+</foreach>
+) t
+left join (select round(avg(rate_hospital),1) rate_hospital,hos_id from gh_rate group by hos_id) gr on t.hos_id=gr.hos_id 
+  </select> 
+ 
+  <select id="selectByPrimaryKey" resultMap="hospitalInfoMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Hos_Column_Info" />
+    from GH_HOSPITAL hos,cb_hos_level lev where hos.hos_level=lev.level_id and hos.hos_id = #{hosId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPlatCode" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" />,scan from GH_HOSPITAL where PLAT_CODE = #{platCode}
+  </select>
+  <select id="selectMyHos" resultMap="hospitalListMap">
+      select t.collect_id, h.hos_id,h.hos_name,h.alias_name,h.addres,h.book_count,h.level_name,h.hos_state,h.rate_hospital from (select collect_id, collect_content from gh_mycollect where collect_type=#{type} and collect_patient=#{patientId}) t left join 
+(select t.hos_id,t.hos_name,t.alias_name,t.addres,t.book_count,t.level_name,t.hos_state,gr.rate_hospital  from (select distinct hos.hos_id,hos.hos_name,hos.alias_name,hos.addres, hos.book_count,lev.level_name,hos.hos_state from gh_hospital hos,cb_hos_level lev where hos.hos_level=lev.level_id 
+) t left join (select round(avg(rate_hospital),1) rate_hospital,hos_id from gh_rate group by hos_id) gr on t.hos_id=gr.hos_id order by t.book_count desc) h
+on t.collect_content=h.hos_id
+  </select>
+  <select id="searchHosByKey" resultMap="hospitalListMap" parameterType="java.lang.String">
+	select HOS_ID,HOS_NAME,INTRO,replace(getch2spell(HOS_NAME),'|','')
+	py_code from GH_HOSPITAL left join gb_area area on
+	area_id=area.area_code where
+	(hos_name like CONCAT(CONCAT('%', #{key}),
+	'%') or alias_name like
+	CONCAT(CONCAT('%', #{key}), '%') or
+	replace(getch2spell(HOS_NAME),'|','') like CONCAT(CONCAT('%', #{key}),
+	'%') or replace(getch2spell(alias_name),'|','') like CONCAT(CONCAT('%',
+	#{key}), '%')) 
+	<if test="areaId != null and areaId !=''">
+		AND area.area_code = #{areaId}
+	</if>
+	order by HOS_NAME, area.area_num
+  </select>
+  <select id="selectHosCount" resultType="java.lang.Integer">
+      select count(1) from gh_hospital where hos_state=0
+  </select>
+  <select id="selectByPlatCodes" resultMap="hospitalInfoMap">
+	select * from GH_HOSPITAL where PLAT_CODE in
+	<foreach item="item" index="index" collection="array" open="("
+		separator="," close=")">
+		#{item}
+	</foreach>
+  </select> 
+  <select id="selectByPlatCodesOrderByAreaIdAndHosName" resultMap="BaseResultMap">
+	select HOS_ID, HOS_NAME, ALIAS_NAME, HOS_TYPE, HOS_LEVEL, TCM, TEL, ADDRES, URL, PLAT_CODE, 
+    INTRO, BOOK_COUNT, WEIBO, WEIXIN, GIS_LNG, GIS_LAT, SCH_TIME, AREA_ID, SHOW_NO, HOS_STATE,scan from GH_HOSPITAL hos left join gb_area area on
+	hos.area_id=area.area_code where PLAT_CODE in
+	<foreach item="item" index="index" collection="array" open="("
+		separator="," close=")">
+		#{item}
+	</foreach>
+	order by area.area_num, HOS_NAME
+  </select> 
+  
+  <select id="selectByHosIdsOrderByAreaIdAndHosName" resultMap="hospitalInfoMap">
+	select HOS_ID, HOS_NAME, ALIAS_NAME, HOS_TYPE, HOS_LEVEL, TCM, TEL, ADDRES, URL, PLAT_CODE, 
+    INTRO, BOOK_COUNT, WEIBO, WEIXIN, GIS_LNG, GIS_LAT, SCH_TIME, AREA_ID, SHOW_NO, HOS_STATE,scan,AREA_NAME from GH_HOSPITAL hos left join gb_area area on
+	hos.area_id=area.area_code where HOS_ID in
+	<foreach item="item" index="index" collection="array" open="("
+		separator="," close=")">
+		#{item}
+	</foreach>
+	order by area.area_num, nvl(BOOK_COUNT,0) desc, HOS_NAME
+  </select> 
+  
+  <select id="selectPlatCodeByHosId" resultType="java.lang.String">
+	select PLAT_CODE from GH_HOSPITAL where hos_id in
+	<foreach item="item" index="index" collection="array" open="("
+		separator="," close=")">
+		#{item}
+	</foreach>
+  </select>
+  <select id="selectHosForScan" resultMap="BaseScanMap">select * from GH_HOSPITAL where hos_id = #{hosId}</select>
+  
+  <select id="selectHospital" resultMap="iosMap">
+  	select * from GH_HOSPITAL 
+  	where 1 = 1
+  	<if test="orgCode != null"> and HOS_ID = #{orgCode} </if>
+  	<if test="orgName != null"> and HOS_NAME = #{orgName} </if>
+  </select>
+</mapper>

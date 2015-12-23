@@ -1,0 +1,11 @@
+package com.tynet.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.FeedBack;
+
+@Repository
+public interface TFeedBackMapper {
+	
+	void insertFeedBack(FeedBack feedBack);
+}

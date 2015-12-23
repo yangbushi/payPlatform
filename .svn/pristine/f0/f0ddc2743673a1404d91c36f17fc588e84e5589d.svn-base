@@ -1,0 +1,50 @@
+package com.herenit.cloud.bean;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+public class RestfulBean implements java.io.Serializable {
+
+	private static final long serialVersionUID = -3361299266390590527L;
+
+	public static final Map<String, RestfulBean> beanCache = new HashMap<String, RestfulBean>();
+
+	private String beanName;
+	private String methodName;
+
+	public RestfulBean(String beanName, String methodName) {
+		super();
+		this.beanName = beanName;
+		this.methodName = methodName;
+	}
+
+	public String getBeanName() {
+		return beanName;
+	}
+
+	public void setBeanName(String beanName) {
+		this.beanName = beanName;
+	}
+
+	public String getMethodName() {
+		return methodName;
+	}
+
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
+	}
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this,
+				ToStringStyle.SHORT_PREFIX_STYLE).toString();
+	}
+	
+	public static void main(String[] args) {
+//		System.out.println(Long.valueOf("083103"));
+		System.out.println(StringUtils.trimToEmpty("03238  "));
+	}
+}

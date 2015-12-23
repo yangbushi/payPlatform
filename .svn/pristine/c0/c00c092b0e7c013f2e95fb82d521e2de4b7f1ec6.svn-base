@@ -1,0 +1,50 @@
+package com.herenit.cloud.rules.impl;
+
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.rules.Business;
+
+@Service
+public class Xy3yyBusiness implements Business {
+
+	@Override
+	public void before(JSONObject request) throws BusException {
+		if (request == null) {
+			return;
+		}
+		logger.debug("Before dealing '{}' REQUEST.",
+				Xy3yyBusiness.class.getName());
+		// 湘雅医院参数没有分层次封装，全部在一个层级上，处理平台标准格式 args 值下的参数
+		JSONObject args = request.getJSONObject("args");
+		request.remove("args");
+		for (String key : args.keySet()) {
+			request.put(key, args.get(key));
+		}
+		logger.debug("After dealing '{}' REQUEST.",
+				Xy3yyBusiness.class.getName());
+	}
+
+	@Override
+	public void after(final JSONObject request, JSONObject response)
+			throws BusException {
+		if (response == null) {
+			return;
+		}
+		logger.debug("Before dealing '{}' RESPONSE.",
+				Xy3yyBusiness.class.getName());
+		// 湘雅三医院返回的为‘state’、‘result’，相应转化为'code','message'
+		if (response.get("state") != null) {
+			response.put("code", response.get("state"));
+			response.remove("state");
+		}
+		if (response.get("result") != null) {
+			response.put("message", response.get("result"));
+			response.remove("result");
+		}
+		logger.debug("After dealing '{}' RESPONSE.",
+				Xy3yyBusiness.class.getName());
+	}
+
+}

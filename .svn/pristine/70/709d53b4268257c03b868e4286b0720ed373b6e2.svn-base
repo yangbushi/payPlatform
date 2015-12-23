@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.JzPatientChildMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.JzPatientChild" >
+    <result column="PATIENT_ID" property="patientId" jdbcType="DECIMAL" />
+    <result column="CHILD_ID" property="childId" jdbcType="VARCHAR" />
+    <result column="CHILD_BIRTH" property="childBirth" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PATIENT_ID, CHILD_ID, CHILD_BIRTH
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.JzPatientChildExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JZ_PATIENT_CHILD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.JzPatientChildExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JZ_PATIENT_CHILD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.JzPatientChildExample" >
+    delete from JZ_PATIENT_CHILD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.JzPatientChildExample" resultType="java.lang.Integer" >
+    select count(*) from JZ_PATIENT_CHILD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update JZ_PATIENT_CHILD
+    <set >
+      <if test="record.patientId != null" >
+        PATIENT_ID = #{record.patientId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.childId != null" >
+        CHILD_ID = #{record.childId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.childBirth != null" >
+        CHILD_BIRTH = #{record.childBirth,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update JZ_PATIENT_CHILD
+    set PATIENT_ID = #{record.patientId,jdbcType=DECIMAL},
+      CHILD_ID = #{record.childId,jdbcType=VARCHAR},
+      CHILD_BIRTH = #{record.childBirth,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <insert id="insert" parameterType="com.tynet.model.JzPatientChild" >
+    insert into JZ_PATIENT_CHILD (PATIENT_ID, CHILD_ID, CHILD_BIRTH
+      )
+    values (#{patientId,jdbcType=DECIMAL}, #{childId,jdbcType=VARCHAR}, #{childBirth,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.JzPatientChild" >
+    insert into JZ_PATIENT_CHILD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      PATIENT_ID,
+      CHILD_ID,
+      CHILD_BIRTH,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{patientId,jdbcType=DECIMAL},
+      #{childId,jdbcType=VARCHAR},
+      #{childBirth,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+</mapper>

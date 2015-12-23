@@ -1,0 +1,164 @@
+package com.defray.bean;
+
+
+
+import java.io.Serializable;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+import java.lang.String;
+import java.util.Date;
+import java.lang.Integer;
+import java.lang.Double;
+
+ 
+public class DefrayRefundRecordEntity implements Serializable{
+
+	/** Comment for <code>serialVersionUID</code> */
+	private static final long serialVersionUID = -1L;
+
+	//========== properties ==========
+	
+	//ID
+	private String id;
+	//异常通知URL
+	private String abnormalUrl;
+	//正常通知URL
+	private String noticeUrl;
+	//支付发起时间
+	private Date refundStartTime;
+	//支付成功时间
+	private Date refundSuccessTime;
+	//支付方式
+	private Integer defrayType;
+	//退款费用
+	private Double refundFee;
+	//平台订单ID
+	private String orderId;
+	//平台医院ID
+	private String hospitalId;
+	//退款结果（0：成功，1：失败）
+	private Integer refundResult;
+	//退款账户
+	private String refundAccount;
+	//交易号
+	private String tradeNo;
+	//平台用户ID
+	private String psnId;
+	//通知平台结果（0：成功，1：失败）
+	private Integer noticeResult;
+
+    //========== getters and setters ==========
+    
+	public String getId() {
+		return id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getAbnormalUrl() {
+		return abnormalUrl;
+	}
+	
+	public void setAbnormalUrl(String abnormalUrl) {
+		this.abnormalUrl = abnormalUrl;
+	}
+	public String getNoticeUrl() {
+		return noticeUrl;
+	}
+	
+	public void setNoticeUrl(String noticeUrl) {
+		this.noticeUrl = noticeUrl;
+	}
+	public Date getRefundStartTime() {
+		return refundStartTime;
+	}
+	
+	public void setRefundStartTime(Date refundStartTime) {
+		this.refundStartTime = refundStartTime;
+	}
+	public Date getRefundSuccessTime() {
+		return refundSuccessTime;
+	}
+	
+	public void setRefundSuccessTime(Date refundSuccessTime) {
+		this.refundSuccessTime = refundSuccessTime;
+	}
+	public Integer getDefrayType() {
+		return defrayType;
+	}
+	
+	public void setDefrayType(Integer defrayType) {
+		this.defrayType = defrayType;
+	}
+	public Double getRefundFee() {
+		return refundFee;
+	}
+	
+	public void setRefundFee(Double refundFee) {
+		this.refundFee = refundFee;
+	}
+	public String getOrderId() {
+		return orderId;
+	}
+	
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+	public String getHospitalId() {
+		return hospitalId;
+	}
+	
+	public void setHospitalId(String hospitalId) {
+		this.hospitalId = hospitalId;
+	}
+	public Integer getRefundResult() {
+		return refundResult;
+	}
+	
+	public void setRefundResult(Integer refundResult) {
+		this.refundResult = refundResult;
+	}
+	public String getRefundAccount() {
+		return refundAccount;
+	}
+	
+	public void setRefundAccount(String refundAccount) {
+		this.refundAccount = refundAccount;
+	}
+	public String getTradeNo() {
+		return tradeNo;
+	}
+	
+	public void setTradeNo(String tradeNo) {
+		this.tradeNo = tradeNo;
+	}
+	public String getPsnId() {
+		return psnId;
+	}
+	
+	public void setPsnId(String psnId) {
+		this.psnId = psnId;
+	}
+	public Integer getNoticeResult() {
+		return noticeResult;
+	}
+	
+	public void setNoticeResult(Integer noticeResult) {
+		this.noticeResult = noticeResult;
+	}
+
+	/**
+	* 重载toString方法
+	* @return
+	*
+	* @see java.lang.Object#toString()
+	*/
+	@Override
+    public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+}
+

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.GhCommentsReplyMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.GhCommentsReply" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="COMMENT_ID" property="commentId" jdbcType="DECIMAL" />
+    <result column="PATIENT_ID" property="patientId" jdbcType="DECIMAL" />
+    <result column="REPLY_CONTENT" property="replyContent" jdbcType="VARCHAR" />
+    <result column="REPLY_TIME" property="replyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+    <resultMap type="com.tynet.model.CommentsReplyForm" id="ListResultMap" extends="BaseResultMap">
+      <result column="HZXM" property="patientName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, COMMENT_ID, PATIENT_ID, REPLY_CONTENT, REPLY_TIME
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.GhCommentsReplyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GH_COMMENTS_REPLY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.GhCommentsReplyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GH_COMMENTS_REPLY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.GhCommentsReplyExample" >
+    delete from GH_COMMENTS_REPLY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.GhCommentsReplyExample" resultType="java.lang.Integer" >
+    select count(*) from GH_COMMENTS_REPLY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update GH_COMMENTS_REPLY
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.commentId != null" >
+        COMMENT_ID = #{record.commentId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.patientId != null" >
+        PATIENT_ID = #{record.patientId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.replyContent != null" >
+        REPLY_CONTENT = #{record.replyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replyTime != null" >
+        REPLY_TIME = #{record.replyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update GH_COMMENTS_REPLY
+    set ID = #{record.id,jdbcType=DECIMAL},
+      COMMENT_ID = #{record.commentId,jdbcType=DECIMAL},
+      PATIENT_ID = #{record.patientId,jdbcType=DECIMAL},
+      REPLY_CONTENT = #{record.replyContent,jdbcType=VARCHAR},
+      REPLY_TIME = #{record.replyTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from GH_COMMENTS_REPLY
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from GH_COMMENTS_REPLY
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.GhCommentsReply" >
+    insert into GH_COMMENTS_REPLY (ID, COMMENT_ID, PATIENT_ID, 
+      REPLY_CONTENT, REPLY_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{commentId,jdbcType=DECIMAL}, #{patientId,jdbcType=DECIMAL}, 
+      #{replyContent,jdbcType=VARCHAR}, #{replyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.GhCommentsReply" >
+    insert into GH_COMMENTS_REPLY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      COMMENT_ID,
+      PATIENT_ID,
+      REPLY_CONTENT,
+      REPLY_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      SEQ_COMMENTS_REPLY_CONFIG_ID.NEXTVAL,
+      #{commentId,jdbcType=DECIMAL},
+      #{patientId,jdbcType=DECIMAL},
+      #{replyContent,jdbcType=VARCHAR},
+      #{replyTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.GhCommentsReply" >
+    update GH_COMMENTS_REPLY
+    <set >
+      <if test="commentId != null" >
+        COMMENT_ID = #{commentId,jdbcType=DECIMAL},
+      </if>
+      <if test="patientId != null" >
+        PATIENT_ID = #{patientId,jdbcType=DECIMAL},
+      </if>
+      <if test="replyContent != null" >
+        REPLY_CONTENT = #{replyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null" >
+        REPLY_TIME = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.GhCommentsReply" >
+    update GH_COMMENTS_REPLY
+    set COMMENT_ID = #{commentId,jdbcType=DECIMAL},
+      PATIENT_ID = #{patientId,jdbcType=DECIMAL},
+      REPLY_CONTENT = #{replyContent,jdbcType=VARCHAR},
+      REPLY_TIME = #{replyTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+    <select id="selectList" resultMap="ListResultMap">
+      select r.id,r.reply_content,r.reply_time,hzxx.hzxm from gh_comments_reply r, yygh_hzxx hzxx where r.patient_id=hzxx.hzid and r.comment_id=#{commentId} order by id desc
+  </select>
+    <select id="selectListCount" resultType="java.lang.Integer">
+     select count(1) from gh_comments_reply r, yygh_hzxx hzxx where r.patient_id=hzxx.hzid and r.comment_id=#{commentId} order by id desc
+  </select>
+</mapper>

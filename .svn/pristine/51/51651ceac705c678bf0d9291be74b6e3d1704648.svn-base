@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.CmsTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.CmsType" >
+    <id column="TYPE_ID" property="typeId" jdbcType="DECIMAL" />
+    <result column="PID" property="pid" jdbcType="DECIMAL" />
+    <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ListMap" type="com.tynet.model.CmsType" >
+    <id column="TYPE_ID" property="typeId" jdbcType="DECIMAL" />
+    <result column="PID" property="pid" jdbcType="DECIMAL" />
+    <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+    <result column="pName" property="pName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="HosMap" type="com.tynet.model.CmsType" extends="BaseResultMap">
+    <result column="hosId" property="hosId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TYPE_ID, PID, TYPE_NAME
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.CmsTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CMS_TYPE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.CmsTypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CMS_TYPE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.CmsTypeExample" >
+    delete from CMS_TYPE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.CmsTypeExample" resultType="java.lang.Integer" >
+    select count(*) from CMS_TYPE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CMS_TYPE
+    <set >
+      <if test="record.typeId != null" >
+        TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pid != null" >
+        PID = #{record.pid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.typeName != null" >
+        TYPE_NAME = #{record.typeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CMS_TYPE
+    set TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      PID = #{record.pid,jdbcType=DECIMAL},
+      TYPE_NAME = #{record.typeName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CMS_TYPE
+    where TYPE_ID = #{typeId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CMS_TYPE
+    where TYPE_ID = #{typeId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.CmsType" >
+    insert into CMS_TYPE (TYPE_ID, PID, TYPE_NAME
+      )
+    values (SEQ_CMS_ID.NEXTVAL, #{pid,jdbcType=DECIMAL}, #{typeName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.CmsType" >
+    insert into CMS_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      TYPE_ID,
+      PID,
+      TYPE_NAME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{typeId,jdbcType=DECIMAL},
+      #{pid,jdbcType=DECIMAL},
+      #{typeName,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.CmsType" >
+    update CMS_TYPE
+    <set >
+      <if test="pid != null" >
+        PID = #{pid,jdbcType=DECIMAL},
+      </if>
+      <if test="typeName != null" >
+        TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TYPE_ID = #{typeId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.CmsType" >
+    update CMS_TYPE
+    set PID = #{pid,jdbcType=DECIMAL},
+      TYPE_NAME = #{typeName,jdbcType=VARCHAR}
+    where TYPE_ID = #{typeId,jdbcType=DECIMAL}
+  </update>
+  <select id="queryPNameList" resultMap="ListMap">
+	select ptype.TYPE_NAME as pName,type.* from CMS_TYPE ptype, CMS_TYPE
+	type where ptype.type_id = type.pid order by ptype.type_id
+  </select>
+  <select id="queryList" resultMap="BaseResultMap">
+  	select * from  CMS_TYPE
+  </select>
+  <select id="queryByPid" resultMap="BaseResultMap">
+  	select * from  CMS_TYPE where pid = #{pid}
+  </select>
+  <select id="queryByPlace" resultMap="HosMap">
+  	select * from  CMS_TYPE where place like concat('%',concat(#{place,jdbcType=VARCHAR},'%'))
+  </select>
+</mapper>

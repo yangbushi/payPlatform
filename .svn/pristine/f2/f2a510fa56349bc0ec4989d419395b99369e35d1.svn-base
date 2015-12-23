@@ -1,0 +1,33 @@
+package com.tynet.model;
+
+public class DzDeptMapKey {
+    private String gbDeptId;
+
+    private String hosDeptId;
+
+    private String hosId;
+
+    public String getGbDeptId() {
+        return gbDeptId;
+    }
+
+    public void setGbDeptId(String gbDeptId) {
+        this.gbDeptId = gbDeptId;
+    }
+
+    public String getHosDeptId() {
+        return hosDeptId;
+    }
+
+    public void setHosDeptId(String hosDeptId) {
+        this.hosDeptId = hosDeptId;
+    }
+
+    public String getHosId() {
+        return hosId;
+    }
+
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+}

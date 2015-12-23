@@ -1,0 +1,81 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class DzHosFloor implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
+	/**
+	 * 平台医院ID
+	 */
+	private String hosId;
+
+	private String floorUrl="";
+
+	private String floorInfo;
+
+	private String layerInfo="";
+	private String floorNum="";
+	// 页面显示
+	private String hosName;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getHosId() {
+		return hosId;
+	}
+
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+
+	public String getFloorUrl() {
+		return floorUrl;
+	}
+
+	public void setFloorUrl(String floorUrl) {
+		this.floorUrl = floorUrl;
+	}
+
+	public String getFloorInfo() {
+		return floorInfo;
+	}
+
+	public void setFloorInfo(String floorInfo) {
+		this.floorInfo = floorInfo;
+	}
+
+	public String getLayerInfo() {
+		return layerInfo;
+	}
+
+	public void setLayerInfo(String layerInfo) {
+		this.layerInfo = layerInfo;
+	}
+
+	public String getHosName() {
+		return hosName;
+	}
+
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+
+	public String getFloorNum() {
+		return floorNum;
+	}
+
+	public void setFloorNum(String floorNum) {
+		this.floorNum = floorNum;
+	}
+}

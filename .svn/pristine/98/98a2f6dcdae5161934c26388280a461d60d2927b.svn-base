@@ -1,0 +1,38 @@
+package com.tynet.dao;
+
+import com.tynet.model.GbDeptCode;
+import com.tynet.model.GbDeptCodeExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface GbDeptCodeMapper {
+    int countByExample(GbDeptCodeExample example);
+
+    int deleteByExample(GbDeptCodeExample example);
+    
+    List<GbDeptCode> selectInDeptCode(String code);
+
+    List<GbDeptCode> selectByExample(GbDeptCodeExample example);
+
+    int updateByExampleSelective(@Param("record") GbDeptCode record, @Param("example") GbDeptCodeExample example);
+
+    int updateByExample(@Param("record") GbDeptCode record, @Param("example") GbDeptCodeExample example);
+
+    List<GbDeptCode> selectByExampleAndPage(GbDeptCodeExample example, RowBounds rowBound);
+    
+    List<GbDeptCode> selectFatherId();
+
+    int deleteByPrimaryKey(String deptCode);
+
+    int insert(GbDeptCode record);
+
+    int insertSelective(GbDeptCode record);
+
+    GbDeptCode selectByPrimaryKey(String deptCode);
+
+    int updateByPrimaryKeySelective(GbDeptCode record);
+
+    int updateByPrimaryKey(GbDeptCode record);
+}

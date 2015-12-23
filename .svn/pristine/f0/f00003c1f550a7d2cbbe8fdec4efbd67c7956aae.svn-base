@@ -1,0 +1,76 @@
+package com.tynet.model;
+
+import java.util.Date;
+
+/** 
+ * 类说明 
+ * @author  bijy
+ * @version V1.0  创建时间：2012-10-11 下午2:13:05 
+ */
+public class FeedBack {
+	
+	private Date operDate;
+	private String patientEmail;
+	private String patientMobile;
+	private String patientName;
+	private String patientCard;
+	private String source;
+	private String version;
+	private String hosId;
+	public String getHosId() {
+		return hosId;
+	}
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
+	public String getPatientName() {
+		return patientName;
+	}
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+	public String getPatientCard() {
+		return patientCard;
+	}
+	public void setPatientCard(String patientCard) {
+		this.patientCard = patientCard;
+	}
+	public String getPatientEmail() {
+		return patientEmail;
+	}
+	public void setPatientEmail(String patientEmail) {
+		this.patientEmail = patientEmail;
+	}
+	public String getPatientMobile() {
+		return patientMobile;
+	}
+	public void setPatientMobile(String patientMobile) {
+		this.patientMobile = patientMobile;
+	}
+	private String feedBackContent;
+	public String getFeedBackContent() {
+		return feedBackContent;
+	}
+	public void setFeedBackContent(String feedBackContent) {
+		this.feedBackContent = feedBackContent;
+	}
+	public Date getOperDate() {
+		return operDate;
+	}
+	public void setOperDate(Date operDate) {
+		this.operDate = operDate;
+	}
+
+}

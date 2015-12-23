@@ -1,0 +1,75 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class GhZszyAccess implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
+	/**
+	 * 0-unknown 1-中国移动 2-中国联通 3-中国电信
+	 */
+	private String phonekey;
+	/**
+	 * 0-禁用 1-可用
+	 */
+	private String accessvalue;
+	/**
+	 * 对应号码段
+	 */
+	private String seg;
+	private String msg;
+
+	private String phoneMsg;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getPhonekey() {
+		return phonekey;
+	}
+
+	public void setPhonekey(String phonekey) {
+		this.phonekey = phonekey;
+	}
+
+	public String getAccessvalue() {
+		return accessvalue;
+	}
+
+	public void setAccessvalue(String accessvalue) {
+		this.accessvalue = accessvalue;
+	}
+
+	public String getSeg() {
+		return seg;
+	}
+
+	public void setSeg(String seg) {
+		this.seg = seg;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public String getPhoneMsg() {
+		return phoneMsg;
+	}
+
+	public void setPhoneMsg(String phoneMsg) {
+		this.phoneMsg = phoneMsg;
+	}
+}

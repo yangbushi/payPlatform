@@ -1,0 +1,34 @@
+package com.tynet.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.YyghYhxx;
+import com.tynet.model.YyghYhxxExample;
+
+@Repository
+public interface YyghYhxxMapper {
+	int countByExample(YyghYhxxExample example);
+
+	int deleteByExample(YyghYhxxExample example);
+
+	List<YyghYhxx> selectByExample(YyghYhxxExample example);
+
+	int updateByExampleSelective(@Param("record") YyghYhxx record, @Param("example") YyghYhxxExample example);
+
+	int updateByExample(@Param("record") YyghYhxx record, @Param("example") YyghYhxxExample example);
+
+	List<YyghYhxx> selectByExampleAndPage(YyghYhxxExample example, RowBounds rowBound);
+
+	int insert(YyghYhxx record);
+
+	int insertSelective(YyghYhxx record);
+
+	YyghYhxx selectByYhgh(@Param("yhgh") String yhgh);
+
+	void updatePwd(@Param("yhgh") String yhgh, @Param("pwd") String pwd);
+
+}

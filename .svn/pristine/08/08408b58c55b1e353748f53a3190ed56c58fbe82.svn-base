@@ -1,0 +1,282 @@
+package com.defray.service;
+
+import java.io.PrintWriter;
+import java.io.Serializable;
+import java.net.URLDecoder;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alipay.config.AlipayConfig;
+import com.alipay.util.AlipayNotify;
+import com.alipay.util.AlipaySubmit;
+import com.alipay.util.UtilDate;
+import com.defray.bean.ChinaBankInfoBean;
+import com.defray.bean.DefrayRecordEntity;
+import com.defray.bean.DefrayResultBean;
+import com.defray.model.DefrayRecordModel;
+import com.defray.util.HttpUtil;
+import com.defray.util.HttpUtil.METHOD;
+import com.defray.util.Utils;
+import com.herenit.cloud.model.AppDeploy;
+import com.herenit.cloud.util.RequestForwarder;
+import com.opensymphony.xwork2.ActionSupport;
+import com.soft.gh.domain.TOrder;
+import com.soft.gh.domain.TPatient;
+import com.tynet.model.GhHospital;
+import com.tynet.model.HosOrder;
+
+
+/**
+ * Alipay 支付处理
+ * @author lcc
+ *
+ */
+@Controller
+@Scope("prototype")
+public class AlipayService extends ActionSupport implements Serializable {
+
+	private static final long serialVersionUID = -7144524630548398608L;
+	private static Logger log = LoggerFactory.getLogger(AlipayService.class);
+
+	@Autowired
+	private DefrayRecordModel defrayRecordModel;
+	
+	private String resultJson;
+
+	private String sign;	//签名
+	private String sec_id;
+	private String v;
+	private String notify_data;	//异步通知数据
+	private String service;
+	
+	
+
+	private String result;//交易状态
+	private String trade_no;//支付宝交易号
+	private String sign_type;	//签名类型
+	private String out_trade_no;//商户订单号
+	private String request_token;//授权令牌
+	
+	/**
+	 * 支付同步回调
+	 * @return
+	 * @throws Exception 
+	 */
+	public String synchronizeNoticeOfAlipay() throws Exception{
+		Map<String,String> params = new HashMap<String,String>();
+		params.put("sign", sign);
+		params.put("result", result);
+		params.put("trade_no", trade_no);
+		params.put("sign_type", sign_type);
+		params.put("out_trade_no", out_trade_no);
+		params.put("request_token", request_token);
+		
+		boolean verify_result = AlipayNotify.verifyReturn(params);
+		log.info(verify_result+"###CallbackOfAlipayAction###"+params.toString());
+		if(verify_result){
+			
+			return NONE;
+		}else{
+			//该页面可做页面美工编辑
+			return NONE;
+		}
+		
+	}
+	
+	/**
+	 * 支付异步回调
+	 * @return
+	 */
+	public String asynchronousNoticeOfAlipay() throws Exception{
+		Map<String,String> params = new HashMap<String,String>();
+		params.put("sign", sign);
+		params.put("sec_id", sec_id);
+		params.put("v", v);
+		params.put("notify_data", notify_data);
+		params.put("service", service);
+		
+		//获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
+		//RSA签名解密
+	   	if(AlipayConfig.sign_type.equals("0001")) {
+	   		params = AlipayNotify.decrypt(params);
+	   	}
+		//XML解析notify_data数据
+		Document doc_notify_data = DocumentHelper.parseText(params.get("notify_data"));
+		//商户订单号
+		String out_trade_no = doc_notify_data.selectSingleNode( "//notify/out_trade_no" ).getText();
+		//支付宝交易号
+		String trade_no = doc_notify_data.selectSingleNode( "//notify/trade_no" ).getText();
+		//交易状态
+		String trade_status = doc_notify_data.selectSingleNode( "//notify/trade_status" ).getText();
+		//获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
+		//System.out.println(out_trade_no);
+		boolean verify_result = AlipayNotify.verifyNotify(params);
+		if(verify_result){//验证成功			
+			String out_trade_no_db=out_trade_no.split("-")[0];//支付平台支付记录ID
+			if(trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")){  
+				//验证成功
+				DefrayRecordEntity defrayRecord = defrayRecordModel.getByKey(out_trade_no_db);
+				//defrayRecord.setDefrayAccount(defrayAccount);
+				//defrayRecord.setDefrayResult(defrayResult);
+				//defrayRecord.setDefraySuccessTime(defraySuccessTime);
+				//defrayRecord.setDefrayType(defrayType);
+				//defrayRecord.setNoticeResult(noticeResult);
+				//defrayRecord.setTradeNo(tradeNo);
+				DefrayResultBean resultBean = new DefrayResultBean();
+				resultBean.setDefrayType("1");
+				resultBean.setOrderId(out_trade_no_db);
+				resultBean.setTradeNo(trade_no);
+				resultBean.setTradeStatus(result);
+				log.info("####交易号####"+trade_no);
+				//resultJson = Utils.GetRetJSONString("0", "交易完成返回", result);
+				String url = "http://10.10.77.48:8088/hosws/services/f/100720";
+				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("funcode","100720");
+				map.put("captcha","token");
+				Map<String, Object> subMap= new HashMap<String, Object>();
+				subMap.put("sysCode","1001001");
+				subMap.put("hosId","");
+				subMap.put("psnId","");
+				subMap.put("orderId","");
+				subMap.put("payState","");
+				subMap.put("payDate","");
+				subMap.put("transactNo","");
+				subMap.put("payType","");
+				subMap.put("orderAmount","");
+				map.put("args",subMap);
+				String requestStr = JSON.toJSON(map).toString();			
+				String ret = HttpUtil.request(url, requestStr, METHOD.POST, "utf-8", 20000);
+	        } else {  
+
+	        }  
+			return NONE;
+		}else{
+			//该页面可做页面美工编辑
+			return NONE;
+		}
+	}
+	
+	/**
+	 * 支付中断回调
+	 * @return
+	 */
+	public String interruptNoticeOfAlipay(){
+		resultJson = Utils.GetRetJSONString("2", "支付中断", null);
+		return "success";
+	}
+	
+	/**
+	 * 退款异步回调
+	 * @return
+	 */
+	public String asynchronousNoticeOfRefund(){
+		return NONE;
+	}	
+	
+	public String getResultJson() {
+		return resultJson;
+	}
+
+	public void setResultJson(String resultJson) {
+		this.resultJson = resultJson;
+	}
+
+	public String getSign() {
+		return sign;
+	}
+
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+
+	public String getSec_id() {
+		return sec_id;
+	}
+
+	public void setSec_id(String sec_id) {
+		this.sec_id = sec_id;
+	}
+
+	public String getV() {
+		return v;
+	}
+
+	public void setV(String v) {
+		this.v = v;
+	}
+
+	public String getNotify_data() {
+		return notify_data;
+	}
+
+	public void setNotify_data(String notify_data) {
+		this.notify_data = notify_data;
+	}
+
+	public String getService() {
+		return service;
+	}
+
+	public void setService(String service) {
+		this.service = service;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public String getTrade_no() {
+		return trade_no;
+	}
+
+	public void setTrade_no(String trade_no) {
+		this.trade_no = trade_no;
+	}
+
+	public String getSign_type() {
+		return sign_type;
+	}
+
+	public void setSign_type(String sign_type) {
+		this.sign_type = sign_type;
+	}
+
+	public String getOut_trade_no() {
+		return out_trade_no;
+	}
+
+	public void setOut_trade_no(String out_trade_no) {
+		this.out_trade_no = out_trade_no;
+	}
+
+	public String getRequest_token() {
+		return request_token;
+	}
+
+	public void setRequest_token(String request_token) {
+		this.request_token = request_token;
+	}
+	
+	
+}

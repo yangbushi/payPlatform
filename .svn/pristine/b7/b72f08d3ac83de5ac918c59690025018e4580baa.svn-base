@@ -1,0 +1,38 @@
+package com.tynet.dao;
+
+import com.tynet.model.GhPatientCardMap;
+import com.tynet.model.GhPatientCardMapExample;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface GhPatientCardMapMapper {
+    int countByExample(GhPatientCardMapExample example);
+
+    int deleteByExample(GhPatientCardMapExample example);
+
+    List<GhPatientCardMap> selectByExample(GhPatientCardMapExample example);
+    List<GhPatientCardMap> selectByUserId(String userId);
+    List<GhPatientCardMap> selectByUserIdOfHos(@Param("userId") String userId,@Param("hosId") String hosId,@Param("card") String card);
+    int updateByExampleSelective(@Param("record") GhPatientCardMap record, @Param("example") GhPatientCardMapExample example);
+
+    int updateByExample(@Param("record") GhPatientCardMap record, @Param("example") GhPatientCardMapExample example);
+
+    List<GhPatientCardMap> selectByExampleAndPage(GhPatientCardMapExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(String id);
+
+    int insert(GhPatientCardMap record);
+
+    int insertSelective(GhPatientCardMap record);
+
+    GhPatientCardMap selectByPrimaryKey(BigDecimal id);
+
+    int updateByPrimaryKeySelective(GhPatientCardMap record);
+
+    int updateByPrimaryKey(GhPatientCardMap record);
+}

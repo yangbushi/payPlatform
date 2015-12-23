@@ -1,0 +1,151 @@
+package com.defray.util;
+
+import com.defray.util.ConfigUtil;
+
+
+
+public class ConfigConst {
+
+	public static final String HTTP_URL = ConfigUtil.getInstance().getString("httpUrl");
+
+	public static final String SERVICE_URL = ConfigUtil.getInstance().getString("serviceUrl");
+
+	public static final String USERNAME = ConfigUtil.getInstance().getString("username");
+
+	public static final String PASSWORD = ConfigUtil.getInstance().getString("password");
+
+	public static final String SEND_URL = ConfigUtil.getInstance().getString("sendUrl");
+
+	public static final int CONNECCT_TIMEOUT = Integer.parseInt(ConfigUtil.getInstance().getString("connectTimeOut"));
+
+	public static final int READ_TIMEOUT = Integer.parseInt(ConfigUtil.getInstance().getString("readTimeOut"));
+
+	public static final String HOSPITAL_LIST_ERROR_INFO = CfgUtil.getInstance().get("hospitalListErrorInfo");
+
+	public static final String HOSPITAL_ERROR_INFO = CfgUtil.getInstance().get("hospitalErrorInfo");
+
+	public static final String DEPART_LIST_ERROR_INFO = CfgUtil.getInstance().get("departListErrorInfo");
+
+	public static final String DEPART_ERROR_INFO = CfgUtil.getInstance().get("departErrorInfo");
+
+	public static final String DOCTOR_LIST_ERROR_INFO = CfgUtil.getInstance().get("doctorErrorListInfo");
+
+	public static final String DOCTOR_ERROR_INFO = CfgUtil.getInstance().get("doctorErrorInfo");
+
+	public static final String SCHEME_LIST_ERROR_INFO = CfgUtil.getInstance().get("schemeListErrorInfo");
+
+	public static final String NUM_LIST_ERROR_INFO = CfgUtil.getInstance().get("numListErrorInfo");
+
+	public static final String ORDER_LIST_ERROR_INFO = CfgUtil.getInstance().get("orderListErrorInfo");
+
+	public static final String ORDER_ERROR_INFO = CfgUtil.getInstance().get("orderErrorInfo");
+
+	public static final String DATE_CONNECT_ERROR_INFO = CfgUtil.getInstance().get("dateConnectErrorInfo");
+
+	public static final String STOP_SCHEME_LIST_ERROR_INFO = CfgUtil.getInstance().get("stopSchemeListErrorInfo");
+
+	public static final String STOP_SCHEME_ORDER_LIST_ERROR_INFO = CfgUtil.getInstance().get("stopSchemeOrderListErrorInfo");
+
+	public static final String REGISTER_ERROR_INFO = CfgUtil.getInstance().get("registerErrorInfo");
+
+	public static final String REGISTER_ERROR_INFO2 = CfgUtil.getInstance().get("registerErrorInfo2");
+
+	public static final String LOCK_INFO = CfgUtil.getInstance().get("lockInfo");
+
+	public static final String LOGIN_ERROR_INFO = CfgUtil.getInstance().get("loginErrorInfo");
+
+	public static final String PASSWORD_ERROR_INFO = CfgUtil.getInstance().get("passwordErrorInfo");
+
+	public static final String EXCEPTION_ERROR_INFO = CfgUtil.getInstance().get("exceptionErrorInfo");
+
+	public static final String LOGIN_SUCCESS_INFO = CfgUtil.getInstance().get("loginSuccessInfo");
+
+	public static final String CODE_ERROR_INFO = CfgUtil.getInstance().get("codeErrorInfo");
+
+	public static final String UPDATE_SUCCESS_INFO = CfgUtil.getInstance().get("updateSuccessInfo");
+
+	public static final String UPDATE_ERROR_INFO = CfgUtil.getInstance().get("updateErrorInfo");
+
+	public static final String CANCEL_ERROR_INFO = CfgUtil.getInstance().get("cancelErrorInfo");
+
+	public static final String CANCEL_SUCCESS_INFO = CfgUtil.getInstance().get("cancelSuccessInfo");
+
+	public static final String USER_ERROR_INFO = CfgUtil.getInstance().get("userErrorInfo");
+
+	public static final String PWD_SUCCESS_INFO = CfgUtil.getInstance().get("pwdSuccessInfo");
+
+	public static final String PWD_ERROR_INFO = CfgUtil.getInstance().get("pwdErrorInfo");
+
+	public static final String GETPWD_ERROR_INFO = CfgUtil.getInstance().get("getPwdErrorInfo");
+
+	public static final String BULLETIN_ERROR_INFO = CfgUtil.getInstance().get("bulletinErrorInfo");
+
+	public static final String BULLETIN_SUCCESS_INFO = CfgUtil.getInstance().get("bulletinSuccessInfo");
+
+	public static final String COLLECT_SUCCESS_INFO = CfgUtil.getInstance().get("collectSuccessInfo");
+
+	public static final String COLLECT_ERROR_INFO = CfgUtil.getInstance().get("collectErrorInfo");
+
+	public static final String MANAGER_LOGIN_ERROR_INFO = CfgUtil.getInstance().get("managerLoginErrorInfo");
+
+	public static final String COLLECT_HAS_INFO = CfgUtil.getInstance().get("collectHasInfo");
+
+	public static final String ANDROID_URL = ConfigUtil.getInstance().getString("androidUrl");
+
+	public static final String CONF_KEY_SOLR_SERVER = "solr.path";
+
+	public static final String HTTP_URL2 = ConfigUtil.getInstance().getString("httpUrl2");
+	/**
+	 * 预约须知
+	 */
+	public static final String LEAFLETS_TYPE = CfgUtil.getInstance().get("leafletsType");
+	public static final String ANNOUNCEMENT_TYPE = CfgUtil.getInstance().get("announcementType");
+	public static final String CLASS_BULLETIN_TYPE = CfgUtil.getInstance().get("classBulletinType");
+	/**
+	 * 手机咨询第一栏
+	 */
+	public static final String CLADSS_FIRST = CfgUtil.getInstance().get("classFirst");
+	/**
+	 * 医院预约须知
+	 */
+	public static final String HOS_BULLETIN_TYPE = CfgUtil.getInstance().get("hosBulletinType");
+	/**
+	 * 医院疫苗须知
+	 */
+	public static final String HOS_VACCINE_BULLETIN_TYPE = CfgUtil.getInstance().get("hosVaccineBulletinType");
+	/**
+	 * 医院公告
+	 */
+	public static final String HOS_TITLE = CfgUtil.getInstance().get("hosTitle");
+	/**
+	 * 嘉兴中医院通知公告
+	 */
+	public static final String JXZYY_TZGG = CfgUtil.getInstance().get("jxzyyTzgg");
+	
+	/**
+	 * 掌上医院医院ws调用参数
+	 */
+	public static final String HOS_WS_URL = CfgUtil.getInstance().get("hosWsUrl");
+	
+	public static final String WS_USERNAME = CfgUtil.getInstance().get("username");
+	public static final String WS_PASSWORD = CfgUtil.getInstance().get("password");
+	
+	public static final String DEPT_SCHEME_FUNCODE = CfgUtil.getInstance().get("deptSchemeFunCode");
+	public static final String DOC_SCHEME_FUNCODE = CfgUtil.getInstance().get("docSchemeFunCode");
+	public static final String ID_SCHEME_FUNCODE = CfgUtil.getInstance().get("idSchemeFunCode");
+	public static final String NUM_FUNCODE = CfgUtil.getInstance().get("numFunCode");
+	public static final String ADD_ORDER_FUNCODE = CfgUtil.getInstance().get("addOrderFunCode");
+	public static final String DEL_ORDER_FUNCODE = CfgUtil.getInstance().get("delOrderFunCode");
+	public static final String APP_SEE_ORDER_FUNCODE = CfgUtil.getInstance().get("appSeeOrderFunCode");
+	public static final String SEE_ORDER_FUNCODE = CfgUtil.getInstance().get("seeOrderFunCode");
+	
+	public static final String DEPT_CALL_FUNCODE = CfgUtil.getInstance().get("deptCallFunCode");
+	public static final String PAT_CALL_FUNCODE = CfgUtil.getInstance().get("patCallFunCode");
+	
+	public static final String SUR_REP_LIST_FUNCODE = CfgUtil.getInstance().get("surRepListFunCode");
+	public static final String SUR_REP_INFO_FUNCODE = CfgUtil.getInstance().get("surRepInfoFunCode");
+	
+	public static final String INS_REP_LIST_FUNCODE = CfgUtil.getInstance().get("insRepListFunCode");
+	public static final String INS_REP_INFO_FUNCODE = CfgUtil.getInstance().get("insRepInfoFunCode");
+	
+}

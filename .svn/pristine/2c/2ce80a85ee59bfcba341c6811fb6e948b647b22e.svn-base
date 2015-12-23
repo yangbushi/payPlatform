@@ -1,0 +1,7 @@
+application.name = hr-hos-pay
+
+registry.address = zookeeper://127.0.0.1:2181
+service.port = 20982
+reference.retries = 0 
+reference.timeout = 600000
+reference.check =false

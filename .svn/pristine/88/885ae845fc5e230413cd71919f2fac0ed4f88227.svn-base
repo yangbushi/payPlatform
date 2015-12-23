@@ -1,0 +1,14 @@
+#提供方应用信息，用于计算依赖关系
+application.name = hr-hos-pay
+
+#zookeeper注册中心服务地址
+registry.address = zookeeper://127.0.0.1:2181
+#registry.address = zookeeper://121.40.225.121:2181
+
+#自身对外提供服务的端口
+service.port = 20773
+
+#引用其他组件服务的相关配置
+reference.retries = 0 
+reference.timeout = 600000
+reference.check =false

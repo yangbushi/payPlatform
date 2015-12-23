@@ -1,0 +1,14 @@
+package com.tynet.dao;
+
+import com.tynet.model.DeptInfo;
+import com.tynet.model.DzDeptMapExample;
+import com.tynet.model.DzDeptMapKey;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface DzDeptMapMapper {
+   List<DeptInfo> queryDept(@Param("hosId") String hosId,@Param("array") String[] symMapId);
+   List<DeptInfo> queryDeptBySymId(@Param("hosId") String hosId,@Param("symId") String symId);
+}

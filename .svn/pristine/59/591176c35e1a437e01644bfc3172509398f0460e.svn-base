@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.DzDeptMapMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.DeptInfo" >
+    <id column="DEPT_ID" property="deptId" jdbcType="DECIMAL" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="INTRO" property="intro" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+     <result column="FLOOR" property="floor" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DEPT_ID,DEPT_NAME,INTRO,FLOOR,HOS_ID
+  </sql>
+ <select id="queryDept" resultMap="BaseResultMap">
+ select <include refid="Base_Column_List"/> from (select distinct tt.hos_id plt_hos_id,gd.dept_id,gd.dept_name,gd.intro,gd.floor,gd.hos_id  from (select distinct dm.gb_dept_id,dm.hos_id,dm.hos_dept_id from (select gb_dept_id from dz_sym_dept where sym_map_id in
+ <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+    #{item}
+</foreach>
+ and status=0 ) t left join dz_dept_map dm 
+on replace(t.gb_dept_id, '.')=replace(dm.gb_dept_id, '.')) tt  left join gh_dept gd on tt.hos_dept_id=gd.plat_dept_id) dd where dept_id is not null 
+<if test="hosId!=null and hosId!=''">
+and dd.hos_id=#{hosId}
+</if>
+ </select>
+  
+  <select id="queryDeptBySymId" resultMap="BaseResultMap">
+ select <include refid="Base_Column_List"/> from (select distinct tt.hos_id plt_hos_id,gd.dept_id,gd.dept_name,gd.intro,gd.floor,gd.hos_id  from (select distinct dm.gb_dept_id,dm.hos_id,dm.hos_dept_id from (select gb_dept_id from dz_sym_dept where sym_id=#{symId}
+ and status=0 ) t left join dz_dept_map dm 
+on t.gb_dept_id=dm.gb_dept_id) tt  left join gh_dept gd on tt.hos_dept_id=gd.plat_dept_id) dd where dept_id is not null 
+<if test="hosId!=null and hosId!=''">
+and dd.hos_id=#{hosId}
+</if>
+ </select>
+</mapper>

@@ -1,0 +1,216 @@
+package com.herenit.cloud.util;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpProtocolParams;
+
+
+public class DataExchangeUtil {
+	//	 http://ghws.zj12580.cn:9901/YYGH_12580_SERVICE/services/watcherImpl   正式接口（省平台客户端）          y66qaFutaGDyG8v6zkekRc3Z0WwXrVm/mkDTdjF0+1Zm+dmBd5hCbySSEuFO IGdS/VMMDcCKYh1A2Sg4fPhiUQ4g8HJZegk0
+	//	 http://ghws2.zj12580.cn:9901/YYGH_12580_SERVICE/services/watcherImpl       y66qaFutaGAN5K0vqJiF5wZVYSUSHAsBrBBYdLgnS1WbOBKlSGs79O2XAU2o 50qaufDfQ67E+P0JT0Z7i0vndmVOgGO0t8Y6
+//		private final static String APP_KEY = "y66qaFutaGDyG8v6zkekRc3Z0WwXrVm/mkDTdjF0+1Zm+dmBd5hCbySSEuFO IGdS/VMMDcCKYh1A2Sg4fPhiUQ4g8HJZegk0";  // 正式域名
+
+	
+	//private final static String APP_KEY = "kE7OZ8Nj50x4LzP/Y9XxkQ1HBrnR7Sg87ZypBPsBB9wDxpTNNvjj71C36b4z wA1n" ; //正式域名2
+	private final static String APP_KEY = "kE7OZ8Nj50wi/+HQkbTBzexrPCyClIebSeMuq4YAKC7PLBInoY5T/PT4Xw0c N+9sEgD/gjTDFEYl8YRug0oV2Q==" ; //本地测试地址
+	//private final static String APP_KEY = "kE7OZ8Nj50yEAAZz7z9wq26LqtxNvuxcpjA3tb3LgtH0ZTqyABStN4lwV51Z y4oNysky5a5U22+2cr4DaSTz0w==" ; //家里测试地址
+	
+	
+	// http://183.129.141.106:9522/YYGH_12580_SERVICE/services/watcherImpl
+	//private final static String APP_KEY = "kE7OZ8Nj50x+tJNnGkcSRxzro5Xz+l2WPz7OOrsASWTPkXxJXNLRIUUD6NLb OvM7Ls5Y74d/oQHGwQWVPOyN2cCaCZYd1ULl"; //测试地址
+	
+	private final static int TIME_OUT = 200000;
+	private static final String NAMESPACE = "http://ws.tynet.com/";
+	
+
+	// 几种调用形式
+	public static final String TYPE_MT2 = "MT2"; // 未登录即可
+	public static final String TYPE_PC2 = "PC2"; // 需要登录
+	public static final String TYPE_MT = "MT"; // 更新软件
+
+	public static void main(String[] args) {
+		getSoapData("MT2", "Y3tiqrSphIQyYWKKg4rTnpjv01ICRNobJrbkegnHCW9pQhMNzkatAfH0BGpL 7JL07hBHPkJmYM8fNXufjAJUS6YKkqe8YFEZGU4OB2Abc4sPO4xiDp9Sm3vN YG6FRnob/C+c3N/BYGX04FVJtDgUwKbTH8bR4dYTFrgVKVddY2z7Ijm4Rv5F m+YfWBkgXjOseMHwPFylMhvhk/rsK8iip5d1MqFnlvWWPOvwDAYlnC4=",
+				"97502235-2237-4db5-be12-4b19663ebd21");
+	}
+
+	public static String getSoapData(String type, String json_str, String token_str) {
+		String jsonStr ="";
+		String SOAP_ACTION = null;
+		InputStream inputStream = null;
+		ByteArrayOutputStream baos = null;
+		try {
+			SOAP_ACTION = new String("http://10.10.78.184:8080/YYGH_12580_SERVICE/services/watcherImpl");
+//			SOAP_ACTION = new String("http://121.40.94.66:8082/services/watcherImpl");
+			if (!StringUtils.isEmpty(SOAP_ACTION)) {
+				HttpClient client = new DefaultHttpClient();
+				client.getParams().setIntParameter(HttpConnectionParams.SO_TIMEOUT, TIME_OUT); // 超时设置
+				client.getParams().setIntParameter(HttpConnectionParams.CONNECTION_TIMEOUT, TIME_OUT);// 连接超时
+				client.getParams().setParameter(HttpProtocolParams.HTTP_CONTENT_CHARSET, "UTF-8");
+
+				HttpPost post = new HttpPost(SOAP_ACTION);
+				post.addHeader("User-Agent", "kSOAP/2.0");
+				post.addHeader("SOAPAction", SOAP_ACTION);
+				post.addHeader("Content-Type", "text/xml");
+				post.addHeader("Connection", "close");
+				post.addHeader("Accept-Encoding", "gzip");
+				
+				xmlNode xmlObj = new xmlNode();
+				xmlNode xmlObj1 = new xmlNode();
+				attrNode attrnode1 = new attrNode("i:type", "d:string");
+				xmlObj1.addAttrdNode(attrnode1);
+				xmlObj1.setTag("jsonstr");
+				xmlObj1.setText(json_str);
+
+				xmlNode xmlObj12 = null;
+				if (TYPE_PC2.equals(type)) {
+					xmlObj12 = new xmlNode();
+					attrNode attrnode12 = new attrNode("i:type", "d:string");
+					xmlObj12.addAttrdNode(attrnode12);
+					xmlObj12.setTag("token");
+					xmlObj12.setText(token_str);
+				}
+
+				attrNode attrnode21 = new attrNode("xmlns:n0", NAMESPACE);
+				attrNode attrnode22 = new attrNode("id", "o0");
+				attrNode attrnode23 = new attrNode("c:root", "1");
+				xmlNode xmlObj2 = new xmlNode();
+				xmlObj2.setTag("n0:" + type);
+				xmlObj2.addAttrdNode(attrnode21);
+				xmlObj2.addAttrdNode(attrnode22);
+				xmlObj2.addAttrdNode(attrnode23);
+				xmlObj2.addChildNode(xmlObj1);
+				if (null != xmlObj12) {
+					xmlObj2.addChildNode(xmlObj12);
+				}
+
+				xmlNode xmlObj31 = new xmlNode();
+				xmlObj31.setTag("v:Header");
+
+				xmlNode xmlObj32 = new xmlNode();
+				xmlObj32.setTag("v:Body");
+				xmlObj32.addChildNode(xmlObj2);
+
+				xmlObj.setTag("v:Envelope");
+
+				attrNode attrnode30 = new attrNode("xmlns:i", "http://www.w3.org/2001/XMLSchema-instance");
+				attrNode attrnode31 = new attrNode("xmlns:d", "http://www.w3.org/2001/XMLSchema");
+				attrNode attrnode32 = new attrNode("xmlns:c", "http://schemas.xmlsoap.org/soap/encoding/");
+				attrNode attrnode33 = new attrNode("xmlns:v", "http://schemas.xmlsoap.org/soap/envelope/");
+
+				xmlObj.addAttrdNode(attrnode30);
+				xmlObj.addAttrdNode(attrnode31);
+				xmlObj.addAttrdNode(attrnode32);
+				xmlObj.addAttrdNode(attrnode33);
+				xmlObj.addChildNode(xmlObj31);
+				xmlObj.addChildNode(xmlObj32);
+				String xmlStr = xmlObj.createXML();
+				post.setEntity(new StringEntity(xmlStr));
+
+				HttpResponse response = null;
+				response = client.execute(post);
+				if (null != response) {
+					int code = response.getStatusLine().getStatusCode();
+					if (code == 200 || code == 206) {
+						HttpEntity httpentity = response.getEntity();
+						if (httpentity != null) {
+							inputStream = httpentity.getContent();
+							byte[] buffer = new byte[4 * 1024];
+							int len = 0;
+							baos = new ByteArrayOutputStream();
+							while ((len = inputStream.read(buffer)) != -1) {
+								baos.write(buffer, 0, len);
+							}
+							
+							
+							String str = new String(baos.toByteArray());
+							str = str.replaceAll("&quot;", "\"");
+							System.out.println(str);
+						}
+					}
+				}
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (null != inputStream) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (baos != null) {
+				try {
+					baos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return jsonStr;
+	}
+
+	/*
+	public static String getSoapData(int ver, String namespace, String methodName, Map<String, String> props, String token) {
+		LogUtil.i("最终调用 getSoapData  namespace="+namespace+" methodName="+methodName+" token="+token);
+		String jsonStr = "";
+		SoapObject request = new SoapObject(namespace, methodName);
+		// 第2步：设置WebService方法的参数
+		for (Object key : props.keySet()) {
+			request.addProperty(key.toString(), props.get(key.toString()));
+			LogUtil.i("add param ：" + key+" "+props.get(key.toString()));
+		}
+
+		// 创建SoapSerializationEnvelope对象，并指定WebService的版本
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(ver);
+		// 设置bodyOut属性
+		envelope.bodyOut = request;
+
+		String SOAP_ACTION = null;
+		try {
+			LogUtil.i("before SOAP_ACTION==" + SOAP_ACTION);
+			SOAP_ACTION = new String(DESUtil.decryptDES(APP_KEY));
+			LogUtil.i("after SOAP_ACTION==" + SOAP_ACTION);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		// 创建HttpTransportSE对象，并指定WSDL文档的URL
+		MyAndroidHttpTransport ht = new MyAndroidHttpTransport(SOAP_ACTION, TIME_OUT);
+		ht.debug = true;
+		LogUtil.i("客户端请求：" + request);
+		try {
+			ht.call(SOAP_ACTION, envelope);
+			if (envelope.getResponse() != null) {
+				jsonStr = envelope.getResponse().toString();
+			}
+		} catch (Exception e) {
+			LogUtil.i("连接服务器超时" + SOAP_ACTION);
+			e.printStackTrace();
+			jsonStr = Utils.GetCodeJSONString("0001", "连接服务器超时"); //R.string.code_0001
+		}
+		LogUtil.i("服务端返回：" + jsonStr);
+		return jsonStr;
+	}
+	*/
+
+}

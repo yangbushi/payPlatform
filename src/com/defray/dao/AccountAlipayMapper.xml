@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.defray.dao.AccountAlipayMapper">
+
+	<resultMap id="BASE-RESULT" type="com.defray.bean.AccountAlipayEntity">
+		<result property="id" column="id" />
+		<result property="hospitalId" column="hospital_id" />
+		<result property="defrayType" column="defray_type" />
+		<result property="partner" column="partner" />
+		<result property="sellerEmail" column="seller_email" />
+		<result property="md5Key" column="md5_key" />
+		<result property="privateKey" column="private_key" />
+		<result property="aliPublicKey" column="ali_public_key" />
+		<result property="logPath" column="log_path" />
+		<result property="inputCharset" column="input_charset" />
+		<result property="signType" column="sign_type" />
+		<result property="alipayGateway" column="alipay_gateway" />
+		<result property="format" column="format" />
+		<result property="v" column="v" />
+		<result property="payExpire" column="pay_expire" />
+		<result property="isDel" column="is_del" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+    <resultMap type="com.manager.pageform.AccountAlipayInfo" id="ResultMapInfo" extends="BASE-RESULT">
+        <result column="HOSPITAL_NAME" property="hospitalName" jdbcType="VARCHAR" />
+        <result column="DEFRAY_TYPE_NAME" property="defrayTypeName" jdbcType="VARCHAR" />
+    </resultMap>
+	
+  	<insert id="insert" parameterType="com.defray.bean.AccountAlipayEntity">
+  		INSERT INTO pp_account_alipay ( 
+			id,hospital_id,defray_type,partner,seller_email,md5_key,private_key,ali_public_key,log_path,input_charset,sign_type,alipay_gateway,format,v,pay_expire,is_del,create_time,update_time			
+  		) VALUES (
+			#{id},#{hospitalId},#{defrayType},#{partner},#{sellerEmail},#{md5Key},#{privateKey},#{aliPublicKey},#{logPath},#{inputCharset},#{signType},#{alipayGateway},#{format},#{v},#{payExpire},#{isDel},#{createTime},#{updateTime}			
+  		)   
+    	<selectKey resultType="Integer" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	
+  	
+  	<insert id="insertSelective" parameterType="com.defray.bean.AccountAlipayEntity" >
+    insert into pp_account_alipay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="hospitalId != null" >
+        HOSPITAL_ID,
+      </if>
+      <if test="defrayType != null" >
+        DEFRAY_TYPE,
+      </if>
+      <if test="partner != null" >
+        PARTNER,
+      </if>
+      <if test="sellerEmail != null" >
+        SELLER_EMAIL,
+      </if>
+      <if test="md5Key != null" >
+        MD5_KEY,
+      </if>
+      <if test="privateKey != null" >
+        PRIVATE_KEY,
+      </if>
+      <if test="aliPublicKey != null" >
+        ALI_PUBLIC_KEY,
+      </if>
+      <if test="logPath != null" >
+        LOG_PATH,
+      </if>
+      <if test="inputCharset != null" >
+        input_charset,
+      </if>
+      <if test="signType != null" >
+        sign_type,
+      </if>
+      <if test="alipayGateway != null" >
+        alipay_gateway,
+      </if>
+      <if test="format != null" >
+        format,
+      </if>
+      <if test="v != null" >
+        v,
+      </if>
+      <if test="payExpire != null" >
+        pay_expire,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGAR},
+      </if>
+      <if test="hospitalId != null" >
+        #{hospitalId,jdbcType=VARCHAR},
+      </if>
+      <if test="defrayType != null" >
+        #{defrayType,jdbcType=VARCHAR},
+      </if>
+      <if test="partner != null" >
+        #{partner,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerEmail != null" >
+        #{sellerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="md5Key != null" >
+        #{md5Key,jdbcType=VARCHAR},
+      </if>
+      <if test="privateKey != null" >
+        #{privateKey,jdbcType=VARCHAR},
+      </if>
+      <if test="aliPublicKey != null" >
+        #{aliPublicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="logPath != null" >
+        #{logPath,jdbcType=VARCHAR},
+      </if>
+      <if test="inputCharset != null" >
+        #{inputCharset,jdbcType=VARCHAR},
+      </if>
+      <if test="signType != null" >
+        #{signType,jdbcType=VARCHAR},
+      </if>
+      <if test="alipayGateway != null" >
+        #{alipayGateway,jdbcType=VARCHAR},
+      </if>
+      <if test="format != null" >
+        #{format,jdbcType=VARCHAR},
+      </if>
+      <if test="v != null" >
+        #{v,jdbcType=VARCHAR},
+      </if>
+      <if test="payExpire != null" >
+        #{payExpire,jdbcType=VARCHAR},
+      </if>
+       <if test="isDel != null" >
+        #{isDel,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  	<update id="update" parameterType="com.defray.bean.AccountAlipayEntity" >
+		UPDATE
+			pp_account_alipay
+		SET
+			 <if test="id!=null"> id = #{id} </if>
+			 <if test="hospitalId!=null">, hospital_id = #{hospitalId} </if>
+			 <if test="defrayType!=null">, defray_type = #{defrayType} </if>
+			 <if test="partner!=null">, partner = #{partner} </if>
+			 <if test="sellerEmail!=null">, seller_email = #{sellerEmail} </if>
+			 <if test="md5Key!=null">, md5_key = #{md5Key} </if>
+			 <if test="privateKey!=null">, private_key = #{privateKey} </if>
+			 <if test="aliPublicKey!=null">, ali_public_key = #{aliPublicKey} </if>
+			 <if test="logPath!=null">, log_path = #{logPath} </if>
+			 <if test="inputCharset!=null">, input_charset = #{inputCharset} </if>
+			 <if test="signType!=null">, sign_type = #{signType} </if>
+			 <if test="alipayGateway!=null">, alipay_gateway = #{alipayGateway} </if>
+			 <if test="format!=null">, format = #{format} </if>
+			 <if test="v!=null">, v = #{v} </if>
+			 <if test="payExpire!=null">, pay_expire = #{payExpire} </if>
+			 <if test="isDel!=null">, is_del = #{isDel} </if>
+			 <if test="createTime!=null">, create_time = #{createTime} </if>
+			 <if test="updateTime!=null">, update_time = #{updateTime} </if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	
+	<select id="getByKey" resultMap="BASE-RESULT">
+		SELECT * FROM
+			pp_account_alipay
+		<where>
+			id = #{key}
+		</where>
+	</select>
+	
+	<select id="getByHosId" resultMap="BASE-RESULT">
+		SELECT * FROM
+			pp_account_alipay
+		<where>
+			hospital_id = #{hosId}
+		</where>
+	</select>
+
+	
+	<delete id="deleteByKey">
+		DELETE FROM
+			pp_account_alipay
+		<where>
+			id = #{key}
+		</where>
+	</delete>
+	
+	<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">
+		SELECT * FROM
+			pp_account_alipay
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+		<if test="param.orderByStr!=null">
+			order by ${param.orderByStr}
+		</if>
+		<if test="param.start!=null and param.pageNum!=null">LIMIT #{param.start},#{param.pageNum}</if>
+	</select>
+
+
+	<select id="getEntitysCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM
+			pp_account_alipay
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+	</select>
+	
+	<sql id="compareParamColumns">
+		1
+  		<if test="param.id!=null">
+  			AND  id = #{param.id}
+  		</if>
+  		<if test="param.hospitalId!=null">
+  			AND  hospital_id = #{param.hospitalId}
+  		</if>
+  		<if test="param.defrayType!=null">
+  			AND  defray_type = #{param.defrayType}
+  		</if>
+  		<if test="param.partner!=null">
+  			AND  partner = #{param.partner}
+  		</if>
+  		<if test="param.sellerEmail!=null">
+  			AND  seller_email = #{param.sellerEmail}
+  		</if>
+  		<if test="param.md5Key!=null">
+  			AND  md5_key = #{param.md5Key}
+  		</if>
+  		<if test="param.privateKey!=null">
+  			AND  private_key = #{param.privateKey}
+  		</if>
+  		<if test="param.aliPublicKey!=null">
+  			AND  ali_public_key = #{param.aliPublicKey}
+  		</if>
+  		<if test="param.logPath!=null">
+  			AND  log_path = #{param.logPath}
+  		</if>
+  		<if test="param.inputCharset!=null">
+  			AND  input_charset = #{param.inputCharset}
+  		</if>
+  		<if test="param.signType!=null">
+  			AND  sign_type = #{param.signType}
+  		</if>
+  		<if test="param.alipayGateway!=null">
+  			AND  alipay_gateway = #{param.alipayGateway}
+  		</if>
+  		<if test="param.format!=null">
+  			AND  format = #{param.format}
+  		</if>
+  		<if test="param.v!=null">
+  			AND  v = #{param.v}
+  		</if>
+  		<if test="param.payExpire!=null">
+  			AND  pay_expire = #{param.payExpire}
+  		</if>
+  		<if test="param.isDel!=null">
+  			AND  is_del = #{param.isDel}
+  		</if>
+  		<if test="param.createTime!=null">
+  			AND  create_time = #{param.createTime}
+  		</if>
+  		<if test="param.updateTime!=null">
+  			AND  update_time = #{param.updateTime}
+  		</if>
+	</sql>
+	
+	
+    <sql id="Where_Clause">
+		<where>
+			1=1
+		<if test="hospitalName !=null and hospitalName !=''">
+			and h.hospital_name like concat('%',concat(#{hospitalName,jdbcType=VARCHAR},'%'))
+		</if>
+		<if test="hospitalId !=null and hospitalId !=''">
+			and h.hospital_Id = #{hospitalId,jdbcType=VARCHAR}
+		</if>
+		<if test="defrayTypeName !=null and defrayTypeName !=''">
+			and d.defray_type_name like concat('%',concat(#{defrayTypeName,jdbcType=VARCHAR},'%'))
+		</if>
+		<if test="defrayType !=null and defrayType !=''">
+			and a.defray_type = #{defrayTypeName,jdbcType=VARCHAR}
+		</if>
+		<if test="signType !=null and signType !=''">
+			and a.sign_type = #{signType,jdbcType=VARCHAR}
+		</if>
+		    and a.is_del=0
+		</where>
+	</sql>
+  <select id="selectByModel" resultMap="ResultMapInfo" parameterType="com.manager.pageform.AccountAlipayInfo" >
+      select a.*,h.hospital_name,d.defray_type_name from pp_account_alipay a left join pp_hospital h on a.hospital_id=h.hospital_id left join pp_defray_type d on a.defray_type=d.id 
+    <if test="_parameter != null">
+			<include refid="Where_Clause" />
+	</if>
+  </select>
+  
+   <select id="selectByPrimaryKey" resultMap="ResultMapInfo" parameterType="java.lang.Integer">
+		select a.*,h.hospital_name,d.defray_type_name from pp_account_alipay a left join pp_hospital h on a.hospital_id=h.hospital_id left join pp_defray_type d on a.defray_type=d.id 
+		<where>
+			a.id = #{id,jdbcType=INTEGER}
+		</where>
+	</select>
+	
+	<select id="selectByHospitalId" resultMap="ResultMapInfo">
+		select * from pp_account_alipay
+		<where>
+			hospital_id = #{hospitalId,jdbcType=VARCHAR} and is_del=0
+		</where>
+	</select>
+	
+	<!-- mybatis-config.xml 
+	<typeAlias alias="AccountAlipayEntity" 	type="bean.AccountAlipayEntity" />
+	<mapper resource="sql-mapper/AccountAlipayMapper.xml" />
+	-->
+	<!-- spring-dao-beans.xml
+	<bean id="AccountAlipayDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+    	<property name="mapperInterface" value="dao.AccountAlipayDao" />  
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />  
+	</bean>
+	-->
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.defray.dao.DefrayTypeMapper">
+
+	<resultMap id="BASE-RESULT" type="com.defray.bean.DefrayTypeEntity">
+		<result property="id" column="id" />
+		<result property="defrayTypeName" column="defray_type_name" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="isDel" column="is_del" />
+	</resultMap>
+
+	
+  	<insert id="insert" parameterType="com.defray.bean.DefrayTypeEntity">
+  		INSERT INTO pp_defray_type ( 
+			id,defray_type_name,create_time,update_time,is_del			
+  		) VALUES (
+			#{id},#{defrayTypeName},#{createTime},#{updateTime},#{isDel}			
+  		)   
+    	<selectKey resultType="Integer" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	
+  	<update id="update" parameterType="com.defray.bean.DefrayTypeEntity" >
+		UPDATE
+			pp_defray_type
+		SET
+			 <if test="id!=null"> id = #{id} </if>
+			 <if test="defrayTypeName!=null">, defray_type_name = #{defrayTypeName} </if>
+			 <if test="createTime!=null">, create_time = #{createTime} </if>
+			 <if test="updateTime!=null">, update_time = #{updateTime} </if>
+			 <if test="isDel!=null">, is_del = #{isDel} </if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	
+	<select id="getByKey" resultMap="BASE-RESULT">
+		SELECT * FROM
+			pp_defray_type
+		<where>
+			id = #{key}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM
+			pp_defray_type
+		<where>
+			id = #{key}
+		</where>
+	</delete>
+	
+	<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">
+		SELECT * FROM
+			pp_defray_type
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+		<if test="param.orderByStr!=null">
+			order by ${param.orderByStr}
+		</if>
+		<if test="param.start!=null and param.pageNum!=null">LIMIT #{param.start},#{param.pageNum}</if>
+	</select>
+
+
+	<select id="getEntitysCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM
+			pp_defray_type
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+	</select>
+	<select id="queryPaging" resultMap="BASE-RESULT">
+	SELECT t.id,t.defray_type_name,t.create_time,t.update_time,t.is_del		
+		FROM pp_defray_type t
+		<where>
+			1=1 and t.is_del = 0 
+			<if test="defrayTypeName!=null">
+  			and defray_type_name like concat("%",concat(#{defrayTypeName},"%"))
+  			</if>
+		</where>
+	</select>
+	
+	<select id="selectByDistinctDefrayTypeName" resultMap="BASE-RESULT">
+		select distinct(defray_type_name) from pp_defray_type where defray_type_name is not null and is_del = 0
+	</select>
+	
+	<select id="selectByModel" resultMap="BASE-RESULT">
+	SELECT t.id,t.defray_type_name,t.create_time,t.update_time,t.is_del		
+		FROM pp_defray_type t
+		<where>
+			1=1 
+			<if test="defrayTypeName!=null">
+  			and defray_type_name like concat("%",concat(#{defrayTypeName},"%"))
+  			</if>
+  			<if test="isDel != null">
+  			and is_del = #{isDel}
+  			</if>
+		</where>
+	</select>
+	
+	<sql id="compareParamColumns">
+		1
+  		<if test="param.id!=null">
+  			AND  id = #{param.id}
+  		</if>
+  		<if test="param.defrayTypeName!=null">
+  			AND  defray_type_name = #{param.defrayTypeName}
+  		</if>
+  		<if test="param.createTime!=null">
+  			AND  create_time = #{param.createTime}
+  		</if>
+  		<if test="param.updateTime!=null">
+  			AND  update_time = #{param.updateTime}
+  		</if>
+  		<if test="param.isDel!=null">
+  			AND  is_del = #{param.isDel}
+  		</if>
+	</sql>
+	
+	<!-- mybatis-config.xml 
+	<typeAlias alias="DefrayTypeEntity" 	type="bean.DefrayTypeEntity" />
+	<mapper resource="sql-mapper/DefrayTypeMapper.xml" />
+	-->
+	<!-- spring-dao-beans.xml
+	<bean id="DefrayTypeDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+    	<property name="mapperInterface" value="dao.DefrayTypeDao" />  
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />  
+	</bean>
+	-->
+</mapper>

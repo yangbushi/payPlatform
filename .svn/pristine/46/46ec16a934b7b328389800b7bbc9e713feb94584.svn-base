@@ -1,0 +1,14 @@
+package com.herenit.cloud.dict;
+
+public enum URIType {
+	LongUri, ShortUri;
+	public String value() {
+		switch (this) {
+		case ShortUri:
+			return "0"; // 短uri格式，直接使用前缀
+		case LongUri:
+			return "1"; // 长uri格式，使用前缀+funcode
+		}
+		return "1";
+	}
+}

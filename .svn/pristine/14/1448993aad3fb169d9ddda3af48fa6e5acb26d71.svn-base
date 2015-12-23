@@ -1,0 +1,34 @@
+package com.tynet.dao;
+
+import com.tynet.model.CbHosLevel;
+import com.tynet.model.CbHosLevelExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface CbHosLevelMapper {
+    int countByExample(CbHosLevelExample example);
+
+    int deleteByExample(CbHosLevelExample example);
+
+    List<CbHosLevel> selectByExample(CbHosLevelExample example);
+
+    int updateByExampleSelective(@Param("record") CbHosLevel record, @Param("example") CbHosLevelExample example);
+
+    int updateByExample(@Param("record") CbHosLevel record, @Param("example") CbHosLevelExample example);
+
+    List<CbHosLevel> selectByExampleAndPage(CbHosLevelExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(String levelId);
+
+    int insert(CbHosLevel record);
+
+    int insertSelective(CbHosLevel record);
+
+    CbHosLevel selectByPrimaryKey(String levelId);
+
+    int updateByPrimaryKeySelective(CbHosLevel record);
+
+    int updateByPrimaryKey(CbHosLevel record);
+}

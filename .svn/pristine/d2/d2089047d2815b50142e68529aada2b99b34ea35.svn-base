@@ -1,0 +1,115 @@
+package com.herenit.cloud.rules.impl;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.rules.Business;
+import com.herenit.cloud.util.DataCache;
+import com.tynet.dao.GhDeptMapper;
+import com.tynet.dao.GhDocMapper;
+import com.tynet.model.GhDept;
+import com.tynet.model.GhDoc;
+
+/**
+ * 排班信息转化
+ * 
+ * @author Administrator
+ */
+@Service
+public class DeptExpertSchemeBusiness implements Business {
+	@Autowired
+	private GhDeptMapper ghDeptDao;
+
+	@Autowired
+	private GhDocMapper ghDocDao;
+
+	@Override
+	public void before(JSONObject request) throws BusException {
+		JSONObject args = request.getJSONObject("args");
+		if (args == null) {
+			return;
+		}
+		String deptId = args.getString("deptId");
+		GhDept dept = null;
+		if (StringUtils.isNotEmpty(deptId)) {
+			dept = ghDeptDao.selectByPrimaryKey(Integer.parseInt(deptId));
+			if (dept != null) {
+				args.put("deptid", dept.getPlatDeptId());
+			}else {
+				args.put("deptid", deptId);
+			}
+		}else {
+			args.put("deptid", "");
+		}
+	}
+
+	@Override
+	public void after(final JSONObject request, JSONObject response)
+			throws BusException {String code = response.getString("code");
+			if (CODE.OK.value().equalsIgnoreCase(code)) {
+				JSONObject data = response.getJSONObject("data");
+				if (data == null) {
+					return;
+				}
+				String hosId = request.getString("hosId");
+				JSONArray array = data.getJSONArray("list");
+
+				if (array != null && array.size()>0) {
+					for (int i = 0; i < array.size(); i++) {
+						JSONObject obj = array.getJSONObject(i);
+						if (obj == null) {
+							continue;
+						} else {
+							JSONArray list1=obj.getJSONArray("list");
+							if (list1!=null && list1.size()>0) {
+								for (int j = 0; j < list1.size(); j++) {
+									JSONObject obj1=list1.getJSONObject(j);
+									if (obj1==null) {
+										continue;
+									} else {
+										String docId2 = obj1.getString("docid");
+										GhDoc doc2 = null;
+										if (DataCache.titleMap == null) {
+											DataCache.initTitleMap();
+										}
+										if (StringUtils.isNotEmpty(docId2)) {
+											doc2 = ghDocDao.selectByPlatDocId(docId2, hosId);
+											if (doc2 != null) {
+												obj1.put("docid", doc2.getDocId());
+												obj1.put("docgood", doc2.getGoodat());
+												if (DataCache.titleMap.get(doc2.getDocTitle()) != null) {
+													obj1.put("title",DataCache.titleMap.get(doc2.getDocTitle()));
+												}
+											} else {
+												obj1.put("docid", docId2);
+												obj1.put("docgood", "");
+											}
+										} else {
+											obj1.put("docid", "");
+										}
+									}
+								}
+							}
+							
+
+						}
+
+					}
+				}
+					
+					
+				
+				
+
+			}
+	}
+
+	
+	
+
+}

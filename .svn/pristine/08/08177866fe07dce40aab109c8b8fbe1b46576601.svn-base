@@ -1,0 +1,171 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class GhRateDoc implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
+
+	private Long patientId;
+
+	private Long orderId;
+
+	private Long hosId;
+
+	private Long deptId;
+
+	private Long docId;
+	// 医生态度
+	private Integer rateDocAttitude;
+	// 治疗效果
+	private Integer rateTreatmentEffect;
+	// 就诊原因
+	private String clinicReason;
+	// 就诊时间
+	private Date clinicTime;
+	// 评价内容
+	private String rateContent;
+	// 评价时间
+	private Date rateTime;
+	// 医生姓名,页面显示
+	private String docName;
+	// 评价人姓名,页面显示
+	private String patientName;
+	// 平均态度
+	private Double attitude;
+	// 平均疗效
+	private Double treatmentEffect;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(Long patientId) {
+		this.patientId = patientId;
+	}
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public Long getHosId() {
+		return hosId;
+	}
+
+	public void setHosId(Long hosId) {
+		this.hosId = hosId;
+	}
+
+	public Long getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Long deptId) {
+		this.deptId = deptId;
+	}
+
+	public Long getDocId() {
+		return docId;
+	}
+
+	public void setDocId(Long docId) {
+		this.docId = docId;
+	}
+
+	public Integer getRateDocAttitude() {
+		return rateDocAttitude;
+	}
+
+	public void setRateDocAttitude(Integer rateDocAttitude) {
+		this.rateDocAttitude = rateDocAttitude;
+	}
+
+	public Integer getRateTreatmentEffect() {
+		return rateTreatmentEffect;
+	}
+
+	public void setRateTreatmentEffect(Integer rateTreatmentEffect) {
+		this.rateTreatmentEffect = rateTreatmentEffect;
+	}
+
+	public String getClinicReason() {
+		return clinicReason;
+	}
+
+	public void setClinicReason(String clinicReason) {
+		this.clinicReason = clinicReason;
+	}
+
+	public Date getClinicTime() {
+		return clinicTime;
+	}
+
+	public void setClinicTime(Date clinicTime) {
+		this.clinicTime = clinicTime;
+	}
+
+	public String getRateContent() {
+		return rateContent;
+	}
+
+	public void setRateContent(String rateContent) {
+		this.rateContent = rateContent;
+	}
+
+	public Date getRateTime() {
+		return rateTime;
+	}
+
+	public void setRateTime(Date rateTime) {
+		this.rateTime = rateTime;
+	}
+
+	public String getDocName() {
+		return docName;
+	}
+
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+
+	public String getPatientName() {
+		return patientName;
+	}
+
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+
+	public Double getAttitude() {
+		return attitude;
+	}
+
+	public void setAttitude(Double attitude) {
+		this.attitude = attitude;
+	}
+
+	public Double getTreatmentEffect() {
+		return treatmentEffect;
+	}
+
+	public void setTreatmentEffect(Double treatmentEffect) {
+		this.treatmentEffect = treatmentEffect;
+	}
+}

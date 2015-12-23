@@ -1,0 +1,321 @@
+package com.herenit.cloud.rules.impl;
+
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.rules.Business;
+import com.herenit.cloud.util.DataCache;
+import com.tynet.dao.GhDeptMapper;
+import com.tynet.dao.GhDocMapper;
+import com.tynet.model.GhDept;
+import com.tynet.model.GhDoc;
+
+/**
+ * 排班信息转化
+ * 
+ * @author Administrator
+ */
+@Service
+public class SchemeBusiness implements Business {
+	@Autowired
+	private GhDeptMapper ghDeptDao;
+
+	@Autowired
+	private GhDocMapper ghDocDao;
+
+	@Override
+	public void before(JSONObject request) throws BusException {
+		JSONObject args = request.getJSONObject("args");
+		if (args == null) {
+			return;
+		}
+		String deptId = args.getString("deptId");
+		String docId = args.getString("docId");
+		
+		
+		GhDept dept = null;
+		if (StringUtils.isNotEmpty(deptId)) {
+			dept = ghDeptDao.selectByPrimaryKey(Integer.parseInt(deptId));
+			if (dept != null) {
+				args.put("deptid", dept.getPlatDeptId());
+			}else {
+				args.put("deptid", deptId);
+			}
+		}
+		GhDoc doc = null;
+		if (StringUtils.isNotEmpty(docId)) {
+			doc = ghDocDao.selectByPrimaryKey(Integer.parseInt(docId));
+			if (doc != null) {
+				args.put("docid", doc.getPlatDocId());
+			}else {
+				args.put("docid", docId);
+			}
+		}
+		
+		String schId = args.getString("schId");
+		if (StringUtils.isNotEmpty(schId)) {
+			args.put("schid", schId);
+		}
+		
+		String patId = args.getString("patId");
+		if (StringUtils.isNotEmpty(patId)) {
+			args.put("patid", patId);
+		}
+		
+		String repId = args.getString("repId");
+		if (StringUtils.isNotEmpty(repId)) {
+			args.put("repid", repId);
+		}
+		String docName = args.getString("docName");
+		if (StringUtils.isNotEmpty(docName)) {
+			args.put("docname", docName);
+		}
+	}
+
+	@Override
+	public void after(final JSONObject request, JSONObject response)
+			throws BusException {
+		String code = response.getString("code");
+		if (CODE.OK.value().equalsIgnoreCase(code)) {
+			JSONObject data = response.getJSONObject("data");
+			if (data == null) {
+				return;
+			}
+			
+			String hosId = request.getString("hosId");
+			String funcode =request.getString("funcode");
+			//100208排班号源查询后置处理
+//			if ("100208".equals(funcode)) {
+//				JSONObject scheme=data.getJSONObject("scheme");
+//				String deptId ="";
+//				String docId = "";
+//				String title = "";
+//				if (scheme!=null) {
+//					deptId=scheme.getString("deptid");
+//					docId =scheme.getString("docid");
+//					title =scheme.getString("title");
+//					
+//					String  suggest=scheme.getString("suggest");
+//					if (StringUtils.isEmpty(suggest)) {
+//						scheme.put("suggest", "");
+//					}
+//				}
+//				
+//				if (titleMap==null) {
+//					initTitleMap();
+//				}
+//				if (titleMap.get(title)!=null) {
+//					scheme.put("title", titleMap.get(title));
+//				}
+//				
+//				GhDept dept = null;
+//				if (StringUtils.isNotEmpty(deptId)) {
+//					dept = ghDeptDao.selectByPlatDeptId(deptId, hosId);
+//					if (dept != null) {
+//						scheme.put("deptid", dept.getDeptId());
+//					}
+//				}else {
+//					scheme.put("deptid", "");
+//				}
+//				GhDoc doc = null;
+//				if (StringUtils.isNotEmpty(docId)) {
+//					doc = ghDocDao.selectByPlatDocId(docId, hosId);
+//					if (doc != null) {
+//						scheme.put("docid", doc.getDocId());
+//						scheme.put("docgood", doc.getGoodat());
+//					}
+//				}else {
+//					scheme.put("docid", "");
+//				}
+//			}
+			Set<String> docidAndCategorSet=new HashSet<String>();
+			if ("100206".equals(funcode) || "100207".equals(funcode)) {
+				//7天排班后置处理
+				JSONArray array = data.getJSONArray("list");
+				if (array != null && array.size()>0) {
+					for (int i = 0; i < array.size(); i++) {
+						JSONObject obj = array.getJSONObject(i);
+						if (obj == null) {
+							continue;
+						}else {
+							String deptId2 =obj.getString("deptid");
+							String docId2 = obj.getString("docid");
+							String title2 = obj.getString("title");
+							GhDept dept2 = null;
+							if (StringUtils.isNotEmpty(deptId2)) {
+								dept2 = ghDeptDao.selectByPlatDeptId(deptId2, hosId);
+								if (dept2 != null) {
+									obj.put("deptid", dept2.getDeptId());
+								}
+							}else {
+								obj.put("deptid", "");
+							}
+							GhDoc doc2 = null;
+							if (DataCache.titleMap==null) {
+								DataCache.initTitleMap();
+							}
+							if (StringUtils.isNotEmpty(docId2)) {
+								doc2 = ghDocDao.selectByPlatDocId(docId2, hosId);
+								if (doc2 != null) {
+									obj.put("docid", doc2.getDocId());
+									obj.put("docgood", doc2.getGoodat());
+									if (DataCache.titleMap.get(doc2.getDocTitle())!=null) {
+										obj.put("title", DataCache.titleMap.get(doc2.getDocTitle()));
+									}
+								}else {
+									obj.put("docid",docId2);
+									obj.put("docgood", "");
+								}
+							}else {
+								obj.put("docid", "");
+							}
+							docidAndCategorSet.add(obj.getString("docid")+"-"+obj.getString("categor"));
+						}
+						
+					}
+				}
+				//按照排班编号和预约时间进行排序
+				
+				
+			}
+			//当日排班
+			if("100209".equals(funcode)||"100210".equals(funcode)){
+				JSONArray array = data.getJSONArray("list");
+				
+				if (array != null && array.size()>0) {
+					Calendar date = Calendar.getInstance();
+					JSONArray array1 = new JSONArray();
+					for (int i = 0; i < array.size(); i++) {
+						//String schdate = array.getString(i).valueOf("schdate");
+						JSONObject obj = array.getJSONObject(i);
+						
+						if (obj == null) {
+							continue;
+						}else {
+							/*if ("100307".equals(funcode)) {
+								String suggest=obj.getString("suggest");
+								if (StringUtils.isEmpty(suggest)) {
+									obj.put("suggest", "");
+								}
+							}*/
+							//String schDate = obj.getString("schdate");
+							//String today = Utils.dateFormat.format(date);
+							//当日挂号下午时不能显示上午的排班
+							int hour = date.get(Calendar.HOUR_OF_DAY);
+							String ampm = obj.getString("ampm");
+							
+							if("1".equals(ampm) && hour<12){
+								array1.add(obj);
+							}
+							
+							if("2".equals(ampm) && hour<18){
+								array1.add(obj);
+							}
+							
+						}
+					}
+					
+					if (array1!=null && array1.size()>0 ) {
+						for (int i = 0; i < array.size(); i++) {
+							JSONObject obj = array.getJSONObject(i);
+							String deptId2 =obj.getString("deptid");
+							String docId2 = obj.getString("docid");
+							String title2 = obj.getString("title");
+							GhDept dept2 = null;
+							if (StringUtils.isNotEmpty(deptId2)) {
+								dept2 = ghDeptDao.selectByPlatDeptId(deptId2, hosId);
+								if (dept2 != null) {
+									obj.put("deptid", dept2.getDeptId());
+								}
+							}
+							
+							GhDoc doc2 = null;
+							if (DataCache.titleMap==null) {
+								DataCache.initTitleMap();
+							}
+							if (StringUtils.isNotEmpty(docId2)) {
+								doc2 = ghDocDao.selectByPlatDocId(docId2, hosId);
+								if (doc2 != null) {
+									obj.put("docid", doc2.getDocId());
+									obj.put("docgood", doc2.getGoodat());
+									if (DataCache.titleMap.get(doc2.getDocTitle())!=null) {
+										obj.put("title", DataCache.titleMap.get(doc2.getDocTitle()));
+									}
+								}else {
+									obj.put("docid",docId2);
+									obj.put("docgood", "");
+								}
+							}else {
+								obj.put("docid", "");
+							}
+							docidAndCategorSet.add(obj.getString("docid")+"-"+obj.getString("categor"));
+							
+						}
+					}
+					data.remove("list");
+					data.put("list", array1);
+				}
+			}
+			JSONArray array = data.getJSONArray("list");
+			Iterator<String> it=docidAndCategorSet.iterator();
+			while (it.hasNext()) {
+				String docidAndCategor =  it.next();
+				String docid=docidAndCategor.split("-")[0];
+				String categor=docidAndCategor.split("-")[1];
+				boolean isStop=true;
+				boolean isFull=true;
+				if (array != null && array.size()>0) {
+					for (int i = 0; i < array.size(); i++) {
+						JSONObject obj = array.getJSONObject(i);
+						if (docid.equals(obj.getString("docid"))  && categor.equals(obj.getString("categor"))) {
+							String schstate =obj.getString("schstate");
+							String numremain =obj.getString("numremain");
+							if (!"1".equals(schstate)) {
+								isStop=false;
+							}
+							if ("0".equals(schstate)) {
+								if (!"0".equals(numremain)) {
+									isFull=false;
+								}else {
+									obj.put("schstate", "2");
+								}
+							}
+						}
+					}
+					
+					for (int i = 0; i < array.size(); i++) {
+						JSONObject obj = array.getJSONObject(i);
+						if (docid.equals(obj.getString("docid")) && categor.equals(obj.getString("categor"))) {
+							if (isStop) {
+								
+							}else {
+								if (isFull) {
+									obj.put("schstate", "2");
+								}else {
+									
+								}
+							}
+						}
+					}
+					
+					
+				}	
+			}   
+
+		}
+	}
+
+	
+	
+
+}

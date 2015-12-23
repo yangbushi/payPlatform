@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.SurveyNorAnswerMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.SurveyNorAnswer" >
+    <result column="N_ID" property="nId" jdbcType="DECIMAL" />
+    <result column="Q_ID" property="qId" jdbcType="DECIMAL" />
+    <result column="A_ID" property="aId" jdbcType="DECIMAL" />
+    <result column="A_CONTENT" property="aContent" jdbcType="VARCHAR" />
+    <result column="S_ID" property="sId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    N_ID, Q_ID, A_ID, A_CONTENT, S_ID
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectResultCount" resultType="int">
+      <!-- select count(1) from (select * from SURVEY_ANSWER_RECORD where patientId=#{patientId} and sId=#{sId} ) ar, (
+select S_ID,Q_ID,A_ID,A_CONTENT from SURVEY_NOR_ANSWER where s_ID=#{sId}) na where ar.qId=na.Q_ID and ar.aId=na.A_ID -->
+  select sum(an.score) count from (select * from SURVEY_ANSWER_RECORD where patientId=#{patientId} and sId=#{sId}) ar,SURVEY_ANSWER an where ar.aid=an.aid
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.SurveyNorAnswerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from YYGH.SURVEY_NOR_ANSWER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.SurveyNorAnswerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from YYGH.SURVEY_NOR_ANSWER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.SurveyNorAnswerExample" >
+    delete from YYGH.SURVEY_NOR_ANSWER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.SurveyNorAnswerExample" resultType="java.lang.Integer" >
+    select count(*) from YYGH.SURVEY_NOR_ANSWER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update YYGH.SURVEY_NOR_ANSWER
+    <set >
+      <if test="record.nId != null" >
+        N_ID = #{record.nId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.qId != null" >
+        Q_ID = #{record.qId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.aId != null" >
+        A_ID = #{record.aId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.aContent != null" >
+        A_CONTENT = #{record.aContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sId != null" >
+        S_ID = #{record.sId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update YYGH.SURVEY_NOR_ANSWER
+    set N_ID = #{record.nId,jdbcType=DECIMAL},
+      Q_ID = #{record.qId,jdbcType=DECIMAL},
+      A_ID = #{record.aId,jdbcType=DECIMAL},
+      A_CONTENT = #{record.aContent,jdbcType=VARCHAR},
+      S_ID = #{record.sId,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <insert id="insert" parameterType="com.tynet.model.SurveyNorAnswer" >
+    insert into YYGH.SURVEY_NOR_ANSWER (N_ID, Q_ID, A_ID, 
+      A_CONTENT, S_ID)
+    values (#{nId,jdbcType=DECIMAL}, #{qId,jdbcType=DECIMAL}, #{aId,jdbcType=DECIMAL}, 
+      #{aContent,jdbcType=VARCHAR}, #{sId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.SurveyNorAnswer" >
+    insert into YYGH.SURVEY_NOR_ANSWER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      N_ID,
+      Q_ID,
+      A_ID,
+      A_CONTENT,
+      S_ID,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{nId,jdbcType=DECIMAL},
+      #{qId,jdbcType=DECIMAL},
+      #{aId,jdbcType=DECIMAL},
+      #{aContent,jdbcType=VARCHAR},
+      #{sId,jdbcType=DECIMAL},
+    </trim>
+  </insert>
+</mapper>

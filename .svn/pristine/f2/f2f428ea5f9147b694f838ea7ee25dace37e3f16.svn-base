@@ -1,0 +1,18 @@
+package com.herenit.cloud.util;
+
+public class Test {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+String ssString="2015062400001000290056540529^3.00^SUCCESS";
+String[] result_details_array=ssString.split("\\^");
+String trade_no=result_details_array[0];
+String refundFee=result_details_array[1];
+String isSuccess=result_details_array[2];
+System.out.println(trade_no+"/"+refundFee+"/"+isSuccess);
+	}
+
+}

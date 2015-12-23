@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.defray.dao.AccountCbpayMapper">
+
+	<resultMap id="BASE-RESULT" type="com.defray.bean.AccountCbpayEntity">
+		<result property="id" column="id" />
+		<result property="hospitalId" column="hospital_id" />
+		<result property="defrayType" column="defray_type" />
+		<result property="rootCertificate" column="root_certificate" />
+		<result property="keyStore" column="key_store" />
+		<result property="keyPassword" column="key_password" />
+		<result property="keyStorePassword" column="key_store_password" />
+		<result property="cbpayGateway" column="cbpay_gateway" />
+		<result property="merchantNo" column="merchant_no" />
+		<result property="payType" column="pay_type" />
+		<result property="curCode" column="cur_code" />
+		<result property="spMobile" column="sp_mobile" />
+		<result property="orderTimeoutDate" column="order_timeoutDate" />
+		<result property="isDel" column="is_del" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	
+  	<insert id="insert" parameterType="com.defray.bean.AccountCbpayEntity">
+  		INSERT INTO pp_account_cbpay ( 
+			id,hospital_id,defray_type,root_certificate,key_store,key_password,key_store_password,cbpay_gateway,merchant_no,pay_type,cur_code,sp_mobile,order_timeoutDate,is_del,create_time,update_time			
+  		) VALUES (
+			#{id},#{hospitalId},#{defrayType},#{rootCertificate},#{keyStore},#{keyPassword},#{keyStorePassword},#{cbpayGateway},#{merchantNo},#{payType},#{curCode},#{spMobile},#{orderTimeoutDate},#{isDel},#{createTime},#{updateTime}			
+  		)   
+    	<selectKey resultType="Integer" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	
+  	<update id="update" parameterType="com.defray.bean.AccountCbpayEntity" >
+		UPDATE
+			pp_account_cbpay
+		SET
+			 <if test="id!=null"> id = #{id} </if>
+			 <if test="hospitalId!=null">, hospital_id = #{hospitalId} </if>
+			 <if test="defrayType!=null">, defray_type = #{defrayType} </if>
+			 <if test="rootCertificate!=null">, root_certificate = #{rootCertificate} </if>
+			 <if test="keyStore!=null">, key_store = #{keyStore} </if>
+			 <if test="keyPassword!=null">, key_password = #{keyPassword} </if>
+			 <if test="keyStorePassword!=null">, key_store_password = #{keyStorePassword} </if>
+			 <if test="cbpayGateway!=null">, cbpay_gateway = #{cbpayGateway} </if>
+			 <if test="merchantNo!=null">, merchant_no = #{merchantNo} </if>
+			 <if test="payType!=null">, pay_type = #{payType} </if>
+			 <if test="curCode!=null">, cur_code = #{curCode} </if>
+			 <if test="spMobile!=null">, sp_mobile = #{spMobile} </if>
+			 <if test="orderTimeoutDate!=null">, order_timeoutDate = #{orderTimeoutDate} </if>
+			 <if test="isDel!=null">, is_del = #{isDel} </if>
+			 <if test="createTime!=null">, create_time = #{createTime} </if>
+			 <if test="updateTime!=null">, update_time = #{updateTime} </if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	
+	<select id="getByKey" resultMap="BASE-RESULT">
+		SELECT * FROM
+			pp_account_cbpay
+		<where>
+			id = #{key}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM
+			pp_account_cbpay
+		<where>
+			id = #{key}
+		</where>
+	</delete>
+	
+	<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">
+		SELECT * FROM
+			pp_account_cbpay
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+		<if test="param.orderByStr!=null">
+			order by ${param.orderByStr}
+		</if>
+		<if test="param.start!=null and param.pageNum!=null">LIMIT #{param.start},#{param.pageNum}</if>
+	</select>
+
+
+	<select id="getEntitysCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM
+			pp_account_cbpay
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+	</select>
+	
+	<sql id="compareParamColumns">
+		1
+  		<if test="param.id!=null">
+  			AND  id = #{param.id}
+  		</if>
+  		<if test="param.hospitalId!=null">
+  			AND  hospital_id = #{param.hospitalId}
+  		</if>
+  		<if test="param.defrayType!=null">
+  			AND  defray_type = #{param.defrayType}
+  		</if>
+  		<if test="param.rootCertificate!=null">
+  			AND  root_certificate = #{param.rootCertificate}
+  		</if>
+  		<if test="param.keyStore!=null">
+  			AND  key_store = #{param.keyStore}
+  		</if>
+  		<if test="param.keyPassword!=null">
+  			AND  key_password = #{param.keyPassword}
+  		</if>
+  		<if test="param.keyStorePassword!=null">
+  			AND  key_store_password = #{param.keyStorePassword}
+  		</if>
+  		<if test="param.cbpayGateway!=null">
+  			AND  cbpay_gateway = #{param.cbpayGateway}
+  		</if>
+  		<if test="param.merchantNo!=null">
+  			AND  merchant_no = #{param.merchantNo}
+  		</if>
+  		<if test="param.payType!=null">
+  			AND  pay_type = #{param.payType}
+  		</if>
+  		<if test="param.curCode!=null">
+  			AND  cur_code = #{param.curCode}
+  		</if>
+  		<if test="param.spMobile!=null">
+  			AND  sp_mobile = #{param.spMobile}
+  		</if>
+  		<if test="param.orderTimeoutDate!=null">
+  			AND  order_timeoutDate = #{param.orderTimeoutDate}
+  		</if>
+  		<if test="param.isDel!=null">
+  			AND  is_del = #{param.isDel}
+  		</if>
+  		<if test="param.createTime!=null">
+  			AND  create_time = #{param.createTime}
+  		</if>
+  		<if test="param.updateTime!=null">
+  			AND  update_time = #{param.updateTime}
+  		</if>
+	</sql>
+	
+	<!-- mybatis-config.xml 
+	<typeAlias alias="AccountCbpayEntity" 	type="bean.AccountCbpayEntity" />
+	<mapper resource="sql-mapper/AccountCbpayMapper.xml" />
+	-->
+	<!-- spring-dao-beans.xml
+	<bean id="AccountCbpayDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+    	<property name="mapperInterface" value="dao.AccountCbpayDao" />  
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />  
+	</bean>
+	-->
+</mapper>

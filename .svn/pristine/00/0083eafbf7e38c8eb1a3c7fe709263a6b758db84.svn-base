@@ -1,0 +1,35 @@
+package com.tynet.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.CmsTypeMapExample;
+import com.tynet.model.CmsTypeMapKey;
+
+@Repository
+public interface CmsTypeMapMapper {
+	int countByExample(CmsTypeMapExample example);
+
+	int deleteByExample(CmsTypeMapExample example);
+
+	List<CmsTypeMapKey> selectByExample(CmsTypeMapExample example);
+
+	int updateByExampleSelective(@Param("record") CmsTypeMapKey record, @Param("example") CmsTypeMapExample example);
+
+	int updateByExample(@Param("record") CmsTypeMapKey record, @Param("example") CmsTypeMapExample example);
+
+	List<CmsTypeMapKey> selectByExampleAndPage(CmsTypeMapExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(CmsTypeMapKey key);
+
+	int insert(CmsTypeMapKey record);
+
+	int insertSelective(CmsTypeMapKey record);
+
+	void delById(@Param("id") long id);
+
+	List<CmsTypeMapKey> selectById(@Param("id") long id);
+}

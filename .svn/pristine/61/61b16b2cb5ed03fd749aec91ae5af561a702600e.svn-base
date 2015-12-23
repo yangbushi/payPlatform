@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.TClientUpdateMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.TClientUpdate" >
+    <id column="CLIENT_VERSION" property="clientVersion" jdbcType="DECIMAL" />
+    <result column="RES_URL" property="resUrl" jdbcType="VARCHAR" />
+    <result column="PUT_DATE" property="putDate" jdbcType="TIMESTAMP" />
+    <result column="VERSION_INFO" property="versionInfo" jdbcType="VARCHAR" />
+    <result column="FORCE_UPDATE" property="forceUpdate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CLIENT_VERSION, RES_URL, PUT_DATE,VERSION_INFO, FORCE_UPDATE
+  </sql>
+  <select id="selectLastRecode" resultMap="BaseResultMap" parameterType="java.lang.String">
+   select * from  (select <include refid="Base_Column_List" /> from T_CLIENT_UPDATE
+        where apk_name=#{apkName} order by client_version desc) where rownum  &lt; 2
+  </select>
+</mapper>

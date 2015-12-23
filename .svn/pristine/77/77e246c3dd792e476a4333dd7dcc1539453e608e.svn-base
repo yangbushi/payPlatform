@@ -1,0 +1,132 @@
+package com.tynet.model;
+
+public class OrderForm {
+
+	private String deptId;
+	private String deptName;// 科室名称
+	private String docId;
+
+	private String docName;// 医生姓名
+	private String docTitle;// 医生职称
+
+	private String hosId;
+
+	private String hosName;// 医院名称
+	private String numId;// 号源编号
+
+	private String orderDate;// 就诊日期
+	private String regFee;// 挂号费
+	private String resNumber;// 号源序号
+	private String resTime;// 就诊时间	
+	public String getResTime() {
+		return resTime;
+	}
+
+	public void setResTime(String resTime) {
+		this.resTime = resTime;
+	}
+	private String resTimeSign;// 上下午标志
+	private String schemeId;// 排班id
+	public String getDeptId() {
+		return deptId;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public String getDocId() {
+		return docId;
+	}
+
+	public String getDocName() {
+		return docName;
+	}
+
+	public String getDocTitle() {
+		return docTitle;
+	}
+
+	public String getHosId() {
+		return hosId;
+	}
+
+	public String getHosName() {
+		return hosName;
+	}
+
+	public String getNumId() {
+		return numId;
+	}
+
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+	public String getRegFee() {
+		return regFee;
+	}
+
+	public String getResNumber() {
+		return resNumber;
+	}
+
+	public String getResTimeSign() {
+		return resTimeSign;
+	}
+
+	public String getSchemeId() {
+		return schemeId;
+	}
+
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public void setDocId(String docId) {
+		this.docId = docId;
+	}
+
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+
+	public void setDocTitle(String docTitle) {
+		this.docTitle = docTitle;
+	}
+
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+
+	public void setNumId(String numId) {
+		this.numId = numId;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public void setRegFee(String regFee) {
+		this.regFee = regFee;
+	}
+
+	public void setResNumber(String resNumber) {
+		this.resNumber = resNumber;
+	}
+	public void setResTimeSign(String resTimeSign) {
+		this.resTimeSign = resTimeSign;
+	}
+	public void setSchemeId(String schemeId) {
+		this.schemeId = schemeId;
+	}
+
+}

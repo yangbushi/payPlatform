@@ -1,0 +1,70 @@
+package com.soft.gh.domain;
+
+import java.io.Serializable;
+
+public class TCard implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1040102149581000949L;
+
+//	private String cardOrgCode;
+//	
+	private String cardbelong="0";
+//	
+//	private String cardnumber;
+//	
+//	private String cardtype;
+	
+	private String userCode;
+
+	private String hosPlatCode;
+	
+	private String medicalCard;
+	
+	private String cardType;
+
+	public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+	public String getHosPlatCode() {
+		return hosPlatCode;
+	}
+
+	public void setHosPlatCode(String hosPlatCode) {
+		this.hosPlatCode = hosPlatCode;
+	}
+
+	public String getMedicalCard() {
+		return medicalCard;
+	}
+
+	public void setMedicalCard(String medicalCard) {
+		this.medicalCard = medicalCard;
+	}
+
+	public String getCardType() {
+		return cardType;
+	}
+
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
+	}
+
+	public String getCardbelong() {
+		return cardbelong;
+	}
+
+	public void setCardbelong(String cardbelong) {
+		this.cardbelong = cardbelong;
+	}
+	
+	
+	
+}

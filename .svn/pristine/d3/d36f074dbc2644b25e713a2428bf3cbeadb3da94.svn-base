@@ -1,0 +1,481 @@
+package com.defray.service;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Serializable;
+import java.net.URLDecoder;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.ServletActionContext;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alipay.config.AlipayConfig;
+import com.alipay.util.AlipayNotify;
+import com.alipay.util.AlipaySubmit;
+import com.alipay.util.UtilDate;
+import com.defray.bean.ChinaBankInfoBean;
+import com.defray.bean.DefrayHospitalEntity;
+import com.defray.bean.DefrayRecordEntity;
+import com.defray.bean.DefrayRefundRecordEntity;
+import com.defray.bean.DefrayResultBean;
+import com.defray.model.DefrayHospitalModel;
+import com.defray.model.DefrayRecordModel;
+import com.defray.model.DefrayRefundRecordModel;
+import com.defray.util.HttpUtil;
+import com.defray.util.HttpUtil.METHOD;
+import com.defray.util.Utils;
+import com.herenit.cloud.model.AppDeploy;
+import com.herenit.cloud.util.RequestForwarder;
+import com.opensymphony.xwork2.ActionSupport;
+import com.soft.gh.domain.TOrder;
+import com.soft.gh.domain.TPatient;
+import com.tynet.model.GhHospital;
+import com.tynet.model.HosOrder;
+
+
+/**
+ * Alipay 支付处理
+ * @author lcc
+ *
+ */
+@Controller
+@Scope("prototype")
+public class AlipayService extends ActionSupport implements Serializable {
+
+	private static final long serialVersionUID = -7144524630548398608L;
+	private static Logger log = LoggerFactory.getLogger(AlipayService.class);
+
+	@Autowired
+	private DefrayRecordModel defrayRecordModel;
+	@Autowired
+	private DefrayHospitalModel defrayHospitalModel;
+	@Autowired
+	private DefrayRefundRecordModel defrayRefundRecordModel;
+	
+	private String resultJson;
+
+	private String sign;	//签名
+	private String sec_id;
+	private String v;
+	private String notify_data;	//异步通知数据
+	private String service;
+	
+	
+
+	private String result;//交易状态
+	private String trade_no;//支付宝交易号
+	private String sign_type;	//签名类型
+	private String out_trade_no;//商户订单号
+	private String request_token;//授权令牌
+	
+	//退款异步通知
+	//private String sign;	//签名
+	//private String sign_type;
+	private String notify_id;
+	private String notify_type;
+	private String notify_time;
+	private String batch_no;
+	private String success_num;
+	private String result_details;
+	private String unfreezed_details;
+	/**
+	 * 支付同步回调
+	 * @return
+	 * @throws Exception 
+	 */
+	public String synchronizeNoticeOfAlipay() throws Exception{
+		Map<String,String> params = new HashMap<String,String>();
+		params.put("sign", sign);
+		params.put("result", result);
+		params.put("trade_no", trade_no);
+		params.put("sign_type", sign_type);
+		params.put("out_trade_no", out_trade_no);
+		params.put("request_token", request_token);
+		
+		boolean verify_result = AlipayNotify.verifyReturn(params);
+		log.info(verify_result+"###CallbackOfAlipayAction###"+params.toString());
+		if(verify_result){
+			
+			return NONE;
+		}else{
+			//该页面可做页面美工编辑
+			return NONE;
+		}
+		
+	}
+	
+	/**
+	 * 支付异步回调
+	 * @return
+	 * @throws Exception 
+	 */
+	public String asynchronousNoticeOfAlipay() throws Exception {
+		Map<String,String> params = new HashMap<String,String>();
+		params.put("sign", sign);
+		params.put("sec_id", sec_id);
+		params.put("v", v);
+		params.put("notify_data", notify_data);
+		params.put("service", service);
+		
+		//获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
+		//RSA签名解密
+	   	if(AlipayConfig.sign_type.equals("0001")) {
+	   		params = AlipayNotify.decrypt(params);
+	   	}
+		//XML解析notify_data数据
+		Document doc_notify_data = DocumentHelper.parseText(params.get("notify_data"));
+		//商户订单号
+		String out_trade_no = doc_notify_data.selectSingleNode( "//notify/out_trade_no" ).getText();
+		//支付宝交易号
+		String trade_no = doc_notify_data.selectSingleNode( "//notify/trade_no" ).getText();
+		//交易状态
+		String trade_status = doc_notify_data.selectSingleNode( "//notify/trade_status" ).getText();
+		//测试
+		String buyer_email = doc_notify_data.selectSingleNode( "//notify/buyer_email" ).getText();
+		String total_fee = doc_notify_data.selectSingleNode( "//notify/total_fee" ).getText();
+		String seller_email = doc_notify_data.selectSingleNode( "//notify/seller_email" ).getText();
+		//获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
+		System.out.println("####付款号####"+buyer_email);
+		log.debug("####付款号####"+buyer_email);
+		boolean verify_result = AlipayNotify.verifyNotify(params);
+		if(verify_result){//验证成功			
+			String out_trade_no_db=out_trade_no.split("-")[0];//支付平台支付记录ID
+			
+			if(trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")){  
+				//验证成功
+				log.info("@@@trade_no:"+trade_no);
+				Map<String,Object> parameter = new HashMap<String,Object>();				
+				DefrayRecordEntity defrayRecord = defrayRecordModel.getByKey(out_trade_no_db);
+				defrayRecord.setDefrayFee(Double.valueOf(total_fee));
+				defrayRecord.setDefrayAccount(seller_email);
+				defrayRecord.setDefrayResult(0);
+				defrayRecord.setDefraySuccessTime(new Date());
+				defrayRecord.setDefrayType(1);
+				defrayRecord.setBuyerEmail(buyer_email);
+				//defrayRecord.setNoticeResult(noticeResult);
+				defrayRecord.setTradeNo(trade_no);
+				defrayRecordModel.update(defrayRecord);
+				String url = defrayRecord.getNoticeUrl()+"services/f/100720";
+				log.info("@@@url:"+url);
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("funcode","100720");
+				map.put("captcha","token");
+				Map<String, Object> subMap= new HashMap<String, Object>();
+				subMap.put("sysCode","1001001");
+				subMap.put("hosId",defrayRecord.getHospitalId());
+				subMap.put("psnId",defrayRecord.getPsnId());
+				subMap.put("orderId",defrayRecord.getOrderId());
+				subMap.put("payState","0");
+				subMap.put("payDate",new Date());
+				subMap.put("transactNo",trade_no);
+				subMap.put("payType","1");
+				subMap.put("bankAccount", buyer_email);
+				subMap.put("orderAmount",defrayRecord.getDefrayFee());
+				map.put("args",subMap);
+				String requestStr = JSON.toJSON(map).toString();			
+				String ret;
+				try {
+					ret = HttpUtil.request(url, requestStr, METHOD.POST, "utf-8", 20000);
+				} catch (IOException e) {
+					defrayRecord.setNoticeResult(1);
+					defrayRecordModel.update(defrayRecord);
+					return NONE;
+				}
+				log.info("@@@ret:"+ret);
+				JSONObject jsonObj = JSON.parseObject(ret);
+				String resultCode = jsonObj.getString("code");//
+				defrayRecord.setNoticeResult(0);			
+				defrayRecordModel.update(defrayRecord);
+	        } else {  
+	        	//
+	        }  
+			HttpServletResponse response = getResponse();
+			PrintWriter writer = null;
+			try {
+				writer = response.getWriter();
+				writer.write("success");
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (writer != null) {
+					writer.flush();
+					writer.close();
+				}
+			}
+			return NONE;
+		}else{
+			//该页面可做页面美工编辑
+			return NONE;
+		}
+	}
+	
+	/**
+	 * 支付中断回调
+	 * @return
+	 */
+	public String interruptNoticeOfAlipay(){
+		return NONE;
+	}
+	
+	/**
+	 * 退款异步回调
+	 * 
+	 * @return
+	 */
+	public String asynchronousNoticeOfRefund() {
+
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("sign", sign);
+		params.put("sign_type", sign_type);
+		params.put("notify_id", notify_id);
+		params.put("notify_type", notify_type);
+		params.put("notify_time", notify_time);
+		params.put("batch_no", batch_no);
+		params.put("success_num", success_num);
+		params.put("result_details", result_details);
+		params.put("unfreezed_details", unfreezed_details);
+
+		boolean verify_result = AlipayNotify.verify(params);
+		if (verify_result) {// 验证成功
+			// 请在这里加上商户的业务逻辑程序代码
+			String[] result_details_array = result_details.split("\\^");
+			log.info("###退款款通知###" + result_details);
+			String trade_no = result_details_array[0];
+			String refundFee = result_details_array[1];
+			String isSuccess = result_details_array[2];
+			Map<String, Object> parameter = new HashMap<String, Object>();
+			parameter.put("tradeNo", trade_no);
+			List<DefrayRefundRecordEntity> list = defrayRefundRecordModel
+					.findEntitys(parameter);
+			if (null == list && list.size() == 0) {
+				log.debug("tradeNO为" + trade_no + "支付平台无数据");
+				return NONE;
+			}
+
+			if ("SUCCESS".equalsIgnoreCase(isSuccess)) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("funcode", "100720");
+				map.put("captcha", "token");
+				Map<String, Object> subMap = new HashMap<String, Object>();
+				subMap.put("sysCode", "1001001");
+				subMap.put("hosId", list.get(0).getHospitalId());
+				subMap.put("psnId", list.get(0).getPsnId());
+				subMap.put("orderId", list.get(0).getOrderId());
+				subMap.put("payState", "0");
+				subMap.put("payDate", new Date());
+				subMap.put("transactNo", trade_no);
+				subMap.put("payType", "1");
+				subMap.put("orderAmount", refundFee);
+				subMap.put("bankAccount", list.get(0).getBuyerEmail());
+				map.put("args", subMap);
+				String requestStr = JSON.toJSON(map).toString();
+				String ret;
+				String url = list.get(0).getNoticeUrl()+"services/f/100722";
+				try {
+					ret = HttpUtil.request(url, requestStr, METHOD.POST,
+							"utf-8", 20000);
+				} catch (IOException e) {
+					list.get(0).setNoticeResult(1);
+					defrayRefundRecordModel.update(list.get(0));
+					return NONE;
+				}
+				log.info("@@@ret:"+ret);
+				JSONObject jsonObj = JSON.parseObject(ret);
+				String resultCode = jsonObj.getString("code");//
+				if ("0".equals(resultCode)) {
+					list.get(0).setNoticeResult(0);
+					defrayRefundRecordModel.update(list.get(0));
+				}
+			} else {
+				//退款失败
+			}
+
+			HttpServletResponse response = getResponse();
+			PrintWriter writer = null;
+			try {
+				writer = response.getWriter();
+				writer.write("success");
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (writer != null) {
+					writer.flush();
+					writer.close();
+				}
+			}
+			return NONE;
+		} else {
+			// 该页面可做页面美工编辑
+			return NONE;
+		}
+	}
+	
+	/**
+     * 获得response
+     */
+    private HttpServletResponse getResponse() {
+        return ServletActionContext.getResponse();
+    }
+	
+	public String getResultJson() {
+		return resultJson;
+	}
+
+	public void setResultJson(String resultJson) {
+		this.resultJson = resultJson;
+	}
+
+	public String getSign() {
+		return sign;
+	}
+
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+
+	public String getSec_id() {
+		return sec_id;
+	}
+
+	public void setSec_id(String sec_id) {
+		this.sec_id = sec_id;
+	}
+
+	public String getV() {
+		return v;
+	}
+
+	public void setV(String v) {
+		this.v = v;
+	}
+
+	public String getNotify_data() {
+		return notify_data;
+	}
+
+	public void setNotify_data(String notify_data) {
+		this.notify_data = notify_data;
+	}
+
+	public String getService() {
+		return service;
+	}
+
+	public void setService(String service) {
+		this.service = service;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public String getTrade_no() {
+		return trade_no;
+	}
+
+	public void setTrade_no(String trade_no) {
+		this.trade_no = trade_no;
+	}
+
+	public String getSign_type() {
+		return sign_type;
+	}
+
+	public void setSign_type(String sign_type) {
+		this.sign_type = sign_type;
+	}
+
+	public String getOut_trade_no() {
+		return out_trade_no;
+	}
+
+	public void setOut_trade_no(String out_trade_no) {
+		this.out_trade_no = out_trade_no;
+	}
+
+	public String getRequest_token() {
+		return request_token;
+	}
+
+	public void setRequest_token(String request_token) {
+		this.request_token = request_token;
+	}
+
+	public String getNotify_id() {
+		return notify_id;
+	}
+
+	public void setNotify_id(String notify_id) {
+		this.notify_id = notify_id;
+	}
+
+	public String getNotify_type() {
+		return notify_type;
+	}
+
+	public void setNotify_type(String notify_type) {
+		this.notify_type = notify_type;
+	}
+
+	public String getNotify_time() {
+		return notify_time;
+	}
+
+	public void setNotify_time(String notify_time) {
+		this.notify_time = notify_time;
+	}
+
+	public String getBatch_no() {
+		return batch_no;
+	}
+
+	public void setBatch_no(String batch_no) {
+		this.batch_no = batch_no;
+	}
+
+	public String getSuccess_num() {
+		return success_num;
+	}
+
+	public void setSuccess_num(String success_num) {
+		this.success_num = success_num;
+	}
+
+	public String getResult_details() {
+		return result_details;
+	}
+
+	public void setResult_details(String result_details) {
+		this.result_details = result_details;
+	}
+
+	public String getUnfreezed_details() {
+		return unfreezed_details;
+	}
+
+	public void setUnfreezed_details(String unfreezed_details) {
+		this.unfreezed_details = unfreezed_details;
+	}
+	
+	
+}

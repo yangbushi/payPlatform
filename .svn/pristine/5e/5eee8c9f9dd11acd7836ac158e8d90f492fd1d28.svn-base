@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.JzVaccineMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.JzVaccine" >
+    <id column="VACCINE_ID" property="vaccineId" jdbcType="DECIMAL" />
+    <result column="VACCINE_NAME" property="vaccineName" jdbcType="VARCHAR" />
+    <result column="VACCINE_SX" property="vaccineSx" jdbcType="VARCHAR" />
+    <result column="VACCINE_DISEASE" property="vaccineDisease" jdbcType="VARCHAR" />
+    <result column="VACCINE_PARTS" property="vaccineParts" jdbcType="VARCHAR" />
+    <result column="VACCINE_WAY" property="vaccineWay" jdbcType="VARCHAR" />
+    <result column="VACCINE_COUNT" property="vaccineCount" jdbcType="VARCHAR" />
+    <result column="VACCINE_DOSE" property="vaccineDose" jdbcType="VARCHAR" />
+    <result column="VACCINE_DES" property="vaccineDes" jdbcType="VARCHAR" />
+    <result column="VACCINE_ORDER" property="vaccineOrder" jdbcType="DECIMAL" />
+    <result column="VACCINE_STATE" property="vaccineState" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    VACCINE_ID, VACCINE_NAME, VACCINE_SX, VACCINE_DISEASE, VACCINE_PARTS, VACCINE_WAY, 
+    VACCINE_COUNT, VACCINE_DOSE, VACCINE_DES, VACCINE_ORDER, VACCINE_STATE
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.JzVaccineExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JZ_VACCINE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.JzVaccineExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JZ_VACCINE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.JzVaccineExample" >
+    delete from JZ_VACCINE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.JzVaccineExample" resultType="java.lang.Integer" >
+    select count(*) from JZ_VACCINE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update JZ_VACCINE
+    <set >
+      <if test="record.vaccineId != null" >
+        VACCINE_ID = #{record.vaccineId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.vaccineName != null" >
+        VACCINE_NAME = #{record.vaccineName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vaccineSx != null" >
+        VACCINE_SX = #{record.vaccineSx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vaccineDisease != null" >
+        VACCINE_DISEASE = #{record.vaccineDisease,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vaccineParts != null" >
+        VACCINE_PARTS = #{record.vaccineParts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vaccineWay != null" >
+        VACCINE_WAY = #{record.vaccineWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vaccineCount != null" >
+        VACCINE_COUNT = #{record.vaccineCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vaccineDose != null" >
+        VACCINE_DOSE = #{record.vaccineDose,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vaccineDes != null" >
+        VACCINE_DES = #{record.vaccineDes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vaccineOrder != null" >
+        VACCINE_ORDER = #{record.vaccineOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="record.vaccineState != null" >
+        VACCINE_STATE = #{record.vaccineState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update JZ_VACCINE
+    set VACCINE_ID = #{record.vaccineId,jdbcType=DECIMAL},
+      VACCINE_NAME = #{record.vaccineName,jdbcType=VARCHAR},
+      VACCINE_SX = #{record.vaccineSx,jdbcType=VARCHAR},
+      VACCINE_DISEASE = #{record.vaccineDisease,jdbcType=VARCHAR},
+      VACCINE_PARTS = #{record.vaccineParts,jdbcType=VARCHAR},
+      VACCINE_WAY = #{record.vaccineWay,jdbcType=VARCHAR},
+      VACCINE_COUNT = #{record.vaccineCount,jdbcType=VARCHAR},
+      VACCINE_DOSE = #{record.vaccineDose,jdbcType=VARCHAR},
+      VACCINE_DES = #{record.vaccineDes,jdbcType=VARCHAR},
+      VACCINE_ORDER = #{record.vaccineOrder,jdbcType=DECIMAL},
+      VACCINE_STATE = #{record.vaccineState,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from JZ_VACCINE
+    where VACCINE_ID = #{vaccineId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from JZ_VACCINE
+    where VACCINE_ID = #{vaccineId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.JzVaccine" >
+    insert into JZ_VACCINE (VACCINE_ID, VACCINE_NAME, VACCINE_SX, 
+      VACCINE_DISEASE, VACCINE_PARTS, VACCINE_WAY, 
+      VACCINE_COUNT, VACCINE_DOSE, VACCINE_DES, 
+      VACCINE_ORDER, VACCINE_STATE)
+    values (#{vaccineId,jdbcType=DECIMAL}, #{vaccineName,jdbcType=VARCHAR}, #{vaccineSx,jdbcType=VARCHAR}, 
+      #{vaccineDisease,jdbcType=VARCHAR}, #{vaccineParts,jdbcType=VARCHAR}, #{vaccineWay,jdbcType=VARCHAR}, 
+      #{vaccineCount,jdbcType=VARCHAR}, #{vaccineDose,jdbcType=VARCHAR}, #{vaccineDes,jdbcType=VARCHAR}, 
+      #{vaccineOrder,jdbcType=DECIMAL}, #{vaccineState,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.JzVaccine" >
+    insert into JZ_VACCINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      VACCINE_ID,
+      VACCINE_NAME,
+      VACCINE_SX,
+      VACCINE_DISEASE,
+      VACCINE_PARTS,
+      VACCINE_WAY,
+      VACCINE_COUNT,
+      VACCINE_DOSE,
+      VACCINE_DES,
+      VACCINE_ORDER,
+      VACCINE_STATE,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{vaccineId,jdbcType=DECIMAL},
+      #{vaccineName,jdbcType=VARCHAR},
+      #{vaccineSx,jdbcType=VARCHAR},
+      #{vaccineDisease,jdbcType=VARCHAR},
+      #{vaccineParts,jdbcType=VARCHAR},
+      #{vaccineWay,jdbcType=VARCHAR},
+      #{vaccineCount,jdbcType=VARCHAR},
+      #{vaccineDose,jdbcType=VARCHAR},
+      #{vaccineDes,jdbcType=VARCHAR},
+      #{vaccineOrder,jdbcType=DECIMAL},
+      #{vaccineState,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.JzVaccine" >
+    update JZ_VACCINE
+    <set >
+      <if test="vaccineName != null" >
+        VACCINE_NAME = #{vaccineName,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccineSx != null" >
+        VACCINE_SX = #{vaccineSx,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccineDisease != null" >
+        VACCINE_DISEASE = #{vaccineDisease,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccineParts != null" >
+        VACCINE_PARTS = #{vaccineParts,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccineWay != null" >
+        VACCINE_WAY = #{vaccineWay,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccineCount != null" >
+        VACCINE_COUNT = #{vaccineCount,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccineDose != null" >
+        VACCINE_DOSE = #{vaccineDose,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccineDes != null" >
+        VACCINE_DES = #{vaccineDes,jdbcType=VARCHAR},
+      </if>
+      <if test="vaccineOrder != null" >
+        VACCINE_ORDER = #{vaccineOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="vaccineState != null" >
+        VACCINE_STATE = #{vaccineState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where VACCINE_ID = #{vaccineId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.JzVaccine" >
+    update JZ_VACCINE
+    set VACCINE_NAME = #{vaccineName,jdbcType=VARCHAR},
+      VACCINE_SX = #{vaccineSx,jdbcType=VARCHAR},
+      VACCINE_DISEASE = #{vaccineDisease,jdbcType=VARCHAR},
+      VACCINE_PARTS = #{vaccineParts,jdbcType=VARCHAR},
+      VACCINE_WAY = #{vaccineWay,jdbcType=VARCHAR},
+      VACCINE_COUNT = #{vaccineCount,jdbcType=VARCHAR},
+      VACCINE_DOSE = #{vaccineDose,jdbcType=VARCHAR},
+      VACCINE_DES = #{vaccineDes,jdbcType=VARCHAR},
+      VACCINE_ORDER = #{vaccineOrder,jdbcType=DECIMAL},
+      VACCINE_STATE = #{vaccineState,jdbcType=VARCHAR}
+    where VACCINE_ID = #{vaccineId,jdbcType=DECIMAL}
+  </update>
+</mapper>

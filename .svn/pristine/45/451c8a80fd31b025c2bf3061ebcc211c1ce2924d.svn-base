@@ -1,0 +1,260 @@
+package com.defray.task;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import com.alipay.config.AlipayConfig;
+import com.alipay.util.AlipaySubmit;
+import com.bocnet.common.security.PKCS7Tool;
+import com.herenit.cloud.util.CleanOrdersJob;
+import com.soft.gh.dao.TOrderMapper;
+import com.soft.gh.domain.TOrder;
+import com.tynet.service.RefundService;
+import com.tynet.util.Utils;
+
+@Component("refundTask")
+public class RefundTask {
+	
+	@Autowired
+	private TOrderMapper orderDao;
+	private static Logger log = LoggerFactory.getLogger(RefundTask.class);
+	
+	@Scheduled(cron = "0 0/1 * * * ?")
+	public void job(){
+		
+	}
+	
+	
+	public void refundTheOrder(TOrder order,String state) {
+		log.info("refundMoney方法中platOrderId="+order.getPlatOrderId()+"开始退号");
+		if ("1".equals(order.getPayType())) {
+			// //////////////////////////////////请求参数//////////////////////////////////////
+			// 服务器异步通知页面路径
+			String notify_url = RefundService.notify_url_refund;//
+			// 需http://格式的完整路径，不允许加?id=123这类自定义参数
+			// 卖家支付宝帐户
+			String seller_email = AlipayConfig.seller_email;
+			// 必填
+			// 退款当天日期
+			Date now=new Date();
+			String refund_date = Utils.sdf1.format(now);
+			// 必填，格式：年[4位]-月[2位]-日[2位] 小时[2位 24小时制]:分[2位]:秒[2位]，如：2007-10-01
+			// 13:13:13
+			// 批次号
+			String batch_no = Utils.dateFormat.format(now)+now.getTime();
+			// 必填，格式：当天日期[8位]+序列号[3至24位]，如：201008010000001
+			// 退款笔数
+			String batch_num = "1";
+			// 必填，参数detail_data的值中，“#”字符出现的数量加1，最大支持1000笔（即“#”字符出现的数量999个）
+			// 退款详细数据
+			if (StringUtils.isBlank(order.getTradeNo())) {
+//				return Utils.GetRetJSONString("1", "订单信息中付款交易号缺失！", null);
+				return;
+			}
+			if (StringUtils.isBlank(order.getTotalFee())) {
+//				return Utils.GetRetJSONString("1", "订单信息中挂号费信息缺失！", null);
+				return;
+			}
+			String detail_data = order.getTradeNo()+"^"+Utils.decimalFormat.format(Double.valueOf(order.getTotalFee()))+"^挂号费退款";
+//			String detail_data = order.getTradeNo()+"^0.01^挂号费退款";
+			// 必填，具体格式请参见接口技术文档
+			// ////////////////////////////////////////////////////////////////////////////////
+			// 把请求参数打包成数组
+			Map<String, String> sParaTemp = new HashMap<String, String>();
+			sParaTemp.put("service", "refund_fastpay_by_platform_nopwd");
+			sParaTemp.put("partner", AlipayConfig.partner);
+			sParaTemp.put("_input_charset", AlipayConfig.input_charset);
+			sParaTemp.put("notify_url", notify_url);
+//				sParaTemp.put("seller_email", seller_email);
+			sParaTemp.put("refund_date", refund_date);
+			sParaTemp.put("batch_no", batch_no);
+			sParaTemp.put("batch_num", batch_num);
+			sParaTemp.put("detail_data", detail_data);
+			// 建立请求
+			String sHtmlText="";
+			try {
+				sHtmlText = AlipaySubmit.buildRequest("", "", sParaTemp);
+			} catch (Exception e) {
+				e.printStackTrace();
+//				return Utils.GetRetJSONString("0", "连接支付网关出错！", null);
+				return;
+			}
+			
+			try {
+				if (StringUtils.isNotBlank(sHtmlText)) {
+//					System.out.println("======================================"+sHtmlText);
+					Document document = DocumentHelper.parseText(sHtmlText);
+					Element root = document.getRootElement();
+					String is_success = root.elementText("is_success");
+					if ("T".equals(is_success)) {
+						// 退款成功相应的业务
+						order.setOrderState(state);
+						orderDao.updateStateAndRefundTime(order);
+//						notifyHospiatl(order);
+//						return Utils.GetRetJSONString("0", "已退费！", null);
+						return;
+					} else if("F".equals(is_success)){
+						// 退款失败相应的业务
+//						order.setTradeResult(order.getTradeResult()+ ";退款失败："+root.elementText("error"));
+//						orderDao.updateTradeResult(order);
+//						return Utils.GetRetJSONString("1", "退款失败："+root.elementText("error"), null);
+						return;
+					}else {
+//						order.setTradeResult(order.getTradeResult()+ ";支付宝状态返回错误："+is_success);
+//						orderDao.updateTradeResult(order);
+//						return Utils.GetRetJSONString("1", "支付宝状态返回错误："+is_success, null);
+						return;
+					}
+				}else {
+//					return Utils.GetRetJSONString("1", "支付宝未返回退款结果！", null);
+					return;
+				}
+			} catch (DocumentException e) {
+				e.printStackTrace();
+//				return Utils.GetRetJSONString("1", "退款回复解析错误（XML解析错误）！", null);
+				return;
+			} 
+//			catch (BusException e) {
+//				e.printStackTrace();
+//				return Utils.GetRetJSONString("1", e.getMessage(), null);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				return Utils.GetRetJSONString("1", "退款时连接错误(IO错误)！", null);
+//			}
+		} else if("2".equals(order.getPayType())){
+			String merchantNo = "104110059475555";
+			Date now=new Date();
+			String mRefundSeq =  Utils.sdf2.format(now);
+			String curCode = "001";
+			String refundAmount = Utils.decimalFormat.format(Double.valueOf(order.getTotalFee()));//
+			String orderNo = order.getPlatOrderId().toString();
+			String signData=merchantNo+"|"+mRefundSeq+"|"+curCode+"|"+refundAmount+"|"+orderNo;
+			String paramAfterSign=sign(signData);
+			if (StringUtils.isBlank(order.getTradeNo())) {
+//				return Utils.GetRetJSONString("1", "订单信息中付款交易号缺失！", null);
+				return;
+			}
+			if (StringUtils.isBlank(order.getTotalFee())) {
+//				return Utils.GetRetJSONString("1", "订单信息中挂号费信息缺失！", null);
+				return;
+			}
+			Map<String, String> sParaTemp = new HashMap<String, String>();
+			sParaTemp.put("merchantNo", merchantNo);
+			sParaTemp.put("mRefundSeq",mRefundSeq);
+			sParaTemp.put("curCode", curCode);
+			sParaTemp.put("refundAmount", refundAmount);
+			sParaTemp.put("orderNo", orderNo);
+			sParaTemp.put("signData", paramAfterSign);
+//			System.out.println("sParaTemp219="+sParaTemp);
+			// 建立请求
+			String sHtmlText="";
+			try {
+				sHtmlText = AlipaySubmit.buildRequest_chinaBank("", "", sParaTemp);
+			} catch (Exception e) {
+				e.printStackTrace();
+//				return Utils.GetRetJSONString("0", "连接支付网关出错！", null);
+				
+			}
+			
+			try {
+				if (StringUtils.isNotBlank(sHtmlText)) {
+//					System.out.println("======================================"+sHtmlText);
+					Document document = DocumentHelper.parseText(sHtmlText);
+					Element root = document.getRootElement();
+					Element header=root.element("header");
+					String is_success = header.elementText("dealStatus");
+					if ("0".equals(is_success)) {
+						// 退款成功相应的业务
+						order.setOrderState(state);
+						orderDao.updateStateAndRefundTime(order);
+//						notifyHospiatl(order);
+//						return Utils.GetRetJSONString("0", "已退费！", null);
+						return;
+					} else if("1".equals(is_success)){
+						// 退款失败相应的业务
+//						order.setTradeResult(order.getTradeResult()+ ";退款失败："+header.elementText("exception"));
+//						orderDao.updateTradeResult(order);
+//						return Utils.GetRetJSONString("1", "退款失败："+header.elementText("exception"), null);
+						return;
+					}else {
+//						order.setTradeResult(order.getTradeResult()+ ";中国银行状态返回错误："+is_success);
+//						orderDao.updateTradeResult(order);
+//						return Utils.GetRetJSONString("1", "中国银行状态返回错误："+is_success, null);
+						return;
+					}
+				}else {
+//					return Utils.GetRetJSONString("1", "中国银行未返回退款结果！", null);
+					return;
+				}
+			} catch (DocumentException e) {
+				e.printStackTrace();
+//				return Utils.GetRetJSONString("1", "退款回复解析错误（XML解析错误）！", null);
+				return;
+			} 
+//			catch (BusException e) {
+//				e.printStackTrace();
+//				return Utils.GetRetJSONString("1", e.getMessage(), null);
+//				
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				return Utils.GetRetJSONString("1", "退款时连接错误(IO错误)！", null);
+//				
+//			}
+			
+		}else {
+//			return Utils.GetRetJSONString("1", "获取原本支付方式时出错！", null);
+			return;
+		}
+	}
+	
+	/**
+	 *  生成签名,如果异常返回null
+	 * @param param
+	 * @return
+	 */
+	public  String sign(String param) {
+
+		if(param==null)
+		{
+			return null;
+		}
+		
+		try {
+			String path=this.getClass().getClassLoader().getResource("/").getPath();
+			path=path.substring(1, path.indexOf("WEB-INF"))+"WEB-INF/";
+			String keyStorePath=path+"private_key.pfx";
+//			System.out.println(keyStorePath);
+			log.info("keyStorePath="+keyStorePath);
+			PKCS7Tool tool = PKCS7Tool.getSigner(keyStorePath,
+					RefundService.keyStorePassword,
+					RefundService.keyPassword);
+			return tool.sign(param.getBytes());
+		} catch (GeneralSecurityException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+}

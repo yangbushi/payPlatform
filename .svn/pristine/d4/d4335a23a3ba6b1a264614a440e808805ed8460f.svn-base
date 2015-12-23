@@ -1,0 +1,76 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class SurveyAnswerRecord implements Serializable {
+    private Long id;
+
+    private String patientid;
+
+    private Long sid;
+
+    private Long qid;
+
+    private Long aid;
+
+    private String rcontent;
+
+    private Date instime;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPatientid() {
+        return patientid;
+    }
+
+    public void setPatientid(String patientid) {
+        this.patientid = patientid;
+    }
+
+    public Long getSid() {
+        return sid;
+    }
+
+    public void setSid(Long sid) {
+        this.sid = sid;
+    }
+
+    public Long getQid() {
+        return qid;
+    }
+
+    public void setQid(Long qid) {
+        this.qid = qid;
+    }
+
+    public Long getAid() {
+        return aid;
+    }
+
+    public void setAid(Long aid) {
+        this.aid = aid;
+    }
+
+    public String getRcontent() {
+        return rcontent;
+    }
+
+    public void setRcontent(String rcontent) {
+        this.rcontent = rcontent;
+    }
+
+    public Date getInstime() {
+        return instime;
+    }
+
+    public void setInstime(Date instime) {
+        this.instime = instime;
+    }
+}

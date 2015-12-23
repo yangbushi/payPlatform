@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.defray.dao.DefrayRecordMapper">
+
+	<resultMap id="BASE-RESULT" type="com.defray.bean.DefrayRecordEntity">
+		<result property="id" column="id" />
+		<result property="abnormalUrl" column="abnormal_url" />
+		<result property="noticeUrl" column="notice_url" />
+		<result property="defrayStartTime" column="defray_start_time" />
+		<result property="defraySuccessTime" column="defray_success_time" />
+		<result property="defrayType" column="defray_type" />
+		<result property="defrayFee" column="defray_fee" />
+		<result property="orderId" column="order_id" />
+		<result property="hospitalId" column="hospital_id" />
+		<result property="defrayResult" column="defray_result" />
+		<result property="defrayAccount" column="defray_account" />
+		<result property="tradeNo" column="trade_no" />
+		<result property="psnId" column="psnId" />
+		<result property="noticeResult" column="notice_result" />
+	</resultMap>
+
+	
+  	<insert id="insert" parameterType="com.defray.bean.DefrayRecordEntity">
+  		INSERT INTO defray_record ( 
+			id,abnormal_url,notice_url,defray_start_time,defray_success_time,defray_type,defray_fee,order_id,hospital_id,defray_result,defray_account,trade_no,psnId,notice_result			
+  		) VALUES (
+			#{id},#{abnormalUrl},#{noticeUrl},#{defrayStartTime},#{defraySuccessTime},#{defrayType},#{defrayFee},#{orderId},#{hospitalId},#{defrayResult},#{defrayAccount},#{tradeNo},#{psnId},#{noticeResult}			
+  		)   
+    	<selectKey resultType="Long" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	
+  	<update id="update" parameterType="com.defray.bean.DefrayRecordEntity" >
+		UPDATE
+			defray_record
+		SET
+			 <if test="id!=null"> id = #{id} </if>
+			 <if test="abnormalUrl!=null">, abnormal_url = #{abnormalUrl} </if>
+			 <if test="noticeUrl!=null">, notice_url = #{noticeUrl} </if>
+			 <if test="defrayStartTime!=null">, defray_start_time = #{defrayStartTime} </if>
+			 <if test="defraySuccessTime!=null">, defray_success_time = #{defraySuccessTime} </if>
+			 <if test="defrayType!=null">, defray_type = #{defrayType} </if>
+			 <if test="defrayFee!=null">, defray_fee = #{defrayFee} </if>
+			 <if test="orderId!=null">, order_id = #{orderId} </if>
+			 <if test="hospitalId!=null">, hospital_id = #{hospitalId} </if>
+			 <if test="defrayResult!=null">, defray_result = #{defrayResult} </if>
+			 <if test="defrayAccount!=null">, defray_account = #{defrayAccount} </if>
+			 <if test="tradeNo!=null">, trade_no = #{tradeNo} </if>
+			 <if test="psnId!=null">, psnId = #{psnId} </if>
+			 <if test="noticeResult!=null">, notice_result = #{noticeResult} </if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	
+	<select id="getByKey" resultMap="BASE-RESULT">
+		SELECT * FROM
+			defray_record
+		<where>
+			id = #{key}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM
+			defray_record
+		<where>
+			id = #{key}
+		</where>
+	</delete>
+	
+	<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">
+		SELECT * FROM
+			defray_record
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+		<if test="param.orderByStr!=null">
+			order by ${param.orderByStr}
+		</if>
+		<if test="param.start!=null and param.pageNum!=null">LIMIT #{param.start},#{param.pageNum}</if>
+	</select>
+
+
+	<select id="getEntitysCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM
+			defray_record
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+	</select>
+	
+	<sql id="compareParamColumns">
+		1
+  		<if test="param.id!=null">
+  			AND  id = #{param.id}
+  		</if>
+  		<if test="param.abnormalUrl!=null">
+  			AND  abnormal_url = #{param.abnormalUrl}
+  		</if>
+  		<if test="param.noticeUrl!=null">
+  			AND  notice_url = #{param.noticeUrl}
+  		</if>
+  		<if test="param.defrayStartTime!=null">
+  			AND  defray_start_time = #{param.defrayStartTime}
+  		</if>
+  		<if test="param.defraySuccessTime!=null">
+  			AND  defray_success_time = #{param.defraySuccessTime}
+  		</if>
+  		<if test="param.defrayType!=null">
+  			AND  defray_type = #{param.defrayType}
+  		</if>
+  		<if test="param.defrayFee!=null">
+  			AND  defray_fee = #{param.defrayFee}
+  		</if>
+  		<if test="param.orderId!=null">
+  			AND  order_id = #{param.orderId}
+  		</if>
+  		<if test="param.hospitalId!=null">
+  			AND  hospital_id = #{param.hospitalId}
+  		</if>
+  		<if test="param.defrayResult!=null">
+  			AND  defray_result = #{param.defrayResult}
+  		</if>
+  		<if test="param.defrayAccount!=null">
+  			AND  defray_account = #{param.defrayAccount}
+  		</if>
+  		<if test="param.tradeNo!=null">
+  			AND  trade_no = #{param.tradeNo}
+  		</if>
+  		<if test="param.psnId!=null">
+  			AND  psnId = #{param.psnId}
+  		</if>
+  		<if test="param.noticeResult!=null">
+  			AND  notice_result = #{param.noticeResult}
+  		</if>
+	</sql>
+	
+	<!-- mybatis-config.xml 
+	<typeAlias alias="DefrayRecordEntity" 	type="bean.DefrayRecordEntity" />
+	<mapper resource="sql-mapper/DefrayRecordMapper.xml" />
+	-->
+	<!-- spring-dao-beans.xml
+	<bean id="DefrayRecordDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+    	<property name="mapperInterface" value="dao.DefrayRecordDao" />  
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />  
+	</bean>
+	-->
+</mapper>

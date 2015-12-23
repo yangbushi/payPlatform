@@ -1,0 +1,34 @@
+package com.tynet.dao;
+
+import com.tynet.model.IdxLuceneTask;
+import com.tynet.model.IdxLuceneTaskExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface IdxLuceneTaskMapper {
+    int countByExample(IdxLuceneTaskExample example);
+
+    int deleteByExample(IdxLuceneTaskExample example);
+
+    List<IdxLuceneTask> selectByExample(IdxLuceneTaskExample example);
+
+    int updateByExampleSelective(@Param("record") IdxLuceneTask record, @Param("example") IdxLuceneTaskExample example);
+
+    int updateByExample(@Param("record") IdxLuceneTask record, @Param("example") IdxLuceneTaskExample example);
+
+    List<IdxLuceneTask> selectByExampleAndPage(IdxLuceneTaskExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(IdxLuceneTask record);
+
+    int insertSelective(IdxLuceneTask record);
+
+    IdxLuceneTask selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(IdxLuceneTask record);
+
+    int updateByPrimaryKey(IdxLuceneTask record);
+}

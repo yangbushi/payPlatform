@@ -1,0 +1,74 @@
+package com.herenit.cloud.util;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import javax.ws.rs.core.MediaType;
+
+public class RequestForwarder {
+
+	public enum METHOD {
+		POST, GET, PUT, DELETE;
+		public String value() {
+			switch (this) {
+			case POST:
+				return "POST";
+			case GET:
+				return "GET";
+			case PUT:
+				return "PUT";
+			case DELETE:
+				return "DELETE";
+			}
+			return "POST";
+		}
+	}
+
+	public static String request(String url, String data) throws IOException {
+		return request(url, data, METHOD.POST);
+	}
+
+	public static String request(String url, String data, METHOD method)
+			throws IOException {
+		return request(url, data, method, MediaType.APPLICATION_JSON);
+	}
+
+	public static String request(String url, String data, String datatype)
+			throws IOException {
+		return request(url, data, METHOD.POST, datatype);
+	}
+
+	public static String request(String url, String data, METHOD method,
+			String datatype) throws IOException {
+		return request(url, data, METHOD.POST, datatype, 2000);
+	}
+
+	public static String request(String serviceUrl, String data, METHOD method,
+			String datatype, int timeout) throws IOException {
+		URL url = new URL(serviceUrl);
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod(method.value());
+		connection.setRequestProperty("Content-Type", datatype);
+		connection.setDoOutput(true);
+		connection.setInstanceFollowRedirects(false);
+		connection.setConnectTimeout(timeout);
+		OutputStream os = connection.getOutputStream();
+		os.write(data.getBytes("UTF-8"));
+		os.flush();
+		InputStream i = connection.getInputStream();
+		BufferedReader ip = new BufferedReader(new InputStreamReader(i,"UTF-8"));
+		StringBuffer sb = new StringBuffer();
+		String tmp = ip.readLine();
+		while (tmp != null) {
+			sb.append(tmp);
+			tmp = ip.readLine();
+		}
+		connection.disconnect();
+		return sb.toString();
+	}
+}

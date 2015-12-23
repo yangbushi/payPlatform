@@ -1,0 +1,59 @@
+package com.defray.model;
+
+
+
+import java.util.List;
+import java.util.Map;
+import java.lang.Integer;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.defray.bean.DefrayRefundRecordEntity;
+import com.defray.dao.DefrayRefundRecordDao;
+
+
+ 
+
+@Component
+public class DefrayRefundRecordModel  implements IModel{
+
+	@Autowired
+	private DefrayRefundRecordDao dao;
+	
+	public Integer insert(Object entity){
+		return dao.insert((DefrayRefundRecordEntity)entity);
+	}
+
+	public Integer update(Object entity){
+		return dao.update((DefrayRefundRecordEntity)entity);
+	}
+
+	public Integer deleteByKey( Integer key){
+		return dao.deleteByKey(key);
+	}
+	
+	public DefrayRefundRecordEntity getByKey( Integer key){
+		return dao.getByKey(key);
+	}
+	
+	public Integer deleteByKey( String key){
+		return dao.deleteByKey(key);
+	}
+	
+	public DefrayRefundRecordEntity getByKey( String key){
+		return dao.getByKey(key);
+	}
+	 
+	public List<DefrayRefundRecordEntity> findEntitys(Map<String ,Object>  param){
+		return dao.findEntitys(param);
+	}
+	public Integer getEntitysCount(Map<String ,Object>  param){
+		return dao.getEntitysCount(param);
+	}
+	 
+
+}
+
+ 

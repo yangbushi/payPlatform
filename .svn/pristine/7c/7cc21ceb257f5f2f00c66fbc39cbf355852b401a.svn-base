@@ -1,0 +1,23 @@
+package com.tynet.model;
+
+import com.tynet.model.GhDept;
+
+public class DeptInfo extends GhDept {
+
+    private static final long serialVersionUID = 1L;
+    private String hosName;
+    private String gbDeptName;
+	public String getGbDeptName() {
+		return gbDeptName;
+	}
+	public void setGbDeptName(String gbDeptName) {
+		this.gbDeptName = gbDeptName;
+	}
+	public String getHosName() {
+		return hosName;
+	}
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+    
+}

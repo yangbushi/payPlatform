@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 不需要用户登陆的包 -->
+	<package name="web-default-pg" extends="struts-default" abstract="true">
+		<interceptors>
+    		<interceptor name="parameterFilter" class="com.opensymphony.xwork2.interceptor.ParameterFilterInterceptor"/>
+			<interceptor name="QuickValidationInterceptor" class="common.quickvalid.QuickValidationInterceptor"/>
+
+			<interceptor-stack name="web-default-stack">
+				<interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="multiselect"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="user-stack">
+				<interceptor-ref name="web-default-stack" />
+			</interceptor-stack>
+
+		</interceptors>
+	</package>
+
+	<!-- 不验证用户 -->
+	<package name="web-default" extends="web-default-pg" abstract="true">
+		<default-interceptor-ref name="web-default-stack" />
+	</package>
+
+</struts>
+

@@ -1,0 +1,30 @@
+package com.tynet.util;
+
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
+import com.base.commons.utils.Md5Util;
+
+public class DataEncrypt {
+
+	private static String encode(JSONObject obj) throws JSONException {
+		String key = DataExchangeConst.PROJ + obj.getString(DataExchangeConst.SERVICE) + 
+				obj.getString(DataExchangeConst.METHOD) + 
+				obj.getJSONObject("args").toJSONString().length() + DataExchangeConst.COM;
+		System.out.println(key);
+		return key;
+	}
+
+	public static String encodeMd5(JSONObject obj) throws JSONException {
+		return Md5Util.encode((encode(obj)));
+	}
+	
+	public static boolean isSafe(JSONObject obj) throws JSONException{
+		String appkey = obj.getString(DataExchangeConst.APPKEY) ;
+		obj.remove(DataExchangeConst.APPKEY);
+		if(encodeMd5(obj).equalsIgnoreCase(appkey)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+}

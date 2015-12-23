@@ -1,0 +1,122 @@
+package com.tynet.action;
+
+import java.io.IOException;
+
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.JavaType;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.herenit.api.bean.ResponseMessage;
+import com.herenit.api.bean.v1.AccessToken;
+import com.herenit.cloud.Constant;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.dao.AppDeployMapper;
+import com.herenit.cloud.dict.URIType;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.exception.FrontendModule;
+import com.herenit.cloud.manager.DeployManager;
+import com.herenit.cloud.model.AppDeploy;
+import com.herenit.cloud.util.Base64Util;
+import com.herenit.cloud.util.Md5Encrypt;
+import com.herenit.cloud.util.RequestForwarder;
+
+public class BaseAction2 extends BaseAction{
+	@Autowired
+	protected AppDeployMapper appDeployDao;
+	
+	
+	private static final long serialVersionUID = -5497523113292709732L;
+	public static String TOKEN_REQUEST = "{\"funcode\":\"FUNCODE\",\"args\":{\"authcode\":\"AUTHCODE\",\"password\":\"PASSWORD\"}}";
+	
+	protected String findURL(AppDeploy dep, String funcode) throws BusException {
+		//***********************以下做测试用****************************//
+//		if ("267".equals(dep.getDeployId())) {
+//			dep.setServicePrefix("http://test1.xy3yy.com/srvdemo/PalmHospital.asmx/JsonMain");
+//		}
+		//***********************以上做测试用****************************//
+		
+		if ("401".equals(dep.getDeployId())) {
+			if ("100211".equals(funcode)|| "10021102".equals(funcode) || "100212".equals(funcode) || "10021202".equals(funcode)) {
+				AppDeploy dep2 = appDeployDao.selectByPrimaryKey("401-2");
+				if (dep2 == null) {
+					throw FrontendModule.FRONTEND_0002;
+				}
+				String slash = "";
+				if (!dep2.getServicePrefix().endsWith("/")) {
+					slash = "/";
+				}
+				if (URIType.ShortUri.value().equals(dep2.getUriType())) {
+					return dep2.getServicePrefix();
+				} else {
+					return dep2.getServicePrefix() + slash + funcode;
+				}
+			}
+		}
+		
+		String slash = "";
+		if (!dep.getServicePrefix().endsWith("/")) {
+			slash = "/";
+		}
+		if (URIType.ShortUri.value().equals(dep.getUriType())) {
+			return dep.getServicePrefix();
+		} else {
+			return dep.getServicePrefix() + slash + funcode;
+		}
+		
+	}
+	
+	protected String findToken(AppDeploy dep) throws BusException {
+		if (StringUtils.isNotEmpty(dep.getFixedToken())) {
+			return dep.getFixedToken();
+		}
+		if (DeployManager.tokenCache.containsKey(dep.getDeployId())) {
+			AccessToken token = DeployManager.tokenCache.get(dep.getDeployId());
+			if (token != null) {
+				if (token.getTimeout() <= 0) {
+					return token.getToken();
+				} else {
+					// 设置3分钟的容错，由于各服务器之间时间可能存在差异
+					if ((token.getConnTime() + token.getTimeout()) > (System
+							.currentTimeMillis() + 3 * 60 * 1000)) {
+						return token.getToken();
+					}
+				}
+			}
+		}
+		String data = StringUtils.replace(TOKEN_REQUEST, "FUNCODE",Constant.$100102);
+		data = StringUtils.replace(data, "AUTHCODE", dep.getAuthcode());
+		
+		if ("401".equals(dep.getDeployId())) {
+			data = StringUtils.replace(data, "PASSWORD",dep.getPassword());
+		}else {
+			data = StringUtils.replace(data, "PASSWORD",Base64Util.encode(Md5Encrypt.md5(dep.getPassword())));
+			
+		}
+		AccessToken token = requestAccessToken(findURL(dep, Constant.$100102),data);
+		DeployManager.tokenCache.put(dep.getDeployId(), token);
+		return token.getToken();
+	}
+	private AccessToken requestAccessToken(String url, String data)
+			throws BusException {
+		try {
+			String resp = RequestForwarder.request(url, data);
+			ObjectMapper mapper = new ObjectMapper();
+			JavaType jt = mapper.getTypeFactory().constructParametricType(
+					ResponseMessage.class, AccessToken.class);
+			ResponseMessage<AccessToken> acc = mapper.readValue(resp, jt);
+			if (acc != null) {
+				if (CODE.OK.value().equals(acc.getCode())) {
+					if (acc.getData() != null) {
+						return acc.getData();
+					}
+				} else {
+					throw new BusException("", acc.getMessage());
+				}
+			}
+		} catch (IOException e) {
+			throw FrontendModule.FRONTEND_0005;
+		}
+		throw FrontendModule.FRONTEND_0005;
+	}
+}

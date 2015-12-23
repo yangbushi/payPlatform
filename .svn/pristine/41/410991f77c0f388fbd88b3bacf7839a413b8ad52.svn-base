@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.herenit.cloud.dao.AppDeployMapper" >
+  <resultMap id="BaseResultMap" type="com.herenit.cloud.model.AppDeploy" >
+    <id column="DEPLOY_ID" property="deployId" jdbcType="VARCHAR" />
+    <result column="SERVICE_PREFIX" property="servicePrefix" jdbcType="VARCHAR" />
+    <result column="URI_TYPE" property="uriType" jdbcType="VARCHAR" />
+    <result column="DEPLOY_TYPE" property="deployType" jdbcType="VARCHAR" />
+    <result column="AUTHCODE" property="authcode" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="FIXED_TOKEN" property="fixedToken" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DEPLOY_ID, SERVICE_PREFIX, URI_TYPE, DEPLOY_TYPE, AUTHCODE, PASSWORD, FIXED_TOKEN
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.herenit.cloud.model.AppDeployExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from APP_DEPLOY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from APP_DEPLOY
+    where DEPLOY_ID = #{deployId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from APP_DEPLOY
+    where DEPLOY_ID = #{deployId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.herenit.cloud.model.AppDeployExample" >
+    delete from APP_DEPLOY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.herenit.cloud.model.AppDeploy" >
+    insert into APP_DEPLOY (DEPLOY_ID, SERVICE_PREFIX, URI_TYPE, 
+      DEPLOY_TYPE, AUTHCODE, PASSWORD, 
+      FIXED_TOKEN)
+    values (#{deployId,jdbcType=VARCHAR}, #{servicePrefix,jdbcType=VARCHAR}, #{uriType,jdbcType=VARCHAR}, 
+      #{deployType,jdbcType=VARCHAR}, #{authcode,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{fixedToken,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.herenit.cloud.model.AppDeploy" >
+    insert into APP_DEPLOY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deployId != null" >
+        DEPLOY_ID,
+      </if>
+      <if test="servicePrefix != null" >
+        SERVICE_PREFIX,
+      </if>
+      <if test="uriType != null" >
+        URI_TYPE,
+      </if>
+      <if test="deployType != null" >
+        DEPLOY_TYPE,
+      </if>
+      <if test="authcode != null" >
+        AUTHCODE,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="fixedToken != null" >
+        FIXED_TOKEN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deployId != null" >
+        #{deployId,jdbcType=VARCHAR},
+      </if>
+      <if test="servicePrefix != null" >
+        #{servicePrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="uriType != null" >
+        #{uriType,jdbcType=VARCHAR},
+      </if>
+      <if test="deployType != null" >
+        #{deployType,jdbcType=VARCHAR},
+      </if>
+      <if test="authcode != null" >
+        #{authcode,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedToken != null" >
+        #{fixedToken,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.herenit.cloud.model.AppDeployExample" resultType="java.lang.Integer" >
+    select count(*) from APP_DEPLOY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update APP_DEPLOY
+    <set >
+      <if test="record.deployId != null" >
+        DEPLOY_ID = #{record.deployId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.servicePrefix != null" >
+        SERVICE_PREFIX = #{record.servicePrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uriType != null" >
+        URI_TYPE = #{record.uriType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deployType != null" >
+        DEPLOY_TYPE = #{record.deployType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authcode != null" >
+        AUTHCODE = #{record.authcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        PASSWORD = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fixedToken != null" >
+        FIXED_TOKEN = #{record.fixedToken,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update APP_DEPLOY
+    set DEPLOY_ID = #{record.deployId,jdbcType=VARCHAR},
+      SERVICE_PREFIX = #{record.servicePrefix,jdbcType=VARCHAR},
+      URI_TYPE = #{record.uriType,jdbcType=VARCHAR},
+      DEPLOY_TYPE = #{record.deployType,jdbcType=VARCHAR},
+      AUTHCODE = #{record.authcode,jdbcType=VARCHAR},
+      PASSWORD = #{record.password,jdbcType=VARCHAR},
+      FIXED_TOKEN = #{record.fixedToken,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.herenit.cloud.model.AppDeploy" >
+    update APP_DEPLOY
+    <set >
+      <if test="servicePrefix != null" >
+        SERVICE_PREFIX = #{servicePrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="uriType != null" >
+        URI_TYPE = #{uriType,jdbcType=VARCHAR},
+      </if>
+      <if test="deployType != null" >
+        DEPLOY_TYPE = #{deployType,jdbcType=VARCHAR},
+      </if>
+      <if test="authcode != null" >
+        AUTHCODE = #{authcode,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedToken != null" >
+        FIXED_TOKEN = #{fixedToken,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DEPLOY_ID = #{deployId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.herenit.cloud.model.AppDeploy" >
+    update APP_DEPLOY
+    set SERVICE_PREFIX = #{servicePrefix,jdbcType=VARCHAR},
+      URI_TYPE = #{uriType,jdbcType=VARCHAR},
+      DEPLOY_TYPE = #{deployType,jdbcType=VARCHAR},
+      AUTHCODE = #{authcode,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      FIXED_TOKEN = #{fixedToken,jdbcType=VARCHAR}
+    where DEPLOY_ID = #{deployId,jdbcType=VARCHAR}
+  </update>
+</mapper>

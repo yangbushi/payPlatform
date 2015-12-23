@@ -1,0 +1,31 @@
+package com.tynet.dao;
+
+import com.tynet.model.YyghDxtx;
+import com.tynet.model.YyghDxtxExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface YyghDxtxMapper {
+	int countByExample(YyghDxtxExample example);
+
+	int deleteByExample(YyghDxtxExample example);
+
+	List<YyghDxtx> selectByExample(YyghDxtxExample example);
+
+	int updateByExampleSelective(@Param("record") YyghDxtx record, @Param("example") YyghDxtxExample example);
+
+	int updateByExample(@Param("record") YyghDxtx record, @Param("example") YyghDxtxExample example);
+
+	List<YyghDxtx> selectByExampleAndPage(YyghDxtxExample example, RowBounds rowBound);
+
+	int insert(YyghDxtx record);
+
+	int insertSelective(YyghDxtx record);
+
+	List<YyghDxtx> selectByDdids(Object[] objects);
+
+	void setPush(Object[] array);
+}

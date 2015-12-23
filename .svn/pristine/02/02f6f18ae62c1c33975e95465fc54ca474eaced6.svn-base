@@ -1,0 +1,34 @@
+package com.tynet.dao;
+
+import com.tynet.model.CbHosType;
+import com.tynet.model.CbHosTypeExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface CbHosTypeMapper {
+    int countByExample(CbHosTypeExample example);
+
+    int deleteByExample(CbHosTypeExample example);
+
+    List<CbHosType> selectByExample(CbHosTypeExample example);
+
+    int updateByExampleSelective(@Param("record") CbHosType record, @Param("example") CbHosTypeExample example);
+
+    int updateByExample(@Param("record") CbHosType record, @Param("example") CbHosTypeExample example);
+
+    List<CbHosType> selectByExampleAndPage(CbHosTypeExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(String typeCode);
+
+    int insert(CbHosType record);
+
+    int insertSelective(CbHosType record);
+
+    CbHosType selectByPrimaryKey(String typeCode);
+
+    int updateByPrimaryKeySelective(CbHosType record);
+
+    int updateByPrimaryKey(CbHosType record);
+}

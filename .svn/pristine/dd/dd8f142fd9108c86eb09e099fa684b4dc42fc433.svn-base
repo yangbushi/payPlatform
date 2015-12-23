@@ -1,0 +1,32 @@
+package com.soft.gh.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.soft.gh.dao.TAreaMapper;
+import com.soft.gh.domain.TArea;
+
+/**
+ * 区域信息基础service
+ * 
+ * @author chenjh
+ *
+ */
+@Service
+public class AreaBaseService {
+    
+    @Autowired
+    private TAreaMapper areaDao;
+    
+    /**
+     * 查询所有的区域信息
+     * 
+     * @return
+     */
+    public List<TArea> queryAll(){
+        return areaDao.selectAll();
+    }
+
+}

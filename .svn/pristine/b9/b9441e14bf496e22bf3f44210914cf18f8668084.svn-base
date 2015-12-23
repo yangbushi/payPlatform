@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soft.gh.dao.TAreaMapper" >
+  <resultMap id="BaseResultMap" type="com.soft.gh.domain.TArea" >
+    <id column="QYID" property="areaId" jdbcType="DECIMAL" />
+    <result column="QYMC" property="areaName" jdbcType="VARCHAR" />
+    <result column="QYDM" property="areaCode" jdbcType="VARCHAR" />
+    <result column="QYFJD" property="parentId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    QYID,QYMC,QYDM,QYFJD
+  </sql>
+  	<select id="selectAll" resultMap="BaseResultMap">
+  		select <include refid="Base_Column_List"/> from YYGH_QYXX order by QYID,QYFJD
+  	</select>
+  	<select id="selectByCode" resultType="java.lang.String" parameterType="java.lang.String">
+  		select qymc from yygh_qyxx where qydm=#{areaCode}
+  	</select>
+</mapper>

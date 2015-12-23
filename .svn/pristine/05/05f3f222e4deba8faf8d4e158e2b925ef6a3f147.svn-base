@@ -1,0 +1,217 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class GhDoc implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer docId;
+
+	private String hosId;
+
+	private String docName;
+
+	private String docTitle;
+
+	private String docEdu;
+
+	private String intro;
+
+	private String goodat;
+
+	private Integer bookCount;
+
+	private Integer favoCount;
+
+	private String platDocId;
+
+	private String weibo;
+
+	private String weixin;
+
+	private Integer showNo;
+	
+	private String clinicTime;
+	private String docJob;
+	
+	 public String getClinicTime() {
+		return clinicTime;
+	}
+
+	public void setClinicTime(String clinicTime) {
+		this.clinicTime = clinicTime;
+	}
+
+	public String getDocJob() {
+		return docJob;
+	}
+
+	public void setDocJob(String docJob) {
+		this.docJob = docJob;
+	}
+
+	private String pyCode;
+	public String getPyCode() {
+		return pyCode;
+	}
+
+	public void setPyCode(String pyCode) {
+		this.pyCode = pyCode;
+	}
+
+	/**
+	 * 页面显示,不入库,医院名称
+	 */
+	private String hosName;
+	/**
+	 * 页面显示,不入库，部门名称
+	 */
+	private String deptName;
+	/**
+	 * 页面显示,不入库，部门ID
+	 */
+	private Integer deptId;
+	
+	private String docSex;
+
+	public String getDocSex() {
+		return docSex;
+	}
+
+	public void setDocSex(String docSex) {
+		this.docSex = docSex;
+	}
+
+	public Integer getDocId() {
+		return docId;
+	}
+
+	public void setDocId(Integer docId) {
+		this.docId = docId;
+	}
+
+	public String getHosId() {
+		return hosId;
+	}
+
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+
+	public String getDocName() {
+		return docName;
+	}
+
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+
+	public String getDocTitle() {
+		return docTitle;
+	}
+
+	public void setDocTitle(String docTitle) {
+		this.docTitle = docTitle;
+	}
+
+	public String getDocEdu() {
+		return docEdu;
+	}
+
+	public void setDocEdu(String docEdu) {
+		this.docEdu = docEdu;
+	}
+
+	public String getIntro() {
+		return intro;
+	}
+
+	public void setIntro(String intro) {
+		this.intro = intro;
+	}
+
+	public String getGoodat() {
+		return goodat;
+	}
+
+	public void setGoodat(String goodat) {
+		this.goodat = goodat;
+	}
+
+	public Integer getBookCount() {
+		return bookCount;
+	}
+
+	public void setBookCount(Integer bookCount) {
+		this.bookCount = bookCount;
+	}
+
+	public Integer getFavoCount() {
+		return favoCount;
+	}
+
+	public void setFavoCount(Integer favoCount) {
+		this.favoCount = favoCount;
+	}
+
+	
+
+	public String getPlatDocId() {
+		return platDocId;
+	}
+
+	public void setPlatDocId(String platDocId) {
+		this.platDocId = platDocId;
+	}
+
+	public String getWeibo() {
+		return weibo;
+	}
+
+	public void setWeibo(String weibo) {
+		this.weibo = weibo;
+	}
+
+	public String getWeixin() {
+		return weixin;
+	}
+
+	public void setWeixin(String weixin) {
+		this.weixin = weixin;
+	}
+
+	public Integer getShowNo() {
+		return showNo;
+	}
+
+	public void setShowNo(Integer showNo) {
+		this.showNo = showNo;
+	}
+
+	public String getHosName() {
+		return hosName;
+	}
+
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public Integer getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
+	}
+}

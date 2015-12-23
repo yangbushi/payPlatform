@@ -1,0 +1,16 @@
+package com.herenit.cloud.dict;
+
+public enum ImplType {
+	Local, Cloud, Hosp;
+	public String value() {
+		switch (this) {
+		case Local:
+			return "0"; // 本地程序实现
+		case Cloud:
+			return "2"; // 云端实现
+		case Hosp:
+			return "1"; // 医院端实现
+		}
+		return "0";
+	}
+}

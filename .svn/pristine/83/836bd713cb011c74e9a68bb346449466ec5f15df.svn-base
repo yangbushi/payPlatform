@@ -1,0 +1,34 @@
+package com.tynet.dao;
+
+import com.tynet.model.DzSymMap;
+import com.tynet.model.DzSymMapExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface DzSymMapMapper {
+    int countByExample(DzSymMapExample example);
+
+    int deleteByExample(DzSymMapExample example);
+
+    List<DzSymMap> selectByExample(DzSymMapExample example);
+
+    int updateByExampleSelective(@Param("record") DzSymMap record, @Param("example") DzSymMapExample example);
+
+    int updateByExample(@Param("record") DzSymMap record, @Param("example") DzSymMapExample example);
+
+    List<DzSymMap> selectByExampleAndPage(DzSymMapExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(Long symMapId);
+
+    int insert(DzSymMap record);
+
+    int insertSelective(DzSymMap record);
+
+    DzSymMap selectByPrimaryKey(Long symMapId);
+
+    int updateByPrimaryKeySelective(DzSymMap record);
+
+    int updateByPrimaryKey(DzSymMap record);
+}

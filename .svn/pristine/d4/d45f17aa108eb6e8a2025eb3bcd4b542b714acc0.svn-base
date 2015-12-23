@@ -1,0 +1,24 @@
+package com.tynet.model;
+
+
+public class HosEmployeesKey {
+    private String hosId;
+
+    private String zgid;
+
+    public String getHosId() {
+        return hosId;
+    }
+
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+
+    public String getZgid() {
+        return zgid;
+    }
+
+    public void setZgid(String zgid) {
+        this.zgid = zgid;
+    }
+}

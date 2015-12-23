@@ -1,0 +1,161 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class CmsTitle implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
+
+	private String title;
+
+	private String titleImg;
+
+	private String source;
+
+	private String sourceUrl;
+
+	private String createUserId;
+
+	private Date createTime;
+
+	private String chkUserId;
+
+	private Date chkTime;
+
+	private String chkFlag;
+
+	private String color;
+	// 公告类型，页面显示
+	private String typeName;
+	// 公告类型ID
+	private String typeId;
+	// 公告父ID
+	private String pid;
+	// 公告内容
+	private String content;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getTitleImg() {
+		return titleImg;
+	}
+
+	public void setTitleImg(String titleImg) {
+		this.titleImg = titleImg;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getSourceUrl() {
+		return sourceUrl;
+	}
+
+	public void setSourceUrl(String sourceUrl) {
+		this.sourceUrl = sourceUrl;
+	}
+
+	public String getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getChkUserId() {
+		return chkUserId;
+	}
+
+	public void setChkUserId(String chkUserId) {
+		this.chkUserId = chkUserId;
+	}
+
+	public Date getChkTime() {
+		return chkTime;
+	}
+
+	public void setChkTime(Date chkTime) {
+		this.chkTime = chkTime;
+	}
+
+	public String getChkFlag() {
+		return chkFlag;
+	}
+
+	public void setChkFlag(String chkFlag) {
+		this.chkFlag = chkFlag;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public String getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(String typeId) {
+		this.typeId = typeId;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+}

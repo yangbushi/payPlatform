@@ -1,0 +1,32 @@
+package com.tynet.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.HosOrder;
+
+@Repository
+public interface HosOrderMapper {
+	
+    int deleteByPrimaryKey(Long orderId);
+
+    int insert(HosOrder record);
+
+    int insertSelective(HosOrder record);
+
+    HosOrder selectByPrimaryKey(Long orderId);
+    
+    HosOrder selectByBackNumber(@Param("hosId") String hosId, @Param("hosOrderId") String hosOrderId);
+    
+    List<HosOrder> selectByPsnId(@Param("psnId") String psnId, @Param("todayStr") String todayStr);
+    
+    List<HosOrder> selectByPsnIdHosId(@Param("psnId") String psnId, @Param("hosId") String hosId);
+
+    int updateByPrimaryKeySelective(HosOrder record);
+
+    int updateByPrimaryKey(HosOrder record);
+
+	HosOrder selectByTradeNo(@Param("tradeNo") String tradeNo);
+}

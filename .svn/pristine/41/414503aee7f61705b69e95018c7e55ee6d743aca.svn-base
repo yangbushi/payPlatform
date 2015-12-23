@@ -1,0 +1,33 @@
+package com.defray.dao;
+
+import java.util.List;
+import java.util.Map;
+import java.lang.Integer;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.defray.bean.AccountAlipayEntity;
+
+
+@Repository
+public interface AccountAlipayMapper {
+
+	 
+	public Integer insert(AccountAlipayEntity accountAlipay);
+	public Integer update(AccountAlipayEntity accountAlipay);
+	
+	public Integer deleteByKey(@Param("key")Integer key);
+	public AccountAlipayEntity getByKey (@Param("key") Integer key);
+	
+	public Integer deleteByKey(@Param("key")String key);
+	public AccountAlipayEntity getByKey (@Param("key") String key);
+	
+	
+	public List<AccountAlipayEntity>  findEntitys(@Param("param")Map<String ,Object>  param);
+	public Integer getEntitysCount(@Param("param")Map<String ,Object>  param);
+	public AccountAlipayEntity getByHosId(@Param("hosId")String hosId);
+		
+		
+ 
+}

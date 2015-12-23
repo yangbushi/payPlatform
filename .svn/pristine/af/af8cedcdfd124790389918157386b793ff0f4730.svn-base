@@ -1,0 +1,232 @@
+package com.tynet.action;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class BaseAction extends ActionSupport {
+
+    private Logger logger = Logger.getLogger(getClass());
+    private static final long serialVersionUID = 9007242859196909496L;
+
+    protected int page = 1;
+    protected int pagesize = 15;
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPagesize() {
+        return pagesize;
+    }
+
+    public void setPagesize(int pagesize) {
+        this.pagesize = pagesize;
+    }
+
+    private String jsonString = "";
+
+    /**
+     * 获得request
+     */
+    public HttpServletRequest getRequest() {
+        return ServletActionContext.getRequest();
+    }
+
+    /**
+     * 获得response
+     */
+    public HttpServletResponse getResponse() {
+        return ServletActionContext.getResponse();
+    }
+
+    /**
+     * 获得session
+     */
+    public HttpSession getSession() {
+        return getRequest().getSession();
+    }
+
+    /**
+     * 获得servlet上下文
+     */
+    public ServletContext getServletContext() {
+        return ServletActionContext.getServletContext();
+    }
+
+    /**
+     * 获得action上下文
+     */
+    public ActionContext getContext() {
+        return ActionContext.getContext();
+    }
+
+    /**
+     * 向上下文中put值
+     *
+     * @param key
+     * @param value
+     */
+    public void putContext(String key, Object value) {
+        getContext().put(key, value);
+    }
+
+    /**
+     * 获得资源路径
+     */
+    public String getRealPath(String path) {
+        return getServletContext().getRealPath(path);
+    }
+
+    /**
+     * session 中存储对象
+     *
+     * @param key
+     * @param value
+     */
+    public void setAttribute(String key, Object value) {
+        getSession().setAttribute(key, value);
+    }
+
+    /**
+     * 获得session中的对象
+     *
+     * @param param
+     * @return
+     */
+    public Object getAttribute(String key) {
+        return getSession().getAttribute(key);
+    }
+
+    /**
+     * 获得request里面的参数值
+     *
+     * @param arg0
+     * @return
+     */
+    public String getParameter(String arg0) {
+        return getRequest().getParameter(arg0);
+    }
+
+    /**
+     * 获得数组对象参数
+     *
+     * @param arg0
+     * @return
+     */
+    public String[] getParameterValues(String arg0) {
+        return getRequest().getParameterValues(arg0);
+    }
+
+    /**
+     * 获得int型参数
+     *
+     * @param arg0
+     * @return
+     */
+    public int getIntParameter(String arg0) {
+        String p = getParameter(arg0);
+        try {
+            return Integer.parseInt(p);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public long getLongParameter(String arg0) {
+        String p = getParameter(arg0);
+        try {
+            return Long.parseLong(p);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    /**
+     * 获得Boolean型参数
+     *
+     * @param args0
+     * @return
+     */
+    public boolean getBoolParameter(String args0) {
+        String params = getParameter(args0);
+        if (params != null && ("yes".equalsIgnoreCase(params) || "1".equalsIgnoreCase(params) || "true".equalsIgnoreCase(params) || "do".equalsIgnoreCase(params))) {
+            return true;
+        }
+        return false;
+    }
+
+    public String getJsonString() {
+        return jsonString;
+    }
+
+    public void setJsonString(String jsonString) {
+        if (jsonString == null) {
+            jsonString = "";
+        } else {
+            this.jsonString = jsonString;
+        }
+
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public Map<String, String> getParamMap(HttpServletRequest request) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        Map<String, String> reqParamMap = new HashMap<String, String>();
+        reqParamMap.putAll(request.getParameterMap());
+        String key;
+        for (Iterator iterator = reqParamMap.keySet().iterator(); iterator.hasNext(); paramMap.put(key, request.getParameter(key)))
+            key = (String) iterator.next();
+
+        return paramMap;
+    }
+
+    protected PrintWriter getPrintWriter() {
+        HttpServletResponse response = getResponse();
+        response.setContentType((new StringBuilder("text/html;charset=")).append(getRequest().getCharacterEncoding()).toString());
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+            return out;
+        } catch (IOException e) {
+            logger.info((new StringBuilder("PrintWrite流生成错误")).append(e.getMessage()).toString());
+        }
+        return null;
+    }
+
+	protected void printWriter(String content) {
+		HttpServletResponse response = getResponse();
+		response.setContentType((new StringBuilder("text/html;charset=")).append(getRequest().getCharacterEncoding()).toString());
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.print(content);
+			if(logger.isDebugEnabled()){
+				logger.debug(content);
+			}
+		} catch (IOException e) {
+			logger.info((new StringBuilder("PrintWrite流生成错误")).append(e.getMessage()).toString());
+		} finally {
+			out.flush();
+			out.close();
+			out = null;
+		}
+	}
+}

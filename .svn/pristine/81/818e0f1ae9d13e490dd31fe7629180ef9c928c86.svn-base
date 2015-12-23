@@ -1,0 +1,62 @@
+package com.soft.gh.domain;
+
+import java.util.Date;
+
+public class TSms {
+
+    private Long dxid;
+    private String fssjh;
+    private String dxnr;
+    private Date jrsj;
+    private Integer dxzt;
+
+    public TSms() {
+
+    }
+
+    public TSms(String fssjh, String dxnr) {
+        this.fssjh = fssjh;
+        this.dxnr = dxnr;
+    }
+
+    public Long getDxid() {
+        return dxid;
+    }
+
+    public void setDxid(Long dxid) {
+        this.dxid = dxid;
+    }
+
+    public String getFssjh() {
+        return fssjh;
+    }
+
+    public void setFssjh(String fssjh) {
+        this.fssjh = fssjh;
+    }
+
+    public String getDxnr() {
+        return dxnr;
+    }
+
+    public void setDxnr(String dxnr) {
+        this.dxnr = dxnr;
+    }
+
+    public Date getJrsj() {
+        return jrsj;
+    }
+
+    public void setJrsj(Date jrsj) {
+        this.jrsj = jrsj;
+    }
+
+    public Integer getDxzt() {
+        return dxzt;
+    }
+
+    public void setDxzt(Integer dxzt) {
+        this.dxzt = dxzt;
+    }
+
+}

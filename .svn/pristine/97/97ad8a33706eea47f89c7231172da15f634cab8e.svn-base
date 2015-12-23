@@ -1,0 +1,176 @@
+package com.tynet.action;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.alibaba.fastjson.JSONObject;
+import com.alipay.util.AlipayNotify;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.model.AppDeploy;
+import com.herenit.cloud.util.RequestForwarder;
+import com.soft.gh.dao.TOrderMapper;
+import com.soft.gh.dao.TPatientMapper;
+import com.soft.gh.domain.TOrder;
+import com.soft.gh.domain.TPatient;
+import com.tynet.dao.GhHospitalMapper;
+import com.tynet.dao.HosOrderMapper;
+import com.tynet.model.GhHospital;
+import com.tynet.model.HosOrder;
+import com.tynet.util.Utils;
+
+
+@Controller
+@Scope("prototype")
+public class RefundNotifyOfAlipayAction extends BaseAction2 {
+	public static Logger refoundLog = LoggerFactory.getLogger("refoundLog");
+	public static Logger logger = LoggerFactory.getLogger("logfile");
+	private static Logger log = LoggerFactory.getLogger(RefundNotifyOfAlipayAction.class);
+	
+	@Autowired
+	private HosOrderMapper hosOrderDao;
+
+	private String orderId;
+	
+	private static final long serialVersionUID = -6287879347497083310L;
+
+	private String sign;	//签名
+	private String sign_type;
+	private String notify_id;
+	private String notify_type;
+	private String notify_time;
+	private String batch_no;
+	private String success_num;
+	private String result_details;
+	private String unfreezed_details;
+	public String refundNotifyOfAlipayAction() throws Exception{
+			log.info("$$$支付宝通知退款成功$$$");
+			Map<String,String> params = new HashMap<String,String>();
+			params.put("sign", sign);
+			params.put("sign_type", sign_type);
+			params.put("notify_id",notify_id);
+			params.put("notify_type", notify_type);
+			params.put("notify_time", notify_time);
+			params.put("batch_no", batch_no);
+			params.put("success_num",success_num);
+			params.put("result_details", result_details);
+			params.put("unfreezed_details", unfreezed_details);
+			
+			boolean verify_result = AlipayNotify.verify(params);
+			if(verify_result){//验证成功
+				//////////////////////////////////////////////////////////////////////////////////////////
+				//请在这里加上商户的业务逻辑程序代码
+				//——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
+				//判断是否在商户网站中已经做过了这次通知返回的处理
+				//如果没有做过处理，那么执行商户的业务程序
+				//如果有做过处理，那么不执行商户的业务程序
+				//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
+//				log.info(result_details);
+				String[] result_details_array=result_details.split("\\^");
+//				System.out.println(result_details);
+				String trade_no=result_details_array[0];
+				String refundFee=result_details_array[1];
+				String isSuccess=result_details_array[2];
+				log.info("$$$退款详情$$$:"+trade_no+"|"+refundFee+"|"+isSuccess+"|");
+				HosOrder hosOrder = hosOrderDao.selectByTradeNo(trade_no);
+				if(null != hosOrder){
+					if ("SUCCESS".equalsIgnoreCase(isSuccess)) {
+						hosOrder.setRefundTime(new Date());
+						hosOrder.setOrderStatus("30");
+						hosOrderDao.updateByPrimaryKey(hosOrder);
+					} else {
+						//???
+					}					
+				}				
+				
+				HttpServletResponse response = getResponse();
+				PrintWriter writer = null;
+                 try {    
+                     writer = response.getWriter();    
+                     writer.write("success");    
+                 }catch(Exception e){  
+                     e.printStackTrace();  
+                 } finally {    
+                     if (writer != null) {    
+                         writer.flush();    
+                         writer.close();    
+                     }    
+                 }  
+				return NONE;
+			}else{
+				//该页面可做页面美工编辑
+				return NONE;
+			}
+		
+	}
+	
+	
+	
+	public String getSign() {
+		return sign;
+	}
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+	public String getSign_type() {
+		return sign_type;
+	}
+	public void setSign_type(String sign_type) {
+		this.sign_type = sign_type;
+	}
+	public String getNotify_id() {
+		return notify_id;
+	}
+	public void setNotify_id(String notify_id) {
+		this.notify_id = notify_id;
+	}
+	
+	public String getNotify_type() {
+		return notify_type;
+	}
+	public void setNotify_type(String notify_type) {
+		this.notify_type = notify_type;
+	}
+	public String getNotify_time() {
+		return notify_time;
+	}
+	public void setNotify_time(String notify_time) {
+		this.notify_time = notify_time;
+	}
+	public String getBatch_no() {
+		return batch_no;
+	}
+	public void setBatch_no(String batch_no) {
+		this.batch_no = batch_no;
+	}
+	public String getSuccess_num() {
+		return success_num;
+	}
+	public void setSuccess_num(String success_num) {
+		this.success_num = success_num;
+	}
+	public String getResult_details() {
+		return result_details;
+	}
+	public void setResult_details(String result_details) {
+		this.result_details = result_details;
+	}
+	public String getUnfreezed_details() {
+		return unfreezed_details;
+	}
+	public void setUnfreezed_details(String unfreezed_details) {
+		this.unfreezed_details = unfreezed_details;
+	}	
+	
+}

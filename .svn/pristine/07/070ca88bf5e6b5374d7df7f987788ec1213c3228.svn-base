@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.HosSchemeMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.HosScheme" >
+    <id column="SCHEME_ID" property="schemeId" jdbcType="DECIMAL" />
+    <result column="DEPT_ID" property="deptId" jdbcType="DECIMAL" />
+    <result column="DOC_ID" property="docId" jdbcType="DECIMAL" />
+    <result column="AMPM" property="ampm" jdbcType="VARCHAR" />
+    <result column="WEEKDAY" property="weekday" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="TDOC_NAME" property="tdocName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="MgResultMap" type="com.tynet.model.HosScheme" extends="BaseResultMap">
+  	<result column="HOS_Name" property="hosName" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="Doc_Name" property="docName" jdbcType="VARCHAR" />
+    <result column="plt_Hos_Id" property="pltHosId" jdbcType="VARCHAR" />
+    <result column="plt_Doc_Id" property="pltDocId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+   SCHEME_ID, DEPT_ID, DOC_ID, AMPM, WEEKDAY, HOS_ID, TDOC_NAME 
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.HosSchemeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from HOS_SCHEME
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.HosSchemeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from HOS_SCHEME
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.HosSchemeExample" >
+    delete from HOS_SCHEME
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.HosSchemeExample" resultType="java.lang.Integer" >
+    select count(*) from HOS_SCHEME
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update HOS_SCHEME
+    <set >
+      <if test="record.schemeId != null" >
+        SCHEME_ID = #{record.schemeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deptId != null" >
+        DEPT_ID = #{record.deptId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.docId != null" >
+        DOC_ID = #{record.docId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ampm != null" >
+        AMPM = #{record.ampm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weekday != null" >
+        WEEKDAY = #{record.weekday,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hosId != null" >
+        HOS_ID = #{record.hosId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update HOS_SCHEME
+    set SCHEME_ID = #{record.schemeId,jdbcType=DECIMAL},
+      DEPT_ID = #{record.deptId,jdbcType=DECIMAL},
+      DOC_ID = #{record.docId,jdbcType=DECIMAL},
+      AMPM = #{record.ampm,jdbcType=VARCHAR},
+      WEEKDAY = #{record.weekday,jdbcType=VARCHAR},
+      HOS_ID = #{record.hosId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from HOS_SCHEME
+    where SCHEME_ID = #{schemeId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from HOS_SCHEME
+    where SCHEME_ID = #{schemeId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.HosScheme" >
+    insert into HOS_SCHEME (SCHEME_ID, DEPT_ID, DOC_ID, 
+      AMPM, WEEKDAY, HOS_ID
+      )
+    values (seq_hos_schemeid.nextval, #{deptId,jdbcType=DECIMAL}, #{docId,jdbcType=DECIMAL}, 
+      #{ampm,jdbcType=VARCHAR}, #{weekday,jdbcType=VARCHAR}, #{hosId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.HosScheme" >
+    insert into HOS_SCHEME
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      SCHEME_ID,
+      DEPT_ID,
+      DOC_ID,
+      AMPM,
+      WEEKDAY,
+      HOS_ID,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      seq_hos_schemeid.nextval,
+      #{deptId,jdbcType=DECIMAL},
+      #{docId,jdbcType=DECIMAL},
+      #{ampm,jdbcType=VARCHAR},
+      #{weekday,jdbcType=VARCHAR},
+      #{hosId,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.HosScheme" >
+    update HOS_SCHEME
+    <set >
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=DECIMAL},
+      </if>
+      <if test="docId != null" >
+        DOC_ID = #{docId,jdbcType=DECIMAL},
+      </if>
+      <if test="ampm != null" >
+        AMPM = #{ampm,jdbcType=VARCHAR},
+      </if>
+      <if test="weekday != null" >
+        WEEKDAY = #{weekday,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SCHEME_ID = #{schemeId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.HosScheme" >
+    update HOS_SCHEME
+    set DEPT_ID = #{deptId,jdbcType=DECIMAL},
+      DOC_ID = #{docId,jdbcType=DECIMAL},
+      AMPM = #{ampm,jdbcType=VARCHAR},
+      WEEKDAY = #{weekday,jdbcType=VARCHAR},
+      HOS_ID = #{hosId,jdbcType=VARCHAR}
+    where SCHEME_ID = #{schemeId,jdbcType=DECIMAL}
+  </update>
+  <select id="selectBySchemeId" resultMap="MgResultMap">
+	select s.*,hos.hos_name, dept.dept_name, doc.doc_name from HOS_SCHEME s
+	left join gh_hospital hos on s.HOS_ID = hos.HOS_ID
+	left join GH_DEPT dept on s.DEPT_ID = dept.DEPT_ID
+	left join GH_DOC doc on s.DOC_ID = doc.DOC_ID
+	where s.SCHEME_ID = #{schemeId,jdbcType=DECIMAL}
+  </select>
+  <select id="mgQuery" resultMap="MgResultMap">
+	select s.*,hos.hos_name, dept.dept_name, doc.doc_name from HOS_SCHEME s
+	left join gh_hospital hos on s.HOS_ID = hos.HOS_ID
+	left join GH_DEPT dept on s.DEPT_ID = dept.DEPT_ID
+	left join GH_DOC doc on s.DOC_ID = doc.DOC_ID 
+  </select>
+  <select id="query" resultMap="MgResultMap">
+	select s.*,hos.hos_name, dept.dept_name, nvl(doc.doc_name,s.tdoc_name)
+	as Doc_Name,hos.PLAT_CODE as plt_Hos_Id,doc.PLAT_DOC_ID as plt_Doc_Id
+	from HOS_SCHEME s
+	left join gh_hospital hos on s.HOS_ID = hos.HOS_ID
+	left
+	join GH_DEPT dept on s.DEPT_ID = dept.DEPT_ID
+	left join GH_DOC doc on
+	s.DOC_ID = doc.DOC_ID
+	<where>
+		<if test="hosId != null and hosId != ''">
+			s.HOS_ID = #{hosId,jdbcType=VARCHAR}
+		</if>
+		<if test="deptId != null and deptId != ''">
+			AND s.DEPT_ID = #{deptId,jdbcType=VARCHAR}
+		</if>
+	</where>
+  </select>
+  <select id="queryOtherDept" resultMap="MgResultMap">
+	select distinct s.DEPT_ID, dept.dept_name from HOS_SCHEME s
+	left join gh_hospital hos on s.HOS_ID = hos.HOS_ID
+	left join GH_DEPT
+	dept on s.DEPT_ID = dept.DEPT_ID
+	where
+	s.HOS_ID = #{hosId}
+	AND s.DEPT_ID != #{deptId}
+  </select>
+      <select id="queryHosSchemeDept" resultMap="MgResultMap" parameterType="java.lang.String">
+	select distinct s.DEPT_ID, dept.dept_name from HOS_SCHEME s
+	left join gh_hospital hos on s.HOS_ID = hos.HOS_ID
+	left join GH_DEPT
+	dept on s.DEPT_ID = dept.DEPT_ID
+	where
+	s.HOS_ID = #{hosId}
+  </select>
+</mapper>

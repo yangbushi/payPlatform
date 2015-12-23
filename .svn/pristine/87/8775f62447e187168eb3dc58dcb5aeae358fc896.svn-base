@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.defray.dao.AccountAlipayMapper">
+
+	<resultMap id="BASE-RESULT" type="com.defray.bean.AccountAlipayEntity">
+		<result property="id" column="id" />
+		<result property="hospitalId" column="hospital_id" />
+		<result property="defrayType" column="defray_type" />
+		<result property="partner" column="partner" />
+		<result property="sellerEmail" column="seller_email" />
+		<result property="md5Key" column="md5_key" />
+		<result property="privateKey" column="private_key" />
+		<result property="aliPublicKey" column="ali_public_key" />
+		<result property="logPath" column="log_path" />
+		<result property="inputCharset" column="input_charset" />
+		<result property="signType" column="sign_type" />
+		<result property="alipayGateway" column="alipay_gateway" />
+		<result property="format" column="format" />
+		<result property="v" column="v" />
+		<result property="payExpire" column="pay_expire" />
+		<result property="isDel" column="is_del" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	
+  	<insert id="insert" parameterType="com.defray.bean.AccountAlipayEntity">
+  		INSERT INTO pp_account_alipay ( 
+			id,hospital_id,defray_type,partner,seller_email,md5_key,private_key,ali_public_key,log_path,input_charset,sign_type,alipay_gateway,format,v,pay_expire,is_del,create_time,update_time			
+  		) VALUES (
+			#{id},#{hospitalId},#{defrayType},#{partner},#{sellerEmail},#{md5Key},#{privateKey},#{aliPublicKey},#{logPath},#{inputCharset},#{signType},#{alipayGateway},#{format},#{v},#{payExpire},#{isDel},#{createTime},#{updateTime}			
+  		)   
+    	<selectKey resultType="Integer" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	
+  	<update id="update" parameterType="com.defray.bean.AccountAlipayEntity" >
+		UPDATE
+			pp_account_alipay
+		SET
+			 <if test="id!=null"> id = #{id} </if>
+			 <if test="hospitalId!=null">, hospital_id = #{hospitalId} </if>
+			 <if test="defrayType!=null">, defray_type = #{defrayType} </if>
+			 <if test="partner!=null">, partner = #{partner} </if>
+			 <if test="sellerEmail!=null">, seller_email = #{sellerEmail} </if>
+			 <if test="md5Key!=null">, md5_key = #{md5Key} </if>
+			 <if test="privateKey!=null">, private_key = #{privateKey} </if>
+			 <if test="aliPublicKey!=null">, ali_public_key = #{aliPublicKey} </if>
+			 <if test="logPath!=null">, log_path = #{logPath} </if>
+			 <if test="inputCharset!=null">, input_charset = #{inputCharset} </if>
+			 <if test="signType!=null">, sign_type = #{signType} </if>
+			 <if test="alipayGateway!=null">, alipay_gateway = #{alipayGateway} </if>
+			 <if test="format!=null">, format = #{format} </if>
+			 <if test="v!=null">, v = #{v} </if>
+			 <if test="payExpire!=null">, pay_expire = #{payExpire} </if>
+			 <if test="isDel!=null">, is_del = #{isDel} </if>
+			 <if test="createTime!=null">, create_time = #{createTime} </if>
+			 <if test="updateTime!=null">, update_time = #{updateTime} </if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	
+	<select id="getByKey" resultMap="BASE-RESULT">
+		SELECT * FROM
+			pp_account_alipay
+		<where>
+			id = #{key}
+		</where>
+	</select>
+	
+	<select id="getByHosId" resultMap="BASE-RESULT">
+		SELECT * FROM
+			pp_account_alipay
+		<where>
+			hospital_id = #{hosId}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM
+			pp_account_alipay
+		<where>
+			id = #{key}
+		</where>
+	</delete>
+	
+	<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">
+		SELECT * FROM
+			pp_account_alipay
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+		<if test="param.orderByStr!=null">
+			order by ${param.orderByStr}
+		</if>
+		<if test="param.start!=null and param.pageNum!=null">LIMIT #{param.start},#{param.pageNum}</if>
+	</select>
+
+
+	<select id="getEntitysCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM
+			pp_account_alipay
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+	</select>
+	
+	<sql id="compareParamColumns">
+		1
+  		<if test="param.id!=null">
+  			AND  id = #{param.id}
+  		</if>
+  		<if test="param.hospitalId!=null">
+  			AND  hospital_id = #{param.hospitalId}
+  		</if>
+  		<if test="param.defrayType!=null">
+  			AND  defray_type = #{param.defrayType}
+  		</if>
+  		<if test="param.partner!=null">
+  			AND  partner = #{param.partner}
+  		</if>
+  		<if test="param.sellerEmail!=null">
+  			AND  seller_email = #{param.sellerEmail}
+  		</if>
+  		<if test="param.md5Key!=null">
+  			AND  md5_key = #{param.md5Key}
+  		</if>
+  		<if test="param.privateKey!=null">
+  			AND  private_key = #{param.privateKey}
+  		</if>
+  		<if test="param.aliPublicKey!=null">
+  			AND  ali_public_key = #{param.aliPublicKey}
+  		</if>
+  		<if test="param.logPath!=null">
+  			AND  log_path = #{param.logPath}
+  		</if>
+  		<if test="param.inputCharset!=null">
+  			AND  input_charset = #{param.inputCharset}
+  		</if>
+  		<if test="param.signType!=null">
+  			AND  sign_type = #{param.signType}
+  		</if>
+  		<if test="param.alipayGateway!=null">
+  			AND  alipay_gateway = #{param.alipayGateway}
+  		</if>
+  		<if test="param.format!=null">
+  			AND  format = #{param.format}
+  		</if>
+  		<if test="param.v!=null">
+  			AND  v = #{param.v}
+  		</if>
+  		<if test="param.payExpire!=null">
+  			AND  pay_expire = #{param.payExpire}
+  		</if>
+  		<if test="param.isDel!=null">
+  			AND  is_del = #{param.isDel}
+  		</if>
+  		<if test="param.createTime!=null">
+  			AND  create_time = #{param.createTime}
+  		</if>
+  		<if test="param.updateTime!=null">
+  			AND  update_time = #{param.updateTime}
+  		</if>
+	</sql>
+	
+	<!-- mybatis-config.xml 
+	<typeAlias alias="AccountAlipayEntity" 	type="bean.AccountAlipayEntity" />
+	<mapper resource="sql-mapper/AccountAlipayMapper.xml" />
+	-->
+	<!-- spring-dao-beans.xml
+	<bean id="AccountAlipayDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+    	<property name="mapperInterface" value="dao.AccountAlipayDao" />  
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />  
+	</bean>
+	-->
+</mapper>

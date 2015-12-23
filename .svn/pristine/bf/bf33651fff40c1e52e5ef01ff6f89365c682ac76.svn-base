@@ -1,0 +1,40 @@
+package com.soft.gh.domain;
+
+public class LuceneSearcResult {
+    private String name;
+    private String quanpin;
+    private String jianpin;
+    private String Id;
+
+    public String getId() {
+        return this.Id;
+    }
+
+    public void setId(String id) {
+        this.Id = id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getJianpin() {
+        return this.jianpin;
+    }
+
+    public void setJianpin(String jianpin) {
+        this.jianpin = jianpin;
+    }
+
+    public String getQuanpin() {
+        return quanpin;
+    }
+
+    public void setQuanpin(String quanpin) {
+        this.quanpin = quanpin;
+    }
+}

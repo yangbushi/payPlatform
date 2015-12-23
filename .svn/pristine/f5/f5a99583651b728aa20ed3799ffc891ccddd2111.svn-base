@@ -1,0 +1,112 @@
+package com.herenit.cloud.manager.impl;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.manager.AbstractExecuteStrategy;
+import com.herenit.cloud.model.AppDeploy;
+import com.herenit.cloud.model.AppFunction;
+import com.soft.gh.dao.TPatientMapper;
+import com.soft.gh.domain.TPatient;
+import com.tynet.util.IdCardUtils;
+import com.tynet.util.Utils;
+
+@Service
+public class CloudExecuteStrategy extends AbstractExecuteStrategy {
+	private static Logger log = Logger.getLogger(CloudExecuteStrategy.class);
+	@Autowired
+	private TPatientMapper patientDao;
+	
+	@Override
+	public JSONObject beforeRequestHandler(AppDeploy deploy, AppFunction fun,
+			final JSONObject request) throws BusException {
+		JSONObject req = JSON.parseObject(request.toJSONString());
+		// 此处为应用级别的规则
+		req.remove("hosId"); // 转发到医院或者云平台的信息不再需要hosId属性
+		req.remove("clientIp");
+		return req;
+	}
+
+	@Override
+	public JSONObject postResponseHandler(AppDeploy deploy, AppFunction fun,
+			final JSONObject request, final JSONObject response)
+			throws BusException {
+		JSONObject args=request.getJSONObject("args");
+		String funCode=request.getString("funcode");
+		String userId="";
+		if ("200101".equals(funCode)) {
+			userId=regPatient(args);
+		}
+		if (StringUtils.isNotEmpty(userId)) {
+			JSONObject data=response.getJSONObject("data");
+			if (data!=null) {
+				data.put("userId", userId);
+			}
+			
+		}
+		return response;
+	}
+	
+	private String regPatient(JSONObject args) {
+
+		TPatient patient = new TPatient();
+		TPatient flag = null;
+		patient.setPassword(args.getString("password"));
+		patient.setPatientName(args.getString("name"));
+		patient.setPatientMobile(args.getString("mobile"));
+		patient.setHosPlatCode(args.getString("orgCode"));
+//		patient.setPatientHosCardId(args.getString("visitingcard"));
+		patient.setPatientCard(args.getString("idCard").toUpperCase());
+		patient.setOperNo(args.getString("clientIp"));
+//		log.info("注册账号操作人IP:[" + patient.getOperNo() + "]");
+		patient.setChannel("3");
+		patient.setPatientMediCardType("");
+
+//		patient.setPatientSex(IdCardUtils.getGenderByIdCard(patient.getPatientCard()));
+		String sexCode=args.getString("sex");
+		if ("1".equals(sexCode)) {
+			patient.setPatientSex("男");
+		} else if("2".equals(sexCode)){
+			patient.setPatientSex("女");
+		}else if ("0".equals(sexCode)) {
+			patient.setPatientSex("未知");
+		} else {
+			patient.setPatientSex("未填");
+		}
+		
+		patient.setPatientIdCardType("0");
+//		if(!IdCardUtils.validateCard(args.getString("idCard").toUpperCase())){
+//			return "";
+//		}
+		flag = patientDao.selectByPatientCard(args.getString("idCard").toUpperCase());
+
+		if (flag != null) {
+			return String.valueOf(flag.getPatientId());
+			
+		} else {
+			patient.setOpenId("");
+			patient.setUid("");
+			
+
+			patientDao.insertHosPatient(patient);
+			 TPatient p = patientDao.selectByPatientCard(patient.getPatientCard().toUpperCase());
+//			 patient.setPatientId(p.getPatientId());
+//			 String token = Const.add(patient);
+//			 JSONObject data = new JSONObject();
+//			
+//			 data.put("patient", patient);
+//			 data.put("token", token);
+//			 log.info("保存患者名为：[" + patient.getPatientName() + "]，患者证件号为：[" +
+//			 patient.getPatientCard() + "] 的患者信息成功");
+			
+//			 return Utils.GetRetJSONString("0", data);
+			 return String.valueOf(p.getPatientId());
+			
+		}
+	}
+}

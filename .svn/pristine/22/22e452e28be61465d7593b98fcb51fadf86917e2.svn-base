@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.GhPatientCardMapMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.GhPatientCardMap" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="MEDICAL_CARD" property="medicalCard" jdbcType="VARCHAR" />
+    <result column="CARD_TYPE" property="cardType" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, HOS_ID, MEDICAL_CARD, CARD_TYPE, USER_ID
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.GhPatientCardMapExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from YYGH.GH_PATIENT_CARD_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.GhPatientCardMapExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from YYGH.GH_PATIENT_CARD_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select a."ID", a.HOS_ID,a.MEDICAL_CARD,b.label CARD_TYPE from GH_PATIENT_CARD_MAP a left join 
+(select * from SYS_DICT where type='card_type') b
+  ON a.CARD_TYPE=b."VALUE"  where a.USER_ID=#{userId}
+  </select>
+   <select id="selectByUserIdOfHos"  resultMap="BaseResultMap">
+      select a."ID", a.HOS_ID,a.MEDICAL_CARD,b.label CARD_TYPE from GH_PATIENT_CARD_MAP a left join 
+(select * from SYS_DICT where type='card_type') b
+  ON a.CARD_TYPE=b."VALUE"  where a.USER_ID=#{userId,jdbcType=VARCHAR} and a.HOS_ID=#{hosId,jdbcType=VARCHAR}
+  and a.MEDICAL_CARD=#{card,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.GhPatientCardMapExample" >
+    delete from YYGH.GH_PATIENT_CARD_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.GhPatientCardMapExample" resultType="java.lang.Integer" >
+    select count(*) from YYGH.GH_PATIENT_CARD_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update YYGH.GH_PATIENT_CARD_MAP
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hosId != null" >
+        HOS_ID = #{record.hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.medicalCard != null" >
+        MEDICAL_CARD = #{record.medicalCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardType != null" >
+        CARD_TYPE = #{record.cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update YYGH.GH_PATIENT_CARD_MAP
+    set ID = #{record.id,jdbcType=DECIMAL},
+      HOS_ID = #{record.hosId,jdbcType=VARCHAR},
+      MEDICAL_CARD = #{record.medicalCard,jdbcType=VARCHAR},
+      CARD_TYPE = #{record.cardType,jdbcType=VARCHAR},
+      USER_ID = #{record.userId,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from YYGH.GH_PATIENT_CARD_MAP
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from YYGH.GH_PATIENT_CARD_MAP
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+ <insert id="insert" parameterType="com.tynet.model.GhPatientCardMap" >
+
+    insert into YYGH.GH_PATIENT_CARD_MAP (ID, USER_ID,HOS_ID, MEDICAL_CARD, 
+      CARD_TYPE)
+    values (gh_patient_card_map_seq.nextval,#{userId,jdbcType=BIGINT}, #{hosId,jdbcType=VARCHAR}, #{medicalCard,jdbcType=VARCHAR}, 
+      #{cardType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.GhPatientCardMap" >
+    insert into YYGH.GH_PATIENT_CARD_MAP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      HOS_ID,
+      MEDICAL_CARD,
+      CARD_TYPE,
+      USER_ID,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      #{hosId,jdbcType=VARCHAR},
+      #{medicalCard,jdbcType=VARCHAR},
+      #{cardType,jdbcType=VARCHAR},
+      #{userId,jdbcType=DECIMAL},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.GhPatientCardMap" >
+    update YYGH.GH_PATIENT_CARD_MAP
+    <set >
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalCard != null" >
+        MEDICAL_CARD = #{medicalCard,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        CARD_TYPE = #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.GhPatientCardMap" >
+    update YYGH.GH_PATIENT_CARD_MAP
+    set HOS_ID = #{hosId,jdbcType=VARCHAR},
+      MEDICAL_CARD = #{medicalCard,jdbcType=VARCHAR},
+      CARD_TYPE = #{cardType,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+</mapper>

@@ -1,0 +1,47 @@
+package com.herenit.cloud.util;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.tynet.model.GhDept;
+import com.tynet.model.GhDoc;
+
+public class DataCache {
+	public  static Map<String, GhDoc> docs=null;
+	public  static Map<String, GhDept> depts=null;
+	public static Map<String, String> titleMap=null;
+	
+	
+	
+	
+	
+	public static void initTitleMap() {
+		titleMap=new HashMap<String, String>();
+		titleMap.put("231", "主任医师");
+		titleMap.put("232", "副主任医师");
+		titleMap.put("233", "主治医师");
+		titleMap.put("234", "医师");
+		titleMap.put("235", "医士");
+		
+		titleMap.put("241", "主任药师");
+		titleMap.put("242", "副主任药师");
+		titleMap.put("243", "主管药师");
+		titleMap.put("244", "药师");
+		titleMap.put("245", "药士");
+		
+		titleMap.put("251", "主任护师");
+		titleMap.put("252", "副主任护师");
+		titleMap.put("253", "主管护师");
+		titleMap.put("254", "护师");
+		titleMap.put("255", "护士");
+
+		titleMap.put("261", "主任技师");
+		titleMap.put("262", "副主任技师");
+		titleMap.put("263", "主管技师");
+		titleMap.put("264", "技师");
+		titleMap.put("265", "技士");
+	}
+	
+	
+	
+}

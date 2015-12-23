@@ -1,0 +1,75 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class GhPatient implements Serializable {
+    private Long patientId;
+
+    private String patientName;
+
+    private String patientCard;
+
+    private String patientJzkh;
+
+    private Long hzid;
+
+    private String patientPhone;
+    
+    private String relation;
+
+    public String getRelation() {
+		return relation;
+	}
+
+	public void setRelation(String relation) {
+		this.relation = relation;
+	}
+
+	public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
+    public String getPatientCard() {
+        return patientCard;
+    }
+
+    public void setPatientCard(String patientCard) {
+        this.patientCard = patientCard;
+    }
+
+    public String getPatientJzkh() {
+        return patientJzkh;
+    }
+
+    public void setPatientJzkh(String patientJzkh) {
+        this.patientJzkh = patientJzkh;
+    }
+
+    public Long getHzid() {
+        return hzid;
+    }
+
+    public void setHzid(Long hzid) {
+        this.hzid = hzid;
+    }
+
+    public String getPatientPhone() {
+        return patientPhone;
+    }
+
+    public void setPatientPhone(String patientPhone) {
+        this.patientPhone = patientPhone;
+    }
+}

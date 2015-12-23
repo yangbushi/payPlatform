@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.DzSymMapMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.DzSymMap" >
+    <id column="SYM_MAP_ID" property="symMapId" jdbcType="DECIMAL" />
+    <result column="SYM_ID" property="symId" jdbcType="DECIMAL" />
+    <result column="MAP_SYM_NAME" property="mapSymName" jdbcType="VARCHAR" />
+    <result column="PART_ID" property="partId" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SYM_MAP_ID, SYM_ID, MAP_SYM_NAME, PART_ID, "STATUS"
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.DzSymMapExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from DZ_SYM_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.DzSymMapExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from DZ_SYM_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.DzSymMapExample" >
+    delete from DZ_SYM_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.DzSymMapExample" resultType="java.lang.Integer" >
+    select count(*) from DZ_SYM_MAP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update DZ_SYM_MAP
+    <set >
+      <if test="record.symMapId != null" >
+        SYM_MAP_ID = #{record.symMapId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.symId != null" >
+        SYM_ID = #{record.symId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mapSymName != null" >
+        MAP_SYM_NAME = #{record.mapSymName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partId != null" >
+        PART_ID = #{record.partId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null" >
+        "STATUS" = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update DZ_SYM_MAP
+    set SYM_MAP_ID = #{record.symMapId,jdbcType=DECIMAL},
+      SYM_ID = #{record.symId,jdbcType=DECIMAL},
+      MAP_SYM_NAME = #{record.mapSymName,jdbcType=VARCHAR},
+      PART_ID = #{record.partId,jdbcType=DECIMAL},
+      "STATUS" = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from DZ_SYM_MAP
+    where SYM_MAP_ID = #{symMapId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from DZ_SYM_MAP
+    where SYM_MAP_ID = #{symMapId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.DzSymMap" >
+    insert into DZ_SYM_MAP (SYM_MAP_ID, SYM_ID, MAP_SYM_NAME, 
+      PART_ID, "STATUS")
+    values (#{symMapId,jdbcType=DECIMAL}, #{symId,jdbcType=DECIMAL}, #{mapSymName,jdbcType=VARCHAR}, 
+      #{partId,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.DzSymMap" >
+    insert into DZ_SYM_MAP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      SYM_MAP_ID,
+      SYM_ID,
+      MAP_SYM_NAME,
+      PART_ID,
+      "STATUS",
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{symMapId,jdbcType=DECIMAL},
+      #{symId,jdbcType=DECIMAL},
+      #{mapSymName,jdbcType=VARCHAR},
+      #{partId,jdbcType=DECIMAL},
+      #{status,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.DzSymMap" >
+    update DZ_SYM_MAP
+    <set >
+      <if test="symId != null" >
+        SYM_ID = #{symId,jdbcType=DECIMAL},
+      </if>
+      <if test="mapSymName != null" >
+        MAP_SYM_NAME = #{mapSymName,jdbcType=VARCHAR},
+      </if>
+      <if test="partId != null" >
+        PART_ID = #{partId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        "STATUS" = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SYM_MAP_ID = #{symMapId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.DzSymMap" >
+    update DZ_SYM_MAP
+    set SYM_ID = #{symId,jdbcType=DECIMAL},
+      MAP_SYM_NAME = #{mapSymName,jdbcType=VARCHAR},
+      PART_ID = #{partId,jdbcType=DECIMAL},
+      "STATUS" = #{status,jdbcType=VARCHAR}
+    where SYM_MAP_ID = #{symMapId,jdbcType=DECIMAL}
+  </update>
+</mapper>

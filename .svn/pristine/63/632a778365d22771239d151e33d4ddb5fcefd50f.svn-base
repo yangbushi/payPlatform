@@ -1,0 +1,28 @@
+package com.tynet.dao;
+
+import com.tynet.model.GhDeptDocExample;
+import com.tynet.model.GhDeptDocKey;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface GhDeptDocMapper {
+    int countByExample(GhDeptDocExample example);
+
+    int deleteByExample(GhDeptDocExample example);
+
+    List<GhDeptDocKey> selectByExample(GhDeptDocExample example);
+
+    int updateByExampleSelective(@Param("record") GhDeptDocKey record, @Param("example") GhDeptDocExample example);
+
+    int updateByExample(@Param("record") GhDeptDocKey record, @Param("example") GhDeptDocExample example);
+
+    List<GhDeptDocKey> selectByExampleAndPage(GhDeptDocExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(GhDeptDocKey key);
+
+    int insert(GhDeptDocKey record);
+
+    int insertSelective(GhDeptDocKey record);
+}

@@ -1,0 +1,76 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class GhRateHos implements Serializable {
+    private Long id;
+
+    private Long patientId;
+
+    private Long hosId;
+
+    private Integer rateGuideService;
+
+    private Integer rateWaitingTime;
+
+    private String rateContent;
+
+    private Date rateTime;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
+
+    public Long getHosId() {
+        return hosId;
+    }
+
+    public void setHosId(Long hosId) {
+        this.hosId = hosId;
+    }
+
+    public Integer getRateGuideService() {
+        return rateGuideService;
+    }
+
+    public void setRateGuideService(Integer rateGuideService) {
+        this.rateGuideService = rateGuideService;
+    }
+
+    public Integer getRateWaitingTime() {
+        return rateWaitingTime;
+    }
+
+    public void setRateWaitingTime(Integer rateWaitingTime) {
+        this.rateWaitingTime = rateWaitingTime;
+    }
+
+    public String getRateContent() {
+        return rateContent;
+    }
+
+    public void setRateContent(String rateContent) {
+        this.rateContent = rateContent;
+    }
+
+    public Date getRateTime() {
+        return rateTime;
+    }
+
+    public void setRateTime(Date rateTime) {
+        this.rateTime = rateTime;
+    }
+}

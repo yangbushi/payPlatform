@@ -1,0 +1,103 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class GHCall implements Serializable {
+
+	private static final long serialVersionUID = 2749067242301331606L;
+	private String id;
+	private String deptName;
+	private String docName;
+	private String clinicDate;
+	private String clinicType;
+	private String curNo;
+	private String regNo;
+
+	private String remainCount;
+	/**
+	 * 医院平台ID
+	 */
+	private String pltHosId;
+	private String hosId;
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getDocName() {
+		return docName;
+	}
+
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+
+	public String getCurNo() {
+		return curNo;
+	}
+
+	public void setCurNo(String curNo) {
+		this.curNo = curNo;
+	}
+
+	public String getRemainCount() {
+		return remainCount;
+	}
+
+	public void setRemainCount(String remainCount) {
+		this.remainCount = remainCount;
+	}
+
+	public String getClinicType() {
+		return clinicType;
+	}
+
+	public void setClinicType(String clinicType) {
+		this.clinicType = clinicType;
+	}
+
+	public String getClinicDate() {
+		return clinicDate;
+	}
+
+	public void setClinicDate(String clinicDate) {
+		this.clinicDate = clinicDate;
+	}
+
+	public String getRegNo() {
+		return regNo;
+	}
+
+	public void setRegNo(String regNo) {
+		this.regNo = regNo;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPltHosId() {
+		return pltHosId;
+	}
+
+	public void setPltHosId(String pltHosId) {
+		this.pltHosId = pltHosId;
+	}
+
+	public String getHosId() {
+		return hosId;
+	}
+
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+
+}

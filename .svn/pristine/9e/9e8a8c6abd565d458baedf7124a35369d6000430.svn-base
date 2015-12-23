@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.GhRateDocMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.GhRateDoc" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PATIENT_ID" property="patientId" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="HOS_ID" property="hosId" jdbcType="DECIMAL" />
+    <result column="DEPT_ID" property="deptId" jdbcType="DECIMAL" />
+    <result column="DOC_ID" property="docId" jdbcType="DECIMAL" />
+    <result column="RATE_DOC_ATTITUDE" property="rateDocAttitude" jdbcType="DECIMAL" />
+    <result column="RATE_TREATMENT_EFFECT" property="rateTreatmentEffect" jdbcType="DECIMAL" />
+    <result column="CLINIC_REASON" property="clinicReason" jdbcType="VARCHAR" />
+    <result column="CLINIC_TIME" property="clinicTime" jdbcType="DATE" />
+    <result column="RATE_CONTENT" property="rateContent" jdbcType="VARCHAR" />
+    <result column="RATE_TIME" property="rateTime" jdbcType="DATE" />
+  </resultMap>
+  <resultMap id="ShowResultMap" type="com.tynet.model.GhRateDoc" extends="BaseResultMap">
+    <result column="DOC_NAME" property="docName" jdbcType="VARCHAR" /> 
+    <result column="PATIENT_NAME" property="patientName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="PingJiaMap" type="com.tynet.model.GhRateDoc">
+    <result column="attitude" property="attitude" jdbcType="VARCHAR" /> 
+    <result column="treatmentEffect" property="treatmentEffect" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PATIENT_ID, ORDER_ID, HOS_ID, DEPT_ID, DOC_ID, RATE_DOC_ATTITUDE, RATE_TREATMENT_EFFECT, 
+    CLINIC_REASON, CLINIC_TIME, RATE_CONTENT, RATE_TIME
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.GhRateDocExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GH_RATE_DOC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.GhRateDocExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GH_RATE_DOC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.GhRateDocExample" >
+    delete from GH_RATE_DOC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.GhRateDocExample" resultType="java.lang.Integer" >
+    select count(*) from GH_RATE_DOC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update GH_RATE_DOC
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.patientId != null" >
+        PATIENT_ID = #{record.patientId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderId != null" >
+        ORDER_ID = #{record.orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hosId != null" >
+        HOS_ID = #{record.hosId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deptId != null" >
+        DEPT_ID = #{record.deptId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.docId != null" >
+        DOC_ID = #{record.docId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rateDocAttitude != null" >
+        RATE_DOC_ATTITUDE = #{record.rateDocAttitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rateTreatmentEffect != null" >
+        RATE_TREATMENT_EFFECT = #{record.rateTreatmentEffect,jdbcType=DECIMAL},
+      </if>
+      <if test="record.clinicReason != null" >
+        CLINIC_REASON = #{record.clinicReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clinicTime != null" >
+        CLINIC_TIME = #{record.clinicTime,jdbcType=DATE},
+      </if>
+      <if test="record.rateContent != null" >
+        RATE_CONTENT = #{record.rateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rateTime != null" >
+        RATE_TIME = #{record.rateTime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update GH_RATE_DOC
+    set ID = #{record.id,jdbcType=DECIMAL},
+      PATIENT_ID = #{record.patientId,jdbcType=DECIMAL},
+      ORDER_ID = #{record.orderId,jdbcType=DECIMAL},
+      HOS_ID = #{record.hosId,jdbcType=DECIMAL},
+      DEPT_ID = #{record.deptId,jdbcType=DECIMAL},
+      DOC_ID = #{record.docId,jdbcType=DECIMAL},
+      RATE_DOC_ATTITUDE = #{record.rateDocAttitude,jdbcType=DECIMAL},
+      RATE_TREATMENT_EFFECT = #{record.rateTreatmentEffect,jdbcType=DECIMAL},
+      CLINIC_REASON = #{record.clinicReason,jdbcType=VARCHAR},
+      CLINIC_TIME = #{record.clinicTime,jdbcType=DATE},
+      RATE_CONTENT = #{record.rateContent,jdbcType=VARCHAR},
+      RATE_TIME = #{record.rateTime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from GH_RATE_DOC
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from GH_RATE_DOC
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.GhRateDoc" >
+    insert into GH_RATE_DOC (ID, PATIENT_ID, ORDER_ID, 
+      HOS_ID, DEPT_ID, DOC_ID, 
+      RATE_DOC_ATTITUDE, RATE_TREATMENT_EFFECT, CLINIC_REASON, 
+      CLINIC_TIME, RATE_CONTENT, RATE_TIME
+      )
+    values (SEQ_RATE_DOC.NEXTVAL, #{patientId,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, 
+      #{hosId,jdbcType=DECIMAL}, #{deptId,jdbcType=DECIMAL}, #{docId,jdbcType=DECIMAL}, 
+      #{rateDocAttitude,jdbcType=DECIMAL}, #{rateTreatmentEffect,jdbcType=DECIMAL}, #{clinicReason,jdbcType=VARCHAR}, 
+      #{clinicTime,jdbcType=DATE}, #{rateContent,jdbcType=VARCHAR}, sysdate
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.GhRateDoc" >
+    insert into GH_RATE_DOC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      PATIENT_ID,
+      ORDER_ID,
+      HOS_ID,
+      DEPT_ID,
+      DOC_ID,
+      RATE_DOC_ATTITUDE,
+      RATE_TREATMENT_EFFECT,
+      CLINIC_REASON,
+      CLINIC_TIME,
+      RATE_CONTENT,
+      RATE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      #{patientId,jdbcType=DECIMAL},
+      #{orderId,jdbcType=DECIMAL},
+      #{hosId,jdbcType=DECIMAL},
+      #{deptId,jdbcType=DECIMAL},
+      #{docId,jdbcType=DECIMAL},
+      #{rateDocAttitude,jdbcType=DECIMAL},
+      #{rateTreatmentEffect,jdbcType=DECIMAL},
+      #{clinicReason,jdbcType=VARCHAR},
+      #{clinicTime,jdbcType=DATE},
+      #{rateContent,jdbcType=VARCHAR},
+      #{rateTime,jdbcType=DATE},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.GhRateDoc" >
+    update GH_RATE_DOC
+    <set >
+      <if test="patientId != null" >
+        PATIENT_ID = #{patientId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=DECIMAL},
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=DECIMAL},
+      </if>
+      <if test="docId != null" >
+        DOC_ID = #{docId,jdbcType=DECIMAL},
+      </if>
+      <if test="rateDocAttitude != null" >
+        RATE_DOC_ATTITUDE = #{rateDocAttitude,jdbcType=DECIMAL},
+      </if>
+      <if test="rateTreatmentEffect != null" >
+        RATE_TREATMENT_EFFECT = #{rateTreatmentEffect,jdbcType=DECIMAL},
+      </if>
+      <if test="clinicReason != null" >
+        CLINIC_REASON = #{clinicReason,jdbcType=VARCHAR},
+      </if>
+      <if test="clinicTime != null" >
+        CLINIC_TIME = #{clinicTime,jdbcType=DATE},
+      </if>
+      <if test="rateContent != null" >
+        RATE_CONTENT = #{rateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="rateTime != null" >
+        RATE_TIME = #{rateTime,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.GhRateDoc" >
+    update GH_RATE_DOC
+    set PATIENT_ID = #{patientId,jdbcType=DECIMAL},
+      ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      HOS_ID = #{hosId,jdbcType=DECIMAL},
+      DEPT_ID = #{deptId,jdbcType=DECIMAL},
+      DOC_ID = #{docId,jdbcType=DECIMAL},
+      RATE_DOC_ATTITUDE = #{rateDocAttitude,jdbcType=DECIMAL},
+      RATE_TREATMENT_EFFECT = #{rateTreatmentEffect,jdbcType=DECIMAL},
+      CLINIC_REASON = #{clinicReason,jdbcType=VARCHAR},
+      CLINIC_TIME = #{clinicTime,jdbcType=DATE},
+      RATE_CONTENT = #{rateContent,jdbcType=VARCHAR},
+      RATE_TIME = #{rateTime,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="queryRateDocList" resultMap="ShowResultMap" parameterType="com.tynet.model.GhRateDoc" >
+    select
+    ID, PATIENT_ID, ORDER_ID, HOS_ID, DEPT_ID, DOC_ID, RATE_DOC_ATTITUDE, RATE_TREATMENT_EFFECT, 
+    CLINIC_REASON, CLINIC_TIME, RATE_CONTENT, RATE_TIME, (select DOC_NAME from GH_DOC doc where doc.DOC_ID=rate.DOC_ID) as DOC_NAME,
+    (select HZXM from YYGH_HZXX pat where pat.HZID=rate.PATIENT_ID) as PATIENT_NAME 
+    from GH_RATE_DOC rate
+    <where>
+	    <if test="patientId != null and patientId != ''" >rate.PATIENT_ID = #{patientId,jdbcType=DECIMAL} </if>
+	    <if test = "docId != null and docId != ''">and rate.DOC_ID = #{docId,jdbcType=DECIMAL} </if>
+	    <if test = "deptId != null and deptId != ''">and rate.DEPT_ID = #{deptId,jdbcType=DECIMAL} </if>
+	    <if test = "hosId != null and hosId != ''">and rate.HOS_ID = #{hosId,jdbcType=DECIMAL} </if>
+    </where>
+    order by rate.id desc
+  </select>
+  <select id="queryRateDocListCount" resultType="java.lang.Integer" parameterType="com.tynet.model.GhRateDoc" >
+    select count(*) from GH_RATE_DOC
+    <where>
+	    <if test="patientId != null and patientId != ''" >PATIENT_ID = #{patientId,jdbcType=DECIMAL} </if>
+	    <if test = "docId != null and docId != ''">and DOC_ID = #{docId,jdbcType=DECIMAL} </if>
+	    <if test = "deptId != null and deptId != ''">and DEPT_ID = #{deptId,jdbcType=DECIMAL} </if>
+	    <if test = "hosId != null and hosId != ''">and HOS_ID = #{hosId,jdbcType=DECIMAL} </if>
+    </where>
+    order by id desc
+  </select>
+  <select id="selectPingJiaForDoc" resultMap="PingJiaMap" >
+	select to_char(sum(RATE_DOC_ATTITUDE)/count(id),'fm99.0') as attitude,
+	to_char(sum(RATE_TREATMENT_EFFECT)/count(id),'fm99.0') as
+	treatmentEffect
+	from GH_RATE_DOC where DOC_ID = #{docId}
+  </select>
+</mapper>

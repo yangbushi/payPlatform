@@ -1,0 +1,40 @@
+package com.defray.bean;
+
+public class DefrayResultBean {
+	//支付类型
+	private String defrayType;
+	//支付订单号
+	private String orderId;
+	//交易号
+	private String tradeNo;
+	//交易状态
+	private String tradeStatus;
+	
+	
+	public String getDefrayType() {
+		return defrayType;
+	}
+	public void setDefrayType(String defrayType) {
+		this.defrayType = defrayType;
+	}
+	public String getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+	public String getTradeNo() {
+		return tradeNo;
+	}
+	public void setTradeNo(String tradeNo) {
+		this.tradeNo = tradeNo;
+	}
+	public String getTradeStatus() {
+		return tradeStatus;
+	}
+	public void setTradeStatus(String tradeStatus) {
+		this.tradeStatus = tradeStatus;
+	}
+	
+	
+}

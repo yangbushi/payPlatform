@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="${application.name}" />
+
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry address="${registry.address}" />
+	
+	<dubbo:monitor protocol="registry" />
+
+	<dubbo:protocol name="dubbo" port="${service.port}" threadpool="cached" transporter="netty"/>
+	<!-- 
+	<dubbo:protocol name="webservice" port="38080" server="jetty" />
+	 -->
+	 
+	<!-- 声明需要暴露的服务接口 
+	<dubbo:service interface="com.herenit.hhw.service.HosCardBusService" protocol="dubbo" ref="hosCardBusService"/>
+	-->
+	<dubbo:service interface="com.defray.maintain.DefrayRecordService" protocol="dubbo" ref="defrayRecordServiceImpl"/>
+	<dubbo:service interface="com.defray.maintain.RefundRecordService" protocol="dubbo" ref="refundRecordServiceImpl"/>
+	<dubbo:service interface="com.defray.maintain.DefrayTypeService" protocol="dubbo" ref="defrayTypeServiceImpl"/>
+	<dubbo:service interface="com.defray.maintain.HospitalService" protocol="dubbo" ref="hospitalServiceImpl"/>
+	
+	<!-- 声明需要引用的服务接口 -->
+
+	
+
+</beans>

@@ -1,0 +1,85 @@
+*{
+scrollbar-face-color: #9EBFE8; 
+scrollbar-shadow-color: #FFFFFF; 
+scrollbar-highlight-color: #FFFFFF; 
+scrollbar-3dlight-color: #9EBFE8; 
+scrollbar-darkshadow-color: #9EBFE8;
+scrollbar-track-color: #FFFFFF; 
+scrollbar-arrow-color: #FFFFFF;
+}
+
+
+table,tr,td,span,div{
+	font-size: 12px;
+
+}
+
+table{	
+	border-collapse:collapse;
+	border-spacing:0;
+}
+img{border:0;}
+
+body
+{
+	overflow-x:hidden;
+	text-align:center;
+	color:#000;
+	margin:0 auto;
+	font-size:12px; height:100%;
+}
+
+.floatLeft{
+	float:left;
+}
+.floatRight{
+	float:right;
+}
+
+/*通用input样式*/
+
+input[type="text"]{
+	border:1px solid #9dbbd0;
+	width:120px;
+	height:20px;
+	line-height:19px;
+}
+
+select{
+	border:1px solid #9dbbd0;
+	width:120px;
+	height:20px;
+	line-height:19px;
+}
+
+
+input[type="password"]{
+	border:1px solid #9dbbd0;
+	width:120px;
+	height:20px;
+	line-height:19px;
+}
+input[type="checkbox"]{
+	border:1px solid #9dbbd0;
+	
+}
+
+
+.inputnoborder {
+	border:0px;width:15px; 
+}
+
+
+
+.btn_pay{background:url(../images/btn_pay.png) no-repeat;width:310px;height:45px;line-height:45px;font-size:16px;font-weight:bold;color:#fff;border:0;cursor: pointer;margin-left:10px;}
+.btn_cancel{
+	background: url(../images/btn_cancel.png) no-repeat;
+	width: 310px;
+	height: 45px;
+	line-height: 45px;
+	font-size: 16px;
+	color: #666;
+	border: 0;
+	cursor: pointer;
+	margin-left: 10px;
+}

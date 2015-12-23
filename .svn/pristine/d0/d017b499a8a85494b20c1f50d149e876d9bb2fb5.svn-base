@@ -1,0 +1,39 @@
+package com.tynet.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.GhZszyAccess;
+import com.tynet.model.GhZszyAccessExample;
+
+@Repository
+public interface GhZszyAccessMapper {
+	int countByExample(GhZszyAccessExample example);
+
+	int deleteByExample(GhZszyAccessExample example);
+
+	List<GhZszyAccess> selectByExample(GhZszyAccessExample example);
+
+	int updateByExampleSelective(@Param("record") GhZszyAccess record, @Param("example") GhZszyAccessExample example);
+
+	int updateByExample(@Param("record") GhZszyAccess record, @Param("example") GhZszyAccessExample example);
+
+	List<GhZszyAccess> selectByExampleAndPage(GhZszyAccessExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(Long id);
+
+	int insert(GhZszyAccess record);
+
+	int insertSelective(GhZszyAccess record);
+
+	GhZszyAccess selectByPrimaryKey(Long id);
+
+	int updateByPrimaryKeySelective(GhZszyAccess record);
+
+	int updateByPrimaryKey(GhZszyAccess record);
+
+	List<GhZszyAccess> query();
+}

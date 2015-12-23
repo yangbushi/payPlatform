@@ -1,0 +1,15 @@
+package com.soft.gh.service;
+
+import java.util.Map;
+
+public class ProviderCacheCommon {
+    public Map<String, String> providerCache;
+
+    public Map<String, String> getProviderCache() {
+        return this.providerCache;
+    }
+
+    public void setProviderCache(Map<String, String> providerCache) {
+        this.providerCache = providerCache;
+    }
+}

@@ -1,0 +1,107 @@
+package com.tynet.model;
+
+import org.apache.solr.client.solrj.beans.Field;
+
+public class SearchResult {
+
+	private Integer itype;
+	private String id;
+	private String hosName;
+	private String hosId;
+	private String deptName;
+	private String deptId;
+	private String docId;
+	private String docDepts;
+	private String pyCode;
+	public String getPyCode() {
+		return pyCode;
+	}
+	public void setPyCode(String pyCode) {
+		this.pyCode = pyCode;
+	}
+	private int deptCount;
+	public int getDeptCount() {
+		return deptCount;
+	}
+	public void setDeptCount(int deptCount) {
+		this.deptCount = deptCount;
+	}
+	public String getDocDepts() {
+		return docDepts;
+	}
+	public void setDocDepts(String docDepts) {
+		this.docDepts = docDepts;
+	}
+	public String getHosId() {
+		return hosId;
+	}
+	@Field
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+	public String getDeptId() {
+		return deptId;
+	}
+	@Field
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+	public String getDocId() {
+		return docId;
+	}
+	@Field
+	public void setDocId(String docId) {
+		this.docId = docId;
+	}
+	private String docName;
+	private String desc;
+
+	public Integer getItype() {
+		return itype;
+	}
+	@Field
+	public void setItype(Integer itype) {
+		this.itype = itype;
+	}
+
+	public String getId() {
+		return id;
+	}
+	@Field
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getHosName() {
+		return hosName;
+	}
+	@Field
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+	@Field
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getDocName() {
+		return docName;
+	}
+	@Field
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+	@Field
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+}

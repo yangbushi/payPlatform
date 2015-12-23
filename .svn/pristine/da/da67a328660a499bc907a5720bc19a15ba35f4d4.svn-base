@@ -1,0 +1,15 @@
+package com.tynet.model;
+
+import com.tynet.model.GhComments;
+
+public class CommentsForm extends GhComments{
+	private String patientName;
+
+	public String getPatientName() {
+		return patientName;
+	}
+
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+}

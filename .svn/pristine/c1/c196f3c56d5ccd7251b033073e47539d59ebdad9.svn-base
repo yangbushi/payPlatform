@@ -1,0 +1,36 @@
+package com.tynet.dao;
+
+import com.tynet.model.DzParts;
+import com.tynet.model.DzPartsExample;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface DzPartsMapper {
+    int countByExample(DzPartsExample example);
+
+    int deleteByExample(DzPartsExample example);
+
+    List<DzParts> selectByExample(DzPartsExample example);
+
+    int updateByExampleSelective(@Param("record") DzParts record, @Param("example") DzPartsExample example);
+
+    int updateByExample(@Param("record") DzParts record, @Param("example") DzPartsExample example);
+
+    List<DzParts> selectByExampleAndPage(DzPartsExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(Long partId);
+
+    int insert(DzParts record);
+
+    int insertSelective(DzParts record);
+
+    DzParts selectByPrimaryKey(Long partId);
+
+    int updateByPrimaryKeySelective(DzParts record);
+
+    int updateByPrimaryKey(DzParts record);
+}

@@ -1,0 +1,368 @@
+package com.defray.action;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.bocnet.common.security.PKCS7Tool;
+import com.defray.bean.AlipayInfoBean;
+import com.defray.bean.ChinaBankInfoBean;
+import com.defray.bean.DefrayHospitalEntity;
+import com.defray.bean.DefrayRecordEntity;
+import com.defray.model.DefrayHospitalModel;
+import com.defray.model.DefrayRecordModel;
+import com.defray.util.Utils;
+import com.opensymphony.xwork2.ActionSupport;
+import com.tynet.service.RefundService;
+
+
+@Controller
+@Scope("prototype")
+public class DefrayAction extends ActionSupport{
+	
+	private static Logger log = LoggerFactory.getLogger(DefrayAction.class);
+	private static final long serialVersionUID = -6287879347497083310L;
+
+	@Autowired
+	private DefrayRecordModel defrayRecordModel;
+	@Autowired
+	private DefrayHospitalModel defrayHospitalModel;
+	//医院ID
+	private String hosId;
+	//订单ID
+	private String orderId;
+	//费用
+	private String orderFee;
+	//支付方式
+	private String defrayType;
+	//医院支付方式
+	private String defrayTypes;
+	//返回json
+	private String resultJson;
+	//notifyUrl
+	private String notifyUrl;
+	//abnormalUrl
+	private String abnormalUrl;
+	//payExpire
+	private String payExpire;
+	//orderName
+	private String orderName;
+	//orderTime
+	private String orderTime;
+	//checkURL
+	private String checkURL;
+	//registerType
+	private String registerType;
+	//psnId
+	private String psnId;
+	
+	
+	private AlipayInfoBean aipayInfoBean;
+	private ChinaBankInfoBean chinaBankInfoBean;
+	
+	/** 证书路径*/
+	public static String keyStorePath = "";//D:\\doc\\key\\private_key.pfx
+	/** 根证书路径 */
+	public static String rootCertificatePath = "";//D:\\doc\\key\\root_key.cer
+	
+	public String defrayEntrance(){
+		//registerType：挂号类型   payExpire：订单有效时间
+		if (StringUtils.isBlank(orderId) 
+				|| StringUtils.isBlank(orderFee) 
+				|| StringUtils.isBlank(hosId) 
+				|| StringUtils.isBlank(notifyUrl) 
+				|| StringUtils.isBlank(abnormalUrl) 
+				|| StringUtils.isBlank(orderTime)
+				|| StringUtils.isBlank(payExpire)
+				|| StringUtils.isBlank(orderName)
+				|| StringUtils.isBlank(psnId)
+				|| StringUtils.isBlank(registerType)
+				|| StringUtils.isBlank(checkURL)) {			
+			//resultJson = Utils.GetRetJSONString("1", "orderId为空", null);
+			return "fail";
+		}
+		
+		Map<String,Object> parameter = new HashMap<String,Object>();
+		parameter.put("hospitalId", hosId);
+		parameter.put("orderId", orderId);
+		List<DefrayRecordEntity> drList = defrayRecordModel.findEntitys(parameter);
+		DefrayRecordEntity defrayRecord;
+		if(0 == drList.size()){
+			defrayRecord = new DefrayRecordEntity();
+			defrayRecord.setAbnormalUrl(abnormalUrl);
+			//defrayRecord.setDefrayAccount(defrayAccount);
+			defrayRecord.setDefrayFee(Double.valueOf(orderFee));
+			//defrayRecord.setDefrayResult(defrayResult);
+			defrayRecord.setDefrayStartTime(new Date());
+			//defrayRecord.setDefraySuccessTime(defraySuccessTime);
+			//defrayRecord.setDefrayType(defrayType);
+			defrayRecord.setHospitalId(hosId);
+			//defrayRecord.setNoticeResult(noticeResult);
+			defrayRecord.setNoticeUrl(notifyUrl);
+			defrayRecord.setOrderId(orderId);
+			defrayRecord.setPsnId(psnId);
+			//defrayRecord.setTradeNo(tradeNo);
+			defrayRecordModel.insert(defrayRecord);
+		}else{
+			defrayRecord = drList.get(0);
+		}
+		// 根据hosId获取支付方式
+		parameter.put("hospitalId", hosId);
+		parameter.put("isUse", "0");
+		parameter.put("isDel", "0");
+		List<DefrayHospitalEntity> dhList = defrayHospitalModel.findEntitys(parameter);
+		if(dhList != null && dhList.size() > 0){
+			StringBuffer sb = new StringBuffer();
+			sb.append(",");
+			for(DefrayHospitalEntity entity : dhList){
+				sb.append(entity.getPayType()+",");
+			}
+			defrayTypes = sb.toString();
+		}else{
+			return "fail";
+		}
+		if(defrayTypes.contains(",1,")){
+			//支付宝
+			aipayInfoBean = new AlipayInfoBean();
+			aipayInfoBean.setOutTradeNo(Long.toString(defrayRecord.getId()));
+			aipayInfoBean.setSubject("挂号费");
+			aipayInfoBean.setTotalFee(orderFee);
+		}
+		if(defrayTypes.contains(",2,")){
+			//中国银行
+			String path=this.getClass().getClassLoader().getResource("/").getPath();
+			path=path.substring(1, path.indexOf("WEB-INF"))+"WEB-INF/";
+			keyStorePath=path+"private_key.pfx";
+			rootCertificatePath=path+"root_key.cer";
+			chinaBankInfoBean=new ChinaBankInfoBean();
+			chinaBankInfoBean.setCurCode("001");
+			chinaBankInfoBean.setMerchantNo("104110059475555");
+			chinaBankInfoBean.setOrderAmount(Utils.decimalFormat.format(Double.valueOf("0.01")));//tOrder.getTotalFee() 测试用0.01
+			
+			chinaBankInfoBean.setOrderNo(orderId);
+			
+			chinaBankInfoBean.setOrderNote("挂号费");
+			chinaBankInfoBean.setOrderTime(Utils.sdf2.format(new Date()));//订单时间
+			chinaBankInfoBean.setOrderTimeoutDate(Utils.sdf2.format(new Date(new Date().getTime()+1000*60*30)));//订单超时时间
+			//chinaBankInfoBean.setOrderUrl("http://121.40.57.103:9092/hr-hos-pay/callbackOfChinaBank.do");//301
+			chinaBankInfoBean.setOrderUrl("http://115.236.176.107:8088/hr-hos-pay/callbackOfChinaBank.do");//77.48   
+			chinaBankInfoBean.setPayType("1");
+			chinaBankInfoBean.setSpMobile("");
+			String param=chinaBankInfoBean.getOrderNo()+"|"+chinaBankInfoBean.getOrderTime()+"|"+chinaBankInfoBean.getCurCode()+"|"+chinaBankInfoBean.getOrderAmount()+"|"+chinaBankInfoBean.getMerchantNo();
+			String paramAfterSign=sign(param);
+			if (StringUtils.isBlank(paramAfterSign)) {
+				log.info("###支付时签名错误###");
+				return "fail";
+			}
+			chinaBankInfoBean.setSignData(paramAfterSign);
+		}
+		
+		return "success";
+	}
+	
+	/**
+	 *  生成签名,如果异常返回null
+	 * @param param
+	 * @return
+	 */
+	public static String sign(String param) {
+
+		if(param==null)
+		{
+			return null;
+		}
+		
+		try {
+			log.info("###支付时签名sign tool:###"+keyStorePath+"|"+RefundService.keyStorePassword+"|"+RefundService.keyPassword);
+			PKCS7Tool tool = PKCS7Tool.getSigner(keyStorePath,
+					RefundService.keyStorePassword,
+					RefundService.keyPassword);
+			return tool.sign(param.getBytes());
+		} catch (GeneralSecurityException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	/**
+	 * 校验签名是否有效
+	 * @param signature 返回的签名
+	 * @param param     返回的参数
+	 * @param dn        证书dn,为空则不校验dn
+	 * @return
+	 */
+	public static boolean verifySign(String signature, String param, String dn)
+	{
+		
+		if(signature == null || param == null)
+		{
+			return false;
+		}
+		try {
+			PKCS7Tool vTool = PKCS7Tool.getVerifier(rootCertificatePath);
+			vTool.verify(signature, param.getBytes(), dn);
+			return true; // 校验成功
+		} catch (GeneralSecurityException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+	
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getOrderFee() {
+		return orderFee;
+	}
+
+	public void setOrderFee(String orderFee) {
+		this.orderFee = orderFee;
+	}
+
+	public String getResultJson() {
+		return resultJson;
+	}
+
+	public void setResultJson(String resultJson) {
+		this.resultJson = resultJson;
+	}
+
+	public String getDefrayType() {
+		return defrayType;
+	}
+
+	public void setDefrayType(String defrayType) {
+		this.defrayType = defrayType;
+	}
+
+	public String getHosId() {
+		return hosId;
+	}
+
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+
+	public String getDefrayTypes() {
+		return defrayTypes;
+	}
+
+	public void setDefrayTypes(String defrayTypes) {
+		this.defrayTypes = defrayTypes;
+	}
+
+	public AlipayInfoBean getAipayInfoBean() {
+		return aipayInfoBean;
+	}
+
+	public void setAipayInfoBean(AlipayInfoBean aipayInfoBean) {
+		this.aipayInfoBean = aipayInfoBean;
+	}
+
+	public ChinaBankInfoBean getChinaBankInfoBean() {
+		return chinaBankInfoBean;
+	}
+
+	public void setChinaBankInfoBean(ChinaBankInfoBean chinaBankInfoBean) {
+		this.chinaBankInfoBean = chinaBankInfoBean;
+	}
+
+	public String getNotifyUrl() {
+		return notifyUrl;
+	}
+
+	public void setNotifyUrl(String notifyUrl) {
+		this.notifyUrl = notifyUrl;
+	}
+
+	public String getAbnormalUrl() {
+		return abnormalUrl;
+	}
+
+	public void setAbnormalUrl(String abnormalUrl) {
+		this.abnormalUrl = abnormalUrl;
+	}
+
+	public String getPayExpire() {
+		return payExpire;
+	}
+
+	public void setPayExpire(String payExpire) {
+		this.payExpire = payExpire;
+	}
+
+	public String getOrderName() {
+		return orderName;
+	}
+
+	public void setOrderName(String orderName) {
+		this.orderName = orderName;
+	}
+
+	public String getOrderTime() {
+		return orderTime;
+	}
+
+	public void setOrderTime(String orderTime) {
+		this.orderTime = orderTime;
+	}
+
+	public String getCheckURL() {
+		return checkURL;
+	}
+
+	public void setCheckURL(String checkURL) {
+		this.checkURL = checkURL;
+	}
+
+	public String getRegisterType() {
+		return registerType;
+	}
+
+	public void setRegisterType(String registerType) {
+		this.registerType = registerType;
+	}
+
+	public String getPsnId() {
+		return psnId;
+	}
+
+	public void setPsnId(String psnId) {
+		this.psnId = psnId;
+	}
+	
+	
+
+}

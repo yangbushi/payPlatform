@@ -1,0 +1,35 @@
+/** 
+ * @Title: DefrayTypeService.java 
+ * @Package com.defray.webService 
+ * @Description: TODO(用一句话描述该文件做什么) 
+ * @author zsf
+ * @date 2015-8-14 上午11:12:55 
+ */
+package com.tynet.service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.Path;
+
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+/** 
+ * @ClassName: DefrayTypeService 
+ * @Description: TODO(这里用一句话描述这个类的作用) 
+ * @author zsf
+ * @date 2015-8-14 上午11:12:55  
+ */
+@Service
+@Path("/")
+public class DefrayTypeService {
+	
+	@Path("100100")
+	public String getList(JSONObject req){
+		Map<String,Object>  map = new HashMap<String,Object>();
+		map.put("code", "hello");
+		return JSON.toJSONString(map);
+	}
+}

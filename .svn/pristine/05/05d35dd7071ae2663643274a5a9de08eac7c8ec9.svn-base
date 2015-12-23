@@ -1,0 +1,388 @@
+package com.tynet.model;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class HosOrder {
+    private Long orderId;
+
+    private Long psnId;
+
+    private String schId;
+
+    private String hosOrderId;
+
+    private Date createTime;
+
+    private String appointmentDate;
+
+    private String appointmentTime;
+
+    private BigDecimal appointmentNumber;
+
+    private String ampm;
+
+    private String takePassword;
+
+    private String orderStatus;
+
+    private String hisResult;
+
+    private String operator;
+
+    private String notifyState;
+
+    private String channel;
+
+    private String sysCode;
+
+    private String hosId;
+
+    private String hosName;
+
+    private String deptName;
+
+    private String docName;
+
+    private String appointmentChannel;
+    
+    private Long deptId; 
+    
+    private Long docId;
+
+    private String hosDeptId;
+
+    private String hosDocId;
+
+    private String rateFlag;
+
+    private String idCard;
+
+    private String medicalCardType;
+
+    private String medicalCard;
+
+    private String registerType;
+
+    private BigDecimal fee;
+
+    private String tradeNo;
+
+    private String tradeResult;
+
+    private Date tradePayTime;
+
+    private String categor;
+
+    private Date refundTime;
+
+    private String payType;
+    
+    private String name;
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getPsnId() {
+        return psnId;
+    }
+
+    public void setPsnId(Long psnId) {
+        this.psnId = psnId;
+    }
+
+    public String getSchId() {
+        return schId;
+    }
+
+    public void setSchId(String schId) {
+        this.schId = schId == null ? null : schId.trim();
+    }
+
+    public String getHosOrderId() {
+        return hosOrderId;
+    }
+
+    public void setHosOrderId(String hosOrderId) {
+        this.hosOrderId = hosOrderId == null ? null : hosOrderId.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(String appointmentDate) {
+        this.appointmentDate = appointmentDate == null ? null : appointmentDate.trim();
+    }
+
+    public String getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(String appointmentTime) {
+        this.appointmentTime = appointmentTime == null ? null : appointmentTime.trim();
+    }
+
+    public BigDecimal getAppointmentNumber() {
+        return appointmentNumber;
+    }
+
+    public void setAppointmentNumber(BigDecimal appointmentNumber) {
+        this.appointmentNumber = appointmentNumber;
+    }
+
+    public String getAmpm() {
+        return ampm;
+    }
+
+    public void setAmpm(String ampm) {
+        this.ampm = ampm == null ? null : ampm.trim();
+    }
+
+    public String getTakePassword() {
+        return takePassword;
+    }
+
+    public void setTakePassword(String takePassword) {
+        this.takePassword = takePassword == null ? null : takePassword.trim();
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus == null ? null : orderStatus.trim();
+    }
+
+    public String getHisResult() {
+        return hisResult;
+    }
+
+    public void setHisResult(String hisResult) {
+        this.hisResult = hisResult == null ? null : hisResult.trim();
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator == null ? null : operator.trim();
+    }
+
+    public String getNotifyState() {
+        return notifyState;
+    }
+
+    public void setNotifyState(String notifyState) {
+        this.notifyState = notifyState == null ? null : notifyState.trim();
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel == null ? null : channel.trim();
+    }
+
+    public String getSysCode() {
+		return sysCode;
+	}
+
+	public void setSysCode(String sysCode) {
+		this.sysCode = sysCode;
+	}
+
+	public String getHosId() {
+        return hosId;
+    }
+
+    public void setHosId(String hosId) {
+        this.hosId = hosId == null ? null : hosId.trim();
+    }
+
+    public String getHosName() {
+        return hosName;
+    }
+
+    public void setHosName(String hosName) {
+        this.hosName = hosName == null ? null : hosName.trim();
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName == null ? null : deptName.trim();
+    }
+
+    public String getDocName() {
+        return docName;
+    }
+
+    public void setDocName(String docName) {
+        this.docName = docName == null ? null : docName.trim();
+    }
+
+    public String getAppointmentChannel() {
+        return appointmentChannel;
+    }
+
+    public void setAppointmentChannel(String appointmentChannel) {
+        this.appointmentChannel = appointmentChannel == null ? null : appointmentChannel.trim();
+    }
+
+    public Long getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Long deptId) {
+		this.deptId = deptId;
+	}
+
+	public Long getDocId() {
+		return docId;
+	}
+
+	public void setDocId(Long docId) {
+		this.docId = docId;
+	}
+
+	public String getHosDeptId() {
+        return hosDeptId;
+    }
+
+    public void setHosDeptId(String hosDeptId) {
+        this.hosDeptId = hosDeptId == null ? null : hosDeptId.trim();
+    }
+
+    public String getHosDocId() {
+        return hosDocId;
+    }
+
+    public void setHosDocId(String hosDocId) {
+        this.hosDocId = hosDocId == null ? null : hosDocId.trim();
+    }
+
+    public String getRateFlag() {
+        return rateFlag;
+    }
+
+    public void setRateFlag(String rateFlag) {
+        this.rateFlag = rateFlag == null ? null : rateFlag.trim();
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard == null ? null : idCard.trim();
+    }
+
+    public String getMedicalCardType() {
+        return medicalCardType;
+    }
+
+    public void setMedicalCardType(String medicalCardType) {
+        this.medicalCardType = medicalCardType == null ? null : medicalCardType.trim();
+    }
+
+    public String getMedicalCard() {
+        return medicalCard;
+    }
+
+    public void setMedicalCard(String medicalCard) {
+        this.medicalCard = medicalCard == null ? null : medicalCard.trim();
+    }
+
+    public String getRegisterType() {
+        return registerType;
+    }
+
+    public void setRegisterType(String registerType) {
+        this.registerType = registerType == null ? null : registerType.trim();
+    }
+
+    public BigDecimal getFee() {
+        return fee;
+    }
+
+    public void setFee(BigDecimal fee) {
+        this.fee = fee;
+    }
+
+    public String getTradeNo() {
+        return tradeNo;
+    }
+
+    public void setTradeNo(String tradeNo) {
+        this.tradeNo = tradeNo == null ? null : tradeNo.trim();
+    }
+
+    public String getTradeResult() {
+        return tradeResult;
+    }
+
+    public void setTradeResult(String tradeResult) {
+        this.tradeResult = tradeResult == null ? null : tradeResult.trim();
+    }
+
+    public Date getTradePayTime() {
+        return tradePayTime;
+    }
+
+    public void setTradePayTime(Date tradePayTime) {
+        this.tradePayTime = tradePayTime;
+    }
+
+    public String getCategor() {
+        return categor;
+    }
+
+    public void setCategor(String categor) {
+        this.categor = categor == null ? null : categor.trim();
+    }
+
+    public Date getRefundTime() {
+        return refundTime;
+    }
+
+    public void setRefundTime(Date refundTime) {
+        this.refundTime = refundTime;
+    }
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType == null ? null : payType.trim();
+    }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+    
+}

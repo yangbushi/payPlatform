@@ -1,0 +1,29 @@
+package com.tynet.dao;
+
+import com.tynet.model.JzChildVaccinePlan;
+import com.tynet.model.JzChildVaccinePlanExample;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface JzChildVaccinePlanMapper {
+    int countByExample(JzChildVaccinePlanExample example);
+
+    int deleteByExample(JzChildVaccinePlanExample example);
+
+    List<JzChildVaccinePlan> selectByExample(JzChildVaccinePlanExample example);
+    List<JzChildVaccinePlan> selectChildPlane(String childId);
+
+    int updateByExampleSelective(@Param("record") JzChildVaccinePlan record, @Param("example") JzChildVaccinePlanExample example);
+
+    int updateByExample(@Param("record") JzChildVaccinePlan record, @Param("example") JzChildVaccinePlanExample example);
+
+    List<JzChildVaccinePlan> selectByExampleAndPage(JzChildVaccinePlanExample example, RowBounds rowBound);
+
+    int insert(JzChildVaccinePlan record);
+
+    int insertSelective(JzChildVaccinePlan record);
+}

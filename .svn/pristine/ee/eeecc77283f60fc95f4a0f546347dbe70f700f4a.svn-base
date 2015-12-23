@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.CmsTitleMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.CmsTitle" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="TITLE_IMG" property="titleImg" jdbcType="VARCHAR" />
+    <result column="SOURCE" property="source" jdbcType="VARCHAR" />
+    <result column="SOURCE_URL" property="sourceUrl" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="CHK_USER_ID" property="chkUserId" jdbcType="VARCHAR" />
+    <result column="CHK_TIME" property="chkTime" jdbcType="DATE" />
+    <result column="CHK_FLAG" property="chkFlag" jdbcType="VARCHAR" />
+    <result column="COLOR" property="color" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="listMap" type="com.tynet.model.CmsTitle" extends="BaseResultMap">
+    <result column="typeName" property="typeName" jdbcType="VARCHAR" />
+    <result column="typeId" property="typeId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="helpCenterMap" type="com.tynet.model.CmsTitle" extends="listMap">
+    <result column="pid" property="pid" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TITLE, TITLE_IMG, "SOURCE", SOURCE_URL, CREATE_USER_ID, CREATE_TIME, CHK_USER_ID, 
+    CHK_TIME, CHK_FLAG, COLOR
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.CmsTitleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CMS_TITLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.CmsTitleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CMS_TITLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.CmsTitleExample" >
+    delete from CMS_TITLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.CmsTitleExample" resultType="java.lang.Integer" >
+    select count(*) from CMS_TITLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CMS_TITLE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.title != null" >
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.titleImg != null" >
+        TITLE_IMG = #{record.titleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.source != null" >
+        "SOURCE" = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceUrl != null" >
+        SOURCE_URL = #{record.sourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        CREATE_USER_ID = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      </if>
+      <if test="record.chkUserId != null" >
+        CHK_USER_ID = #{record.chkUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chkTime != null" >
+        CHK_TIME = #{record.chkTime,jdbcType=DATE},
+      </if>
+      <if test="record.chkFlag != null" >
+        CHK_FLAG = #{record.chkFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.color != null" >
+        COLOR = #{record.color,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CMS_TITLE
+    set ID = #{record.id,jdbcType=DECIMAL},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      TITLE_IMG = #{record.titleImg,jdbcType=VARCHAR},
+      "SOURCE" = #{record.source,jdbcType=VARCHAR},
+      SOURCE_URL = #{record.sourceUrl,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{record.createUserId,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      CHK_USER_ID = #{record.chkUserId,jdbcType=VARCHAR},
+      CHK_TIME = #{record.chkTime,jdbcType=DATE},
+      CHK_FLAG = #{record.chkFlag,jdbcType=VARCHAR},
+      COLOR = #{record.color,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CMS_TITLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CMS_TITLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.CmsTitle" >
+    insert into CMS_TITLE (ID, TITLE, TITLE_IMG, 
+      "SOURCE", SOURCE_URL, CREATE_USER_ID, 
+      CREATE_TIME, CHK_USER_ID, CHK_TIME, 
+      CHK_FLAG, COLOR)
+    values (#{id}, #{title,jdbcType=VARCHAR}, #{titleImg,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{sourceUrl,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      sysdate, #{chkUserId,jdbcType=VARCHAR}, #{chkTime,jdbcType=DATE}, 
+      #{chkFlag,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.CmsTitle" >
+    insert into CMS_TITLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      TITLE,
+      TITLE_IMG,
+      "SOURCE",
+      SOURCE_URL,
+      CREATE_USER_ID,
+      CREATE_TIME,
+      CHK_USER_ID,
+      CHK_TIME,
+      CHK_FLAG,
+      COLOR,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      #{title,jdbcType=VARCHAR},
+      #{titleImg,jdbcType=VARCHAR},
+      #{source,jdbcType=VARCHAR},
+      #{sourceUrl,jdbcType=VARCHAR},
+      #{createUserId,jdbcType=VARCHAR},
+      #{createTime,jdbcType=DATE},
+      #{chkUserId,jdbcType=VARCHAR},
+      #{chkTime,jdbcType=DATE},
+      #{chkFlag,jdbcType=VARCHAR},
+      #{color,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.CmsTitle" >
+    update CMS_TITLE
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="titleImg != null" >
+        TITLE_IMG = #{titleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        "SOURCE" = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceUrl != null" >
+        SOURCE_URL = #{sourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="chkUserId != null" >
+        CHK_USER_ID = #{chkUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="chkTime != null" >
+        CHK_TIME = #{chkTime,jdbcType=DATE},
+      </if>
+      <if test="chkFlag != null" >
+        CHK_FLAG = #{chkFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        COLOR = #{color,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.CmsTitle" >
+    update CMS_TITLE
+    set TITLE = #{title,jdbcType=VARCHAR},
+      TITLE_IMG = #{titleImg,jdbcType=VARCHAR},
+      "SOURCE" = #{source,jdbcType=VARCHAR},
+      SOURCE_URL = #{sourceUrl,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=DATE},
+      CHK_USER_ID = #{chkUserId,jdbcType=VARCHAR},
+      CHK_TIME = #{chkTime,jdbcType=DATE},
+      CHK_FLAG = #{chkFlag,jdbcType=VARCHAR},
+      COLOR = #{color,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="queryList" resultMap="BaseResultMap">
+	select * from CMS_TITLE title 
+  </select>
+  <update id="chfFlag">
+  	update CMS_TITLE set CHK_USER_ID=#{chkUserId}, CHK_TIME=sysdate, CHK_FLAG = 1 where id=#{id}
+  </update>
+  <select id="queryIndexList" resultMap="listMap">
+	select type.type_id as typeId, title.*
+	from CMS_TITLE title,
+	CMS_TYPE_MAP typemap, CMS_TYPE type
+	where type.type_id = typemap.type_id
+	and title.id = typemap.id and CHK_FLAG = 1 order by title.CHK_TIME desc,title.id desc
+	</select>
+  <select id="selectByPidAndTypeId" resultMap="BaseResultMap">
+	select title.*
+	from CMS_TITLE title,
+	CMS_TYPE_MAP typemap, CMS_TYPE type
+	where type.type_id = typemap.type_id
+	and title.id = typemap.id and CHK_FLAG = 1 
+	<if test="pid != null" >
+        and type.pid = #{pid} 
+    </if>
+    <if test="typeId != null" >
+        and type.type_id = #{typeId} 
+    </if>
+	order by title.CHK_TIME desc, title.id desc
+  </select>
+  <select id="selectByPidAndTypeIdCount" resultType="java.lang.Integer">
+	select count(title.id)
+	from CMS_TITLE title,
+	CMS_TYPE_MAP typemap,
+	CMS_TYPE type
+	where type.type_id = typemap.type_id
+	and title.id =
+	typemap.id and CHK_FLAG = 1
+	<if test="pid != null">
+		and type.PID = #{pid} 
+	</if>
+	<if test="typeId != null">
+		and type.TYPE_ID = #{typeId} 
+	</if>
+	order by title.CHK_TIME desc, title.id desc
+  </select>
+  <select id="queryIndexHelpCenterList" resultMap="helpCenterMap">
+	select *
+	from (
+	select tp.pid, tp.type_id as typeId, tp.type_name, t.title,
+	t.chk_time,t.id
+	from cms_type tp, cms_title t, cms_type_map m
+	where
+	tp.type_id = m.type_id
+	and m.id = t.id
+	and t.CHK_FLAG = 1
+	<if test="pid != null">
+		and tp.pid = #{pid}
+	</if>
+	union
+	select t3.pid, t3.type_id as typeId, t3.type_name, t.title, t.chk_time,t.id
+	from cms_type t1,
+	cms_type t2,
+	cms_type t3,
+	cms_title t,
+	cms_type_map m
+	where t1.pid = t2.type_id
+	and t3.pid = t1.type_id
+	and t3.type_id =
+	m.type_id
+	and m.id = t.id
+	and t.CHK_FLAG = 1 
+	<if test="pid != null">
+		and t1.pid = #{pid}
+	</if>
+	) tab
+	order by chk_time desc
+  </select>
+  <select id="queryTitleListById" resultMap="helpCenterMap">
+	select tp.pid,
+	tp.type_id as typeId,
+	tp.type_name,
+	t.title,
+	t.chk_time,
+	t.id,
+	to_char(con.content) as content
+	from cms_type tp, cms_title t,
+	cms_type_map m, cms_content con
+	where tp.type_id = m.type_id
+	and con.id =
+	t.id
+	and m.id = t.id
+	and t.CHK_FLAG = 1
+	<if test="typeId != null">
+		and tp.type_id = #{typeId}
+	</if>
+	<if test="pid != null">
+		and tp.pid = #{pid}
+	</if>
+  </select>
+</mapper>

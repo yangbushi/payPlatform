@@ -1,0 +1,14 @@
+package com.soft.gh.dao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.soft.gh.domain.TArea;
+
+@Repository
+public interface TAreaMapper {
+
+	List<TArea> selectAll();
+	String selectByCode(String areaCode);
+}

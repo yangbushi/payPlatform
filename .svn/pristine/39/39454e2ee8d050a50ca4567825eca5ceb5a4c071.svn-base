@@ -1,0 +1,16 @@
+package com.soft.gh.dao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.soft.gh.domain.TPatientScheme;
+
+@Repository
+public interface TPatientSchemeMapper {
+	TPatientScheme selectPatientScheme(TPatientScheme patientScheme);
+	
+	List<TPatientScheme> selectSchemeId(String schemeId);
+	void insertPatientScheme(TPatientScheme patientScheme);
+	int deleteById(Long id);
+}

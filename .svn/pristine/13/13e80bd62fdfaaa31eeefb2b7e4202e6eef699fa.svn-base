@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soft.gh.dao.TPatientSchemeMapper" >
+  <resultMap id="BaseResultMap" type="com.soft.gh.domain.TPatientScheme" >
+	<id column="id" property="id"  jdbcType="DECIMAL"/>
+	<result column="patient_id" property="patientId"  jdbcType="VARCHAR"/>
+	<result column="hospital_name" property="hospitalName"  jdbcType="VARCHAR"/>
+	<result column="dept_name" property="departName"  jdbcType="VARCHAR"/>
+	<result column="doc_name" property="docName"  jdbcType="VARCHAR"/>
+	<result column="scheme_id" property="schemeId"  jdbcType="DECIMAL"/>
+	<result column="order_date" property="orderDate"  jdbcType="VARCHAR"/>
+	<result column="res_timesign" property="resTimeSign"  jdbcType="CHAR"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+	 id,patient_id,hospital_name,dept_name,doc_name,scheme_id,order_date,res_timesign
+  </sql>
+   <insert id="insertPatientScheme" parameterType="com.soft.gh.domain.TPatientScheme" >
+    insert into T_patient_scheme ( <include refid="Base_Column_List" />
+      )
+    values (seq_patient_scheme.NEXTVAL,#{patientId,jdbcType=VARCHAR},#{hospitalName,jdbcType=VARCHAR},#{departName,jdbcType=VARCHAR},#{docName,jdbcType=VARCHAR},#{schemeId,jdbcType=DECIMAL},#{orderDate,jdbcType=VARCHAR},#{resTimeSign,jdbcType=CHAR}
+      )
+  </insert>
+  <select id="selectPatientScheme" parameterType="com.soft.gh.domain.TPatientScheme" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" /> from t_patient_scheme where patient_id=#{patientId,jdbcType=VARCHAR} and scheme_id=#{schemeId,jdbcType=DECIMAL} and order_date=#{orderDate,jdbcType=VARCHAR} and res_timesign=#{resTimeSign,jdbcType=CHAR}
+  </select>
+  
+  <select id="selectSchemeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" /> from t_patient_scheme where scheme_id=#{schemeId,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Long">
+  	delete t_patient_scheme where id = #{id,jdbcType=DECIMAL}
+  </delete>
+	
+</mapper>

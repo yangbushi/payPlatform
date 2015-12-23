@@ -1,0 +1,40 @@
+package com.tynet.dao;
+
+import com.tynet.model.GhMycollect;
+import com.tynet.model.GhMycollectExample;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface GhMycollectMapper {
+    int countByExample(GhMycollectExample example);
+
+    int deleteByExample(GhMycollectExample example);
+
+    List<GhMycollect> selectByExample(GhMycollectExample example);
+
+    int updateByExampleSelective(@Param("record") GhMycollect record, @Param("example") GhMycollectExample example);
+
+    int updateByExample(@Param("record") GhMycollect record, @Param("example") GhMycollectExample example);
+
+    List<GhMycollect> selectByExampleAndPage(GhMycollectExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(Long collectId);
+
+    int insert(GhMycollect record);
+
+    int insertSelective(GhMycollect record);
+
+    GhMycollect selectByPrimaryKey(Long collectId);
+
+    int updateByPrimaryKeySelective(GhMycollect record);
+
+    int updateByPrimaryKey(GhMycollect record);
+    
+    List<GhMycollect> myCollectCount(String patientId);
+    int myCollectDocCount(Map<String,Object> params);
+    int myDocCollectCount(String patientId);
+}

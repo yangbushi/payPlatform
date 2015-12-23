@@ -1,0 +1,45 @@
+package com.tynet.dao;
+
+import com.tynet.model.HosScheme;
+import com.tynet.model.HosSchemeExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface HosSchemeMapper {
+	int countByExample(HosSchemeExample example);
+
+	int deleteByExample(HosSchemeExample example);
+
+	List<HosScheme> selectByExample(HosSchemeExample example);
+
+	int updateByExampleSelective(@Param("record") HosScheme record, @Param("example") HosSchemeExample example);
+
+	int updateByExample(@Param("record") HosScheme record, @Param("example") HosSchemeExample example);
+
+	List<HosScheme> selectByExampleAndPage(HosSchemeExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(Long schemeId);
+
+	int insert(HosScheme record);
+
+	int insertSelective(HosScheme record);
+
+	HosScheme selectByPrimaryKey(Long schemeId);
+
+	int updateByPrimaryKeySelective(HosScheme record);
+
+	int updateByPrimaryKey(HosScheme record);
+
+	List<HosScheme> mgQuery();
+
+	HosScheme selectBySchemeId(@Param("schemeId") Long schemeId);
+
+	List<HosScheme> query(@Param("hosId") String hosId, @Param("deptId") String deptId);
+
+	List<HosScheme> queryOtherDept(@Param("hosId") String hosId, @Param("deptId") String deptId);
+	List<HosScheme> queryHosSchemeDept(String hosId);
+
+}

@@ -1,0 +1,45 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class DzParts implements Serializable {
+    private Long partId;
+
+    private String partName;
+
+    private Long showOrder;
+
+    private String sex;
+
+    public Long getPartId() {
+        return partId;
+    }
+
+    public void setPartId(Long partId) {
+        this.partId = partId;
+    }
+
+    public String getPartName() {
+        return partName;
+    }
+
+    public void setPartName(String partName) {
+        this.partName = partName;
+    }
+
+    public Long getShowOrder() {
+        return showOrder;
+    }
+
+    public void setShowOrder(Long showOrder) {
+        this.showOrder = showOrder;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+}

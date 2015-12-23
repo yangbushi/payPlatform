@@ -1,0 +1,51 @@
+package com.tynet.dao;
+
+import com.tynet.model.GhCollectHos;
+import com.tynet.model.GhCollectHosExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface GhCollectHosMapper {
+    int countByExample(GhCollectHosExample example);
+
+    int deleteByExample(GhCollectHosExample example);
+
+    List<GhCollectHos> selectByExample(GhCollectHosExample example);
+
+    int updateByExampleSelective(@Param("record") GhCollectHos record, @Param("example") GhCollectHosExample example);
+
+    int updateByExample(@Param("record") GhCollectHos record, @Param("example") GhCollectHosExample example);
+
+    List<GhCollectHos> selectByExampleAndPage(GhCollectHosExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(GhCollectHos record);
+
+    int insertSelective(GhCollectHos record);
+
+    GhCollectHos selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(GhCollectHos record);
+
+    int updateByPrimaryKey(GhCollectHos record);
+    /**
+	 * 查询用户收藏的医院ID
+	 * 
+	 * @param patientId
+	 * @return
+	 */
+	List<String> selectHosIdByPatientId(@Param("patientId") String patientId, @Param("apkName") String apkName, @Param("isDel") String isDel);
+
+	/**
+	 * 逻辑删除 更改is_del为1
+	 * 
+	 * @param patientId
+	 * @param hosId
+	 * @return
+	 */
+	int updateDelByPatientIdAndHosId(@Param("patientId") String patientId, @Param("hosId") String hosId, @Param("apkName") String apkName);
+
+}

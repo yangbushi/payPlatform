@@ -1,0 +1,57 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class BCCallList implements Serializable {
+	private String queueId;
+	
+	private String id;
+
+	private String deptName;
+
+	private String queueName;
+
+	private String curNo;
+
+	private static final long serialVersionUID = 1L;
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getQueueName() {
+		return queueName;
+	}
+
+	public void setQueueName(String queueName) {
+		this.queueName = queueName;
+	}
+
+	public String getCurNo() {
+		return curNo;
+	}
+
+	public void setCurNo(String curNo) {
+		this.curNo = curNo;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getQueueId() {
+		return queueId;
+	}
+
+	public void setQueueId(String queueId) {
+		this.queueId = queueId;
+	}
+}

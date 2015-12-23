@@ -1,0 +1,130 @@
+package com.tynet.action;
+
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.alibaba.fastjson.JSONObject;
+import com.alipay.config.AlipayConfig;
+import com.alipay.util.AlipayNotify;
+import com.herenit.cloud.model.AppDeploy;
+import com.herenit.cloud.util.RequestForwarder;
+import com.soft.gh.dao.TOrderMapper;
+import com.soft.gh.dao.TPatientMapper;
+import com.soft.gh.domain.TOrder;
+import com.soft.gh.domain.TPatient;
+import com.tynet.dao.GhHospitalMapper;
+import com.tynet.model.GhHospital;
+import com.tynet.util.Utils;
+
+
+@Controller
+@Scope("prototype")
+public class NotifyOfAlipayAction extends BaseAction2 {
+	@Autowired
+	private TOrderMapper orderDao;
+	
+	@Autowired
+	private GhHospitalMapper ghHospitalDao;
+	@Autowired
+	private TPatientMapper patientDao;
+	
+	private static final long serialVersionUID = -6287879347497083310L;
+	private static Logger log = LoggerFactory.getLogger(NotifyOfAlipayAction.class);
+	
+	private String sign;	//签名
+	private String sec_id;
+	private String v;
+	private String notify_data;	//异步通知数据
+	private String service;
+	
+	
+	public String notifyOfAlipay() throws Exception{
+			Map<String,String> params = new HashMap<String,String>();
+			params.put("sign", sign);
+			params.put("sec_id", sec_id);
+			params.put("v", v);
+			params.put("notify_data", notify_data);
+			params.put("service", service);			
+			//获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
+			//RSA签名解密
+		   	if(AlipayConfig.sign_type.equals("0001")) {
+		   		params = AlipayNotify.decrypt(params);
+		   	}
+			//XML解析notify_data数据
+			Document doc_notify_data = DocumentHelper.parseText(params.get("notify_data"));
+			//商户订单号
+			String out_trade_no = doc_notify_data.selectSingleNode( "//notify/out_trade_no" ).getText();
+			//支付宝交易号
+			String trade_no = doc_notify_data.selectSingleNode( "//notify/trade_no" ).getText();
+			//交易状态
+			String trade_status = doc_notify_data.selectSingleNode( "//notify/trade_status" ).getText();
+			
+			
+			//获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
+			//System.out.println(out_trade_no);
+			boolean verify_result = AlipayNotify.verifyNotify(params);
+			log.info(verify_result+"###NotifyOfAlipayAction###"+params.toString());
+			if(verify_result){//验证成功
+				//请在这里加上商户的业务逻辑程序代码
+				return NONE;
+			}else{
+				//该页面可做页面美工编辑
+				return NONE;
+			}
+		
+	}
+
+	public String getSec_id() {
+		return sec_id;
+	}
+
+	public void setSec_id(String sec_id) {
+		this.sec_id = sec_id;
+	}
+
+
+	public String getV() {
+		return v;
+	}
+
+	public void setV(String v) {
+		this.v = v;
+	}
+
+	public String getNotify_data() {
+		return notify_data;
+	}
+
+	public void setNotify_data(String notify_data) {
+		this.notify_data = notify_data;
+	}
+
+	public String getService() {
+		return service;
+	}
+
+	public void setService(String service) {
+		this.service = service;
+	}
+
+	public String getSign() {
+		return sign;
+	}
+
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+	
+}

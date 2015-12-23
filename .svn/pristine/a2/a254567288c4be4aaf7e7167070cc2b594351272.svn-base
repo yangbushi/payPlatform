@@ -1,0 +1,110 @@
+html {
+    color: #474747;
+    background: #e7e6e2;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+/*支付平台选择页面*/
+.div_wrap {
+    width: 100%;
+}
+
+.div_title {
+    padding: 10px 0 0 20px;
+}
+
+.div_payment {
+	width: 100%;
+    padding: 10px;
+}
+
+.list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+    .list li {
+        overflow: hidden;
+        position: relative;
+        background-color: white;
+        border-bottom: 1px solid #cbcbcb;
+        height: 70px;
+        line-height: 70px;
+    }
+
+
+        .list li:hover {
+        }
+
+    .list span {
+        float: left;
+    }
+	.list li span{
+		display:block
+	}
+    .list .left {
+        padding: 10px 10px 0 10px;
+        width: 68px;
+    }
+
+    .list .right {
+        position: absolute;
+        right: 10px;
+        top: 0px;
+    }
+
+.div_payment {
+    font-weight: bolder;
+}
+
+.div_zfb {
+    line-height: 20px;
+    padding-top: 15px;
+}
+
+.div_prompt {
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.div_button {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.btn_save {
+    border-style: none;
+    border-width: 0px;
+    background-color: #009ccf;
+    color: white;
+    display: inline-block;
+    width: 80%;
+    height: 50px;
+    line-height: 50px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    font-size: 16px;
+    border-radius: 0px;
+}
+/*弹出通知结果页面*/
+.div_whitewrap {
+    background-color: white;
+    margin: 20px 10px 10px 10px;
+    text-align: center;
+    padding: 50px;
+}
+.div_row_wrap{
+    margin-top:20px;
+}
+
+.div_image {
+    position: relative;
+    top: 7px;
+    right: -3px;
+}

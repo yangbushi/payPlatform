@@ -1,0 +1,125 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class GhDept implements Serializable {
+    private Integer deptId;
+
+    private String deptName;
+
+    private String deptLevel;
+
+    private String intro;
+
+    private String hosId;
+
+    private String platDeptId;
+
+    private String gbDeptCode;
+
+    private Short minAge;
+
+    private Integer bookCount;
+
+    private Integer showNo;
+    
+    private String pyCode;
+    
+    private String floor;
+
+    public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+
+	public String getPyCode() {
+		return pyCode;
+	}
+
+	public void setPyCode(String pyCode) {
+		this.pyCode = pyCode;
+	}
+
+	public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getDeptLevel() {
+        return deptLevel;
+    }
+
+    public void setDeptLevel(String deptLevel) {
+        this.deptLevel = deptLevel;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
+    public String getHosId() {
+        return hosId;
+    }
+
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+
+    public String getPlatDeptId() {
+        return platDeptId;
+    }
+
+    public void setPlatDeptId(String platDeptId) {
+        this.platDeptId = platDeptId;
+    }
+
+    public String getGbDeptCode() {
+        return gbDeptCode;
+    }
+
+    public void setGbDeptCode(String gbDeptCode) {
+        this.gbDeptCode = gbDeptCode;
+    }
+
+    public Short getMinAge() {
+        return minAge;
+    }
+
+    public void setMinAge(Short minAge) {
+        this.minAge = minAge;
+    }
+
+    public Integer getBookCount() {
+        return bookCount;
+    }
+
+    public void setBookCount(Integer bookCount) {
+        this.bookCount = bookCount;
+    }
+
+    public Integer getShowNo() {
+        return showNo;
+    }
+
+    public void setShowNo(Integer showNo) {
+        this.showNo = showNo;
+    }
+}

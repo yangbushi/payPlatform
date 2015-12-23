@@ -1,0 +1,104 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class JzChildVaccinePlan implements Serializable {
+    private String childId;
+
+    private String planId;
+
+    private String vaccineId;
+
+    public String getVaccineId() {
+		return vaccineId;
+	}
+
+	public void setVaccineId(String vaccineId) {
+		this.vaccineId = vaccineId;
+	}
+
+	private Date vaccineDate;
+
+    private Date expectVaccineDate;
+
+    private String state;
+    
+    private String times;
+    
+    private String ageZhCh;
+    private String vaccineName;
+    private String vaccineDisease;
+
+    public String getTimes() {
+		return times;
+	}
+
+	public void setTimes(String times) {
+		this.times = times;
+	}
+
+	public String getAgeZhCh() {
+		return ageZhCh;
+	}
+
+	public void setAgeZhCh(String ageZhCh) {
+		this.ageZhCh = ageZhCh;
+	}
+
+	public String getVaccineName() {
+		return vaccineName;
+	}
+
+	public void setVaccineName(String vaccineName) {
+		this.vaccineName = vaccineName;
+	}
+
+	public String getVaccineDisease() {
+		return vaccineDisease;
+	}
+
+	public void setVaccineDisease(String vaccineDisease) {
+		this.vaccineDisease = vaccineDisease;
+	}
+
+	public String getChildId() {
+        return childId;
+    }
+
+    public void setChildId(String childId) {
+        this.childId = childId;
+    }
+
+    public String getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(String planId) {
+        this.planId = planId;
+    }
+
+    public Date getVaccineDate() {
+        return vaccineDate;
+    }
+
+    public void setVaccineDate(Date vaccineDate) {
+        this.vaccineDate = vaccineDate;
+    }
+
+    public Date getExpectVaccineDate() {
+        return expectVaccineDate;
+    }
+
+    public void setExpectVaccineDate(Date expectVaccineDate) {
+        this.expectVaccineDate = expectVaccineDate;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+}

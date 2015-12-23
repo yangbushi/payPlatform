@@ -1,0 +1,59 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class GhHosFloor implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
+
+    private String hosId;
+
+    private String source;
+
+    private String floorUrl;
+
+    private String hosName;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getHosId() {
+        return hosId;
+    }
+
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getFloorUrl() {
+        return floorUrl;
+    }
+
+    public void setFloorUrl(String floorUrl) {
+        this.floorUrl = floorUrl;
+    }
+
+	public String getHosName() {
+		return hosName;
+	}
+
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+}

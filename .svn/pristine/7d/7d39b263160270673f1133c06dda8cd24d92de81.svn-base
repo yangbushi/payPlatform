@@ -1,0 +1,318 @@
+package com.defray.service;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.GeneralSecurityException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Path;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.ServletActionContext;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alipay.config.AlipayConfig;
+import com.alipay.util.AlipaySubmit;
+import com.bocnet.common.security.PKCS7Tool;
+import com.defray.bean.DefrayRecordEntity;
+import com.defray.model.DefrayRecordModel;
+import com.defray.util.HttpUtil;
+import com.defray.util.HttpUtil.METHOD;
+import com.opensymphony.xwork2.ActionSupport;
+
+
+@Controller
+@Scope("prototype")
+public class ChinaBankService extends ActionSupport {
+	
+	private static final long serialVersionUID = -6287879347497083310L;
+	private static Logger log = LoggerFactory.getLogger(ChinaBankService.class);
+	
+	@Autowired
+	private DefrayRecordModel defrayRecordModel;
+	
+	private String merchantNo;
+	private String orderNo;
+	private String orderSeq;
+	private String cardTyp;
+	private String payTime;
+	private String orderStatus;//0未处理1：支付2：撤销3：退货4：未明5：失败
+	private String payAmount;
+	private String acctNo;//可为空
+	private String holderName;//可为空
+	private String ibknum;//可为空
+	private String orderIp;
+	private String orderRefer;
+	private String bankTranSeq;
+	private String returnActFlag;//1：支付结果通知2：电话订单结果通知3：退款结果通知4：订单查询结果
+	private String phoneNum;
+	private String signData;
+	/** 证书路径*/
+	public static String keyStorePath = "";//D:\\doc\\key\\private_key.pfx
+	/** 证书安装密码 */
+	public static String keyStorePassword = "123456";
+	/** 证书密码 */
+	public static String keyPassword = "123456";
+	/** 根证书路径 */
+	public static String rootCertificatePath = "";//D:\\doc\\key\\root_key.cer
+	
+	public String callbackOfChinaBank() throws Exception{
+		String param=merchantNo+"|"+orderNo+"|"+orderSeq+"|"+cardTyp+"|"+payTime+"|"+orderStatus+"|"+payAmount;		
+		if ("1".equals(orderStatus)) {
+			String path=this.getClass().getClassLoader().getResource("/").getPath();
+			path=path.substring(1, path.indexOf("WEB-INF"))+"WEB-INF/";
+			keyStorePath=path+"xy3yyb2c.pfx";
+			rootCertificatePath=path+"bocnet_ca.cer";
+			boolean verify_result = verifySign(signData, param, null);
+			if(verify_result){//验证成功				
+				// ******这里进行支付结果通知*****************//
+				Map<String, Object> parameter = new HashMap<String, Object>();
+				DefrayRecordEntity defrayRecord = defrayRecordModel
+						.getByKey(orderNo);
+				defrayRecord.setDefrayFee(Double.valueOf(payAmount));
+				defrayRecord.setDefrayAccount("");
+				defrayRecord.setDefrayResult(0);
+				defrayRecord.setDefraySuccessTime(new Date());
+				defrayRecord.setDefrayType(3);
+				defrayRecord.setBuyerEmail("");
+				// defrayRecord.setNoticeResult(noticeResult);
+				defrayRecord.setTradeNo(orderSeq);
+				defrayRecordModel.update(defrayRecord);
+				String url = defrayRecord.getNoticeUrl() + "services/f/100720";
+				log.info("@@@url:" + url);
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("funcode", "100720");
+				map.put("captcha", "token");
+				Map<String, Object> subMap = new HashMap<String, Object>();
+				subMap.put("sysCode", "1001001");
+				subMap.put("hosId", defrayRecord.getHospitalId());
+				subMap.put("psnId", defrayRecord.getPsnId());
+				subMap.put("orderId", defrayRecord.getOrderId());
+				subMap.put("payState", "0");
+				subMap.put("payDate", new Date());
+				subMap.put("transactNo", orderSeq);
+				subMap.put("payType", "1");
+				subMap.put("bankAccount", "");
+				subMap.put("orderAmount", defrayRecord.getDefrayFee());
+				map.put("args", subMap);
+				String requestStr = JSON.toJSON(map).toString();
+				String ret;
+				try {
+					ret = HttpUtil.request(url, requestStr, METHOD.POST,
+							"utf-8", 20000);
+				} catch (IOException e) {
+					defrayRecord.setNoticeResult(1);
+					defrayRecordModel.update(defrayRecord);
+					return NONE;
+				}
+				log.info("@@@ret:" + ret);
+				JSONObject jsonObj = JSON.parseObject(ret);
+				String resultCode = jsonObj.getString("code");//
+				defrayRecord.setNoticeResult(0);
+				defrayRecordModel.update(defrayRecord);		         
+				HttpServletResponse response = getResponse();
+				PrintWriter writer = null;
+				try {
+					writer = response.getWriter();
+					writer.write("success");
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					if (writer != null) {
+						writer.flush();
+						writer.close();
+					}
+				}
+				return SUCCESS;
+			}else{
+				//该页面可做页面美工编辑
+				System.out.println("验签失败！");
+				return NONE;
+			}
+		} else {
+			return NONE;
+		}
+		
+	}
+
+	
+	/**
+	 *  生成签名,如果异常返回null
+	 * @param param
+	 * @return
+	 */
+	public static String sign(String param) {
+
+		if(param==null)
+		{
+			return null;
+		}
+		
+		try {
+			PKCS7Tool tool = PKCS7Tool.getSigner(keyStorePath,
+					keyStorePassword,
+					keyPassword);
+			return tool.sign(param.getBytes());
+		} catch (GeneralSecurityException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	/**
+	 * 校验签名是否有效
+	 * @param signature 返回的签名
+	 * @param param     返回的参数
+	 * @param dn        证书dn,为空则不校验dn
+	 * @return
+	 */
+	public static boolean verifySign(String signature, String param, String dn)
+	{
+		
+		if(signature == null || param == null)
+		{
+			return false;
+		}
+		try {
+			PKCS7Tool vTool = PKCS7Tool.getVerifier(rootCertificatePath);
+			vTool.verify(signature, param.getBytes(), dn);
+			return true; // 校验成功
+		} catch (GeneralSecurityException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+	
+	public String getMerchantNo() {
+		return merchantNo;
+	}
+	public void setMerchantNo(String merchantNo) {
+		this.merchantNo = merchantNo;
+	}
+	public String getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+	public String getOrderSeq() {
+		return orderSeq;
+	}
+	public void setOrderSeq(String orderSeq) {
+		this.orderSeq = orderSeq;
+	}
+	public String getCardTyp() {
+		return cardTyp;
+	}
+	public void setCardTyp(String cardTyp) {
+		this.cardTyp = cardTyp;
+	}
+	public String getPayTime() {
+		return payTime;
+	}
+	public void setPayTime(String payTime) {
+		this.payTime = payTime;
+	}
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	public String getPayAmount() {
+		return payAmount;
+	}
+	public void setPayAmount(String payAmount) {
+		this.payAmount = payAmount;
+	}
+	public String getAcctNo() {
+		return acctNo;
+	}
+	public void setAcctNo(String acctNo) {
+		this.acctNo = acctNo;
+	}
+	public String getHolderName() {
+		return holderName;
+	}
+	public void setHolderName(String holderName) {
+		this.holderName = holderName;
+	}
+	public String getIbknum() {
+		return ibknum;
+	}
+	public void setIbknum(String ibknum) {
+		this.ibknum = ibknum;
+	}
+	public String getOrderIp() {
+		return orderIp;
+	}
+	public void setOrderIp(String orderIp) {
+		this.orderIp = orderIp;
+	}
+	public String getOrderRefer() {
+		return orderRefer;
+	}
+	public void setOrderRefer(String orderRefer) {
+		this.orderRefer = orderRefer;
+	}
+	public String getBankTranSeq() {
+		return bankTranSeq;
+	}
+	public void setBankTranSeq(String bankTranSeq) {
+		this.bankTranSeq = bankTranSeq;
+	}
+	public String getReturnActFlag() {
+		return returnActFlag;
+	}
+	public void setReturnActFlag(String returnActFlag) {
+		this.returnActFlag = returnActFlag;
+	}
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
+	}
+	public String getSignData() {
+		return signData;
+	}
+	public void setSignData(String signData) {
+		this.signData = signData;
+	}
+	
+	/**
+     * 获得response
+     */
+    private HttpServletResponse getResponse() {
+        return ServletActionContext.getResponse();
+    }
+}

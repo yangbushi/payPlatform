@@ -1,0 +1,53 @@
+package com.tynet.dao;
+
+import com.tynet.model.GhHospital;
+import com.tynet.model.HospitalInfo;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface GhHospitalMapper {
+
+	List<HospitalInfo> selectListByAreaCode(String areaCode);
+
+	HospitalInfo selectInfo(String hosId);
+	
+	List<HospitalInfo> selectIndexHos(String[] hosId);
+
+	GhHospital selectByPrimaryKey(String hosId);
+
+	GhHospital selectByPlatCode(@Param("platCode") String platCode);
+
+	int selectHosCount();
+
+	List<HospitalInfo> selectMyHos(@Param("type") String type, @Param("patientId") String patientId);
+
+	List<HospitalInfo> searchHosByKey(@Param("key") String key, @Param("areaId") String areaId);
+
+	List<HospitalInfo> selectByPlatCodes(Object[] objects);
+
+	List<GhHospital> selectByPlatCodesOrderByAreaIdAndHosName(Object[] hosId);
+
+	/**
+	 * 预约量，地区，医院名称排序
+	 * 
+	 * @param hosId
+	 * @return
+	 */
+	List<HospitalInfo> selectByHosIdsOrderByAreaIdAndHosName(Object[] hosId);
+
+	List<String> selectPlatCodeByHosId(String[] hosId);
+
+	GhHospital selectHosForScan(@Param("hosId") String hosId);
+	
+	/**
+	 * 可以根据机构编码，机构名称获取机构(或者不传 则获取所有)
+	 * @param map
+	 * @return
+	 */
+	List<HospitalInfo> selectHospital(Map<String, String> map);
+
+}

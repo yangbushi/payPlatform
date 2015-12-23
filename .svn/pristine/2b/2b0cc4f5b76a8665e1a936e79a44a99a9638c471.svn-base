@@ -1,0 +1,385 @@
+package com.soft.gh.domain;
+
+import java.util.Date;
+
+public class TOrder {
+	private Long orderId;
+
+	private Long patientId;
+
+	private String hospitalId;
+
+	private String schemeId;
+
+	private Date optime;
+
+	private String orderDate;
+
+	private String orderTime;
+
+	private int orderNumber;
+
+	private String orderTimeSign;
+
+	private String takeCode;
+
+	private String orderState;
+
+	private String errCode;
+
+	private Date orderD;
+
+	private String operNo;
+
+	private String channel;
+
+	private String patientName;
+
+	private String hospitalName;
+
+	private String deptName;
+
+	private String notiyState;
+
+	private String docName;
+
+	private String deptId;
+
+	private String docId;
+	// 是否评价 1:已评价 0:未评价
+	private String rateFlag;
+	/**
+	 * 取号状态代码, 0-待上传，1-违约未取，2-已就诊
+	 */
+	private String qhzt;
+	/**
+	 * 取号时间
+	 */
+	private String qhsj;
+	private String medicalCard;
+	
+	private String medicalCardType;
+	private String registerType;
+	private String totalFee;
+	private String tradeNo;
+	private String tradeResult;
+	private Date tradePayTime;
+	private String categor;
+	private String payType;
+	private Long platOrderId;
+	
+	private String timePoint;
+	private Integer disNo;
+	
+	private String isRefund;
+	
+	
+	
+	public String getIsRefund() {
+		return isRefund;
+	}
+
+	public void setIsRefund(String isRefund) {
+		this.isRefund = isRefund;
+	}
+
+	public String getTimePoint() {
+		return timePoint;
+	}
+
+	public void setTimePoint(String timePoint) {
+		this.timePoint = timePoint;
+	}
+
+	public Integer getDisNo() {
+		return disNo;
+	}
+
+	public void setDisNo(Integer disNo) {
+		this.disNo = disNo;
+	}
+
+	public String getPayType() {
+		return payType;
+	}
+
+	public void setPayType(String payType) {
+		this.payType = payType;
+	}
+
+	public String getCategor() {
+		return categor;
+	}
+
+	public void setCategor(String categor) {
+		this.categor = categor;
+	}
+
+	public String getMedicalCardType() {
+		return medicalCardType;
+	}
+
+	public void setMedicalCardType(String medicalCardType) {
+		this.medicalCardType = medicalCardType;
+	}
+
+	public String getRegisterType() {
+		return registerType;
+	}
+
+	public void setRegisterType(String registerType) {
+		this.registerType = registerType;
+	}
+
+	public String getTotalFee() {
+		return totalFee;
+	}
+
+	public void setTotalFee(String totalFee) {
+		this.totalFee = totalFee;
+	}
+
+	public String getMedicalCard() {
+		return medicalCard;
+	}
+
+	public void setMedicalCard(String medicalCard) {
+		this.medicalCard = medicalCard;
+	}
+
+	public String getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getDocId() {
+		return docId;
+	}
+
+	public void setDocId(String docId) {
+		this.docId = docId;
+	}
+
+	public String getNotiyState() {
+		return notiyState;
+	}
+
+	public void setNotiyState(String notiyState) {
+		this.notiyState = notiyState;
+	}
+
+	public String getOperNo() {
+		return operNo;
+	}
+
+	public void setOperNo(String operNo) {
+		this.operNo = operNo;
+	}
+
+	
+
+	public Long getPlatOrderId() {
+		return platOrderId;
+	}
+
+	public void setPlatOrderId(Long platOrderId) {
+		this.platOrderId = platOrderId;
+	}
+
+	public String getDocName() {
+		return docName;
+	}
+
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+
+	public Date getOrderD() {
+		return orderD;
+	}
+
+	public void setOrderD(Date orderD) {
+		this.orderD = orderD;
+	}
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public Long getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(Long patientId) {
+		this.patientId = patientId;
+	}
+
+	public String getHospitalId() {
+		return hospitalId;
+	}
+
+	public void setHospitalId(String hospitalId) {
+		this.hospitalId = hospitalId;
+	}
+
+	public String getSchemeId() {
+		return schemeId;
+	}
+
+	public void setSchemeId(String schemeId) {
+		this.schemeId = schemeId;
+	}
+
+	public Date getOptime() {
+		return optime;
+	}
+
+	public void setOptime(Date optime) {
+		this.optime = optime;
+	}
+
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public String getOrderTime() {
+		return orderTime;
+	}
+
+	public void setOrderTime(String orderTime) {
+		this.orderTime = orderTime;
+	}
+
+	public int getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(int orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public String getOrderTimeSign() {
+		return orderTimeSign;
+	}
+
+	public void setOrderTimeSign(String orderTimeSign) {
+		this.orderTimeSign = orderTimeSign;
+	}
+
+	public String getTakeCode() {
+		return takeCode;
+	}
+
+	public void setTakeCode(String takeCode) {
+		this.takeCode = takeCode;
+	}
+
+	public String getOrderState() {
+		return orderState;
+	}
+
+	public void setOrderState(String orderState) {
+		this.orderState = orderState;
+	}
+
+	public String getErrCode() {
+		return errCode;
+	}
+
+	public void setErrCode(String errCode) {
+		this.errCode = errCode;
+	}
+
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+
+	public String getPatientName() {
+		return patientName;
+	}
+
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+
+	public String getHospitalName() {
+		return hospitalName;
+	}
+
+	public void setHospitalName(String hospitalName) {
+		this.hospitalName = hospitalName;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getRateFlag() {
+		return rateFlag;
+	}
+
+	public void setRateFlag(String rateFlag) {
+		this.rateFlag = rateFlag;
+	}
+
+	public String getQhzt() {
+		return qhzt;
+	}
+
+	public void setQhzt(String qhzt) {
+		this.qhzt = qhzt;
+	}
+
+	public void setQhsj(String qhsj) {
+		this.qhsj = qhsj;
+	}
+
+	public String getQhsj() {
+		return qhsj;
+	}
+
+	public String getTradeNo() {
+		return tradeNo;
+	}
+
+	public void setTradeNo(String tradeNo) {
+		this.tradeNo = tradeNo;
+	}
+
+	public String getTradeResult() {
+		return tradeResult;
+	}
+
+	public void setTradeResult(String tradeResult) {
+		this.tradeResult = tradeResult;
+	}
+
+	public Date getTradePayTime() {
+		return tradePayTime;
+	}
+
+	public void setTradePayTime(Date tradePayTime) {
+		this.tradePayTime = tradePayTime;
+	}
+	
+	
+}

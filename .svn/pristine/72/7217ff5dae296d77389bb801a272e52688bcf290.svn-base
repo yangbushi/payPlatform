@@ -1,0 +1,116 @@
+package com.herenit.cloud.aop;
+
+import java.lang.reflect.Method;
+
+import javax.annotation.Resource;
+import javax.ws.rs.Path;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.api.annotation.Cache;
+import com.herenit.api.bean.RequestParam;
+import com.herenit.api.bean.ResponseMessage;
+import com.herenit.cloud.Constant;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.manager.AccessManager;
+
+@Service("accessTokenVerification")
+public class AccessTokenVerification {
+
+	public Logger logger = LoggerFactory.getLogger(AccessTokenVerification.class);
+	
+	@Resource(name = "accessManager")
+	private AccessManager accessManager;
+
+	public AccessManager getAccessManager() {
+		return accessManager;
+	}
+
+	public void setAccessManager(AccessManager accessManager) {
+		this.accessManager = accessManager;
+	}
+
+	ObjectMapper mapper = new ObjectMapper();
+
+	public Object around(ProceedingJoinPoint jp) throws Throwable {
+		MethodSignature joinPointObject = (MethodSignature) jp.getSignature();
+		Method method = joinPointObject.getMethod();
+		// 作为rest服务时才被限权
+		if (method.isAnnotationPresent(Path.class)) {
+			Object[] params = jp.getArgs();
+			if (params == null || params.length == 0 || params[0] == null) {
+				return mapper.writeValueAsString(new ResponseMessage<Object>(
+						CODE.FAIL.value(), Constant.PARAMETER_NULL));
+			}
+			Path path = method.getAnnotation(Path.class);
+			if ("{funcode}".equalsIgnoreCase(path.value())) {
+				JSONObject json = JSON.parseObject(params[1].toString());
+				if (json != null) {
+					// 验证令牌是否合法
+					//System.out.println(json.getString("captcha"));
+//					if (!accessManager.verify(json.getString("captcha"))) {
+//						return mapper
+//								.writeValueAsString(new ResponseMessage<Object>(
+//										CODE.FAIL.value(), Constant.TOKEN_ERROR));
+//					}
+				} else {
+					return mapper
+							.writeValueAsString(new ResponseMessage<Object>(
+									CODE.FAIL.value(), Constant.PARAMETER_NULL));
+				}
+			} else {
+				if (!Constant.$100102.equalsIgnoreCase(path.value())) {
+
+					if (params != null && params.length > 0
+							&& params[0] != null
+							&& params[0] instanceof RequestParam<?>) {
+
+						RequestParam<?> p = (RequestParam<?>) params[0];
+						// 验证令牌是否合法
+//						if (!accessManager.verify(p.getCaptcha())) {
+//							return mapper
+//									.writeValueAsString(new ResponseMessage<Object>(
+//											CODE.FAIL.value(),
+//											Constant.TOKEN_ERROR));
+//						}
+
+					} else {
+						return mapper
+								.writeValueAsString(new ResponseMessage<Object>(
+										CODE.FAIL.value(),
+										Constant.PARAMETER_NULL));
+					}
+				}
+			}
+		}
+
+		// 从cache中读取信息
+		if (method.isAnnotationPresent(Cache.class)) {
+
+		}
+		try {
+			return jp.proceed();
+		} catch (BusException e) {
+			logger.error(e.getCode(),e);
+			return mapper.writeValueAsString(new ResponseMessage<Object>(CODE.FAIL.value(), e.getMessage()));
+					
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
+			return mapper.writeValueAsString(new ResponseMessage<Object>(
+					CODE.FAIL.value(), Constant.SYSTEM_ERROR));
+		}
+	}
+
+	public void afterThrowing(JoinPoint jp, Throwable ex) throws Throwable {
+
+	}
+}

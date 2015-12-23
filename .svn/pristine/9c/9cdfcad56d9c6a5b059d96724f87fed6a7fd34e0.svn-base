@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.JzVaccinePlanMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.JzVaccinePlan" >
+    <result column="PLAN_ID" property="planId" jdbcType="DECIMAL" />
+    <result column="VACCINE_ID" property="vaccineId" jdbcType="DECIMAL" />
+    <result column="TIMES" property="times" jdbcType="VARCHAR" />
+    <result column="AGE" property="age" jdbcType="VARCHAR" />
+    <result column="AGE_ZH_CN" property="ageZhCh" jdbcType="VARCHAR" />
+    <result column="VACCINE_NAME" property="vaccineName" jdbcType="VARCHAR" />
+    <result column="VACCINE_DISEASE" property="vaccineDisease" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    vp.plan_id,vp.vaccine_id,vp.times,vp.age,vp.AGE_ZH_CN,v.vaccine_name,v.VACCINE_DISEASE
+  </sql>
+ <select id="selectVaccinePlane" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List"/> from (select * from JZ_VACCINE_PLAN where STATUS=0 ) vp 
+left join (select * from JZ_VACCINE where VACCINE_STATE=0) v 
+on vp.vaccine_id=v.vaccine_id order by cast(vp.age as number)
+ </select>
+</mapper>

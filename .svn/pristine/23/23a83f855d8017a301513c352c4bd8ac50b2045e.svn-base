@@ -1,0 +1,55 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class SurveyNorAnswer implements Serializable {
+    private Long nId;
+
+    private Long qId;
+
+    private Long aId;
+
+    private String aContent;
+
+    private Long sId;
+
+    public Long getnId() {
+        return nId;
+    }
+
+    public void setnId(Long nId) {
+        this.nId = nId;
+    }
+
+    public Long getqId() {
+        return qId;
+    }
+
+    public void setqId(Long qId) {
+        this.qId = qId;
+    }
+
+    public Long getaId() {
+        return aId;
+    }
+
+    public void setaId(Long aId) {
+        this.aId = aId;
+    }
+
+    public String getaContent() {
+        return aContent;
+    }
+
+    public void setaContent(String aContent) {
+        this.aContent = aContent;
+    }
+
+    public Long getsId() {
+        return sId;
+    }
+
+    public void setsId(Long sId) {
+        this.sId = sId;
+    }
+}

@@ -1,0 +1,28 @@
+package com.tynet.dao;
+
+import com.tynet.model.JzPatientChild;
+import com.tynet.model.JzPatientChildExample;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface JzPatientChildMapper {
+    int countByExample(JzPatientChildExample example);
+
+    int deleteByExample(JzPatientChildExample example);
+
+    List<JzPatientChild> selectByExample(JzPatientChildExample example);
+
+    int updateByExampleSelective(@Param("record") JzPatientChild record, @Param("example") JzPatientChildExample example);
+
+    int updateByExample(@Param("record") JzPatientChild record, @Param("example") JzPatientChildExample example);
+
+    List<JzPatientChild> selectByExampleAndPage(JzPatientChildExample example, RowBounds rowBound);
+
+    int insert(JzPatientChild record);
+
+    int insertSelective(JzPatientChild record);
+}

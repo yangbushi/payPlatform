@@ -1,0 +1,35 @@
+package com.defray.dao;
+
+
+
+import java.util.List;
+import java.util.Map;
+import java.lang.Integer;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.defray.bean.DefrayHospitalEntity;
+
+
+ 
+@Repository
+public interface DefrayHospitalMapper {
+
+	 
+	public Integer insert(DefrayHospitalEntity defrayHospital);
+	public Integer update(DefrayHospitalEntity defrayHospital);
+	
+	public Integer deleteByKey(@Param("key")Integer key);
+	public DefrayHospitalEntity getByKey (@Param("key") Integer key);
+	
+	public Integer deleteByKey(@Param("key")String key);
+	public DefrayHospitalEntity getByKey (@Param("key") String key);
+	
+	
+	public List<DefrayHospitalEntity>  findEntitys(@Param("param")Map<String ,Object>  param);
+	public Integer getEntitysCount(@Param("param")Map<String ,Object>  param);
+		
+		
+ 
+}

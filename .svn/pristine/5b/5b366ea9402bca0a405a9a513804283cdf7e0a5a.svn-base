@@ -1,0 +1,162 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class GhRate implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
+
+    private Long patientId;
+
+    private Long orderId;
+
+    private Long hosId;
+
+    private String deptId;
+
+    private String docId;
+
+    private Integer ratePlat;
+
+    private Integer rateHospital;
+
+    private Integer rateDoctor;
+
+    private String clinicReason;
+
+    private Date clinicTime;
+
+    private String rateContent;
+
+    private Date rateTime;
+    
+    private String type;
+    
+    private String schId;
+
+    public String getSchId() {
+		return schId;
+	}
+
+	public void setSchId(String schId) {
+		this.schId = schId;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getHosId() {
+        return hosId;
+    }
+
+    public void setHosId(Long hosId) {
+        this.hosId = hosId;
+    }
+
+
+    public String getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getDocId() {
+		return docId;
+	}
+
+	public void setDocId(String docId) {
+		this.docId = docId;
+	}
+
+	public Integer getRatePlat() {
+        return ratePlat;
+    }
+
+    public void setRatePlat(Integer ratePlat) {
+        this.ratePlat = ratePlat;
+    }
+
+    public Integer getRateHospital() {
+        return rateHospital;
+    }
+
+    public void setRateHospital(Integer rateHospital) {
+        this.rateHospital = rateHospital;
+    }
+
+    public Integer getRateDoctor() {
+        return rateDoctor;
+    }
+
+    public void setRateDoctor(Integer rateDoctor) {
+        this.rateDoctor = rateDoctor;
+    }
+
+    public String getClinicReason() {
+        return clinicReason;
+    }
+
+    public void setClinicReason(String clinicReason) {
+        this.clinicReason = clinicReason;
+    }
+
+    public Date getClinicTime() {
+        return clinicTime;
+    }
+
+    public void setClinicTime(Date clinicTime) {
+        this.clinicTime = clinicTime;
+    }
+
+    public String getRateContent() {
+        return rateContent;
+    }
+
+    public void setRateContent(String rateContent) {
+        this.rateContent = rateContent;
+    }
+
+    public Date getRateTime() {
+        return rateTime;
+    }
+
+    public void setRateTime(Date rateTime) {
+        this.rateTime = rateTime;
+    }
+}

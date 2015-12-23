@@ -1,0 +1,413 @@
+package com.herenit.cloud.rules.impl;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.exception.FrontendModule;
+import com.herenit.cloud.manager.DeployManager;
+import com.herenit.cloud.model.AppDeploy;
+import com.herenit.cloud.rules.Business;
+import com.herenit.cloud.util.RequestForwarder;
+import com.soft.gh.dao.TOrderMapper;
+import com.soft.gh.dao.TPatientMapper;
+import com.soft.gh.domain.TOrder;
+import com.soft.gh.domain.TPatient;
+import com.tynet.dao.GhDeptMapper;
+import com.tynet.dao.GhDocMapper;
+import com.tynet.dao.GhHospitalMapper;
+import com.tynet.model.GhDept;
+import com.tynet.model.GhDoc;
+import com.tynet.model.GhHospital;
+import com.tynet.util.IdCardUtils;
+import com.tynet.util.Utils;
+
+@Service
+public class RegisterPayBusiness extends DeployManager implements Business {
+	static SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+	
+	
+	@Autowired
+	private TPatientMapper patientDao;
+
+	@Autowired
+	private TOrderMapper orderDao;
+
+	@Autowired
+	GhDocMapper ghDocDao;
+
+	@Autowired
+	private GhDeptMapper ghDeptDao;
+
+	@Autowired
+	private GhHospitalMapper ghHospitalDao;
+
+	@Override
+	public void before(JSONObject request) throws BusException {
+		JSONObject args = request.getJSONObject("args");
+		if (args == null) {
+			throw FrontendModule.FRONTEND_0030;
+		}
+		String hosId=request.getString("hosId");
+//		if ("267".equals(hosId)) {
+//			throw FrontendModule.FRONTEND_0038;
+//		}
+		
+		String deptId=args.getString("deptId");
+		GhDept dept = ghDeptDao.selectByPrimaryKey(Integer.parseInt(deptId));
+		if (args != null) {
+			args.remove("deptId");
+			args.remove("docId");
+		}
+		String source = args.getString("source");
+		if (StringUtils.isNotEmpty(source)) {
+			args.put("sourceCode", source);
+			if ("3".equals(source)) {
+				args.put("sourceName", "安卓");
+			} else if("5".equals(source)){
+				args.put("sourceName", "苹果");
+			} 
+			else if("6".equals(source)){
+				args.put("sourceName", "微网站");
+			}
+			else if("7".equals(source)){
+				args.put("sourceName", "支付宝服务窗");
+			}
+			else {
+				args.put("sourceName", "未知来源");
+			}
+		}
+//		else {
+//			throw FrontendModule.FRONTEND_0026;
+//		}
+		
+		String schemeId = args.getString("schemeId");
+		if (StringUtils.isNotEmpty(schemeId)) {
+			args.put("schid", schemeId);
+		}else {
+			throw FrontendModule.FRONTEND_0027;
+		}
+		String resDate = args.getString("resDate");
+		if (StringUtils.isNotEmpty(resDate)) {
+			args.put("visitdate", resDate);//schdate
+		}else {
+			throw FrontendModule.FRONTEND_0028;
+		}
+		String orderTimeSign = args.getString("orderTimeSign");
+		if (StringUtils.isNotEmpty(orderTimeSign)) {
+			args.put("ampm", orderTimeSign);
+		}else {
+			throw FrontendModule.FRONTEND_0029;
+		}
+		
+		
+		
+		String disNo = args.getString("disNo");
+		if (StringUtils.isNotEmpty(disNo)) {
+			args.put("disno", disNo);
+		}else {
+			args.put("disno", "");
+		}
+		String timePoint = args.getString("timePoint");
+		if (StringUtils.isNotBlank(timePoint)) {
+			args.put("timepoint", timePoint);
+		}else {
+			if ("267".equals(hosId)) {
+				throw FrontendModule.FRONTEND_0031;
+			}else {
+				args.put("timepoint", "");
+			}
+		}
+		
+		
+		
+		String cardId = args.getString("cardId");
+		//防止重复挂号
+		TPatient ttPatient=patientDao.selectByPatientCard(cardId);
+		if (ttPatient==null) {
+			throw FrontendModule.FRONTEND_0023;
+		}
+		TOrder record=new TOrder();
+		record.setPatientId(ttPatient.getPatientId());
+		record.setOrderTimeSign(orderTimeSign);
+		record.setOrderDate(resDate);
+		record.setSchemeId(schemeId);
+		List<TOrder> tOrderList=orderDao.selectOrderedList(record);
+		if (tOrderList!=null && tOrderList.size()>0) {
+			if (tOrderList.size()==1) {
+				throw FrontendModule.FRONTEND_0022;
+			} else {
+				throw FrontendModule.FRONTEND_0024;
+			}
+		}
+		if (StringUtils.isNotEmpty(cardId)) {
+			args.put("cardid", cardId);
+			TPatient tPatient = patientDao.selectByPatientCard(cardId);
+			if (tPatient!=null && StringUtils.isNotEmpty(tPatient.getPatientMobile())) {
+				args.put("phonenumber", tPatient.getPatientMobile());
+			} else {
+				args.put("phonenumber", "");
+			}
+			
+			//为了解决男性不能挂妇产科问题，代码提交人：陈雨峰，修改时间3.6号
+			if ("10353".equals(deptId) || "10378".equals(deptId) || "10715".equals(deptId) || "10716".equals(deptId)) {
+				if (IdCardUtils.validateCard(cardId.toUpperCase())) {
+					int sexNumber;
+					
+					if (cardId.length()==15) {
+						sexNumber=Integer.valueOf(cardId.substring(14, 15));
+					} else if(cardId.length()==18){
+						sexNumber=Integer.valueOf(cardId.substring(16, 17));
+					}else {
+						throw FrontendModule.FRONTEND_0011;
+					}
+					if (sexNumber%2==1) {
+						throw FrontendModule.FRONTEND_0012;
+					}
+					if (tPatient!=null && "男".equals(tPatient.getPatientSex())) {
+						throw FrontendModule.FRONTEND_0012;
+					}
+				} else {
+					throw FrontendModule.FRONTEND_0011;
+				}
+			}
+			
+			//为了解决成人不能挂儿科，代码提交人：陈雨峰，修改时间3.6号
+			if (dept!=null && dept.getMinAge()!=null && dept.getMinAge()!=0) {
+				if (IdCardUtils.validateCard(cardId.toUpperCase())) {
+					String birthdayString="";
+					if (cardId.length()==15) {
+						birthdayString="19"+cardId.substring(6, 12);
+					} else if(cardId.length()==18){
+						birthdayString=cardId.substring(6, 14);
+					}else {
+						throw FrontendModule.FRONTEND_0011;
+					}
+				try {
+					long age =	(new Date().getTime()-sdf.parse(birthdayString).getTime())/30758400000L;
+					if (age>dept.getMinAge()) {
+						throw FrontendModule.FRONTEND_0013;
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+					throw FrontendModule.FRONTEND_0015;
+				}
+				} else {
+					throw FrontendModule.FRONTEND_0011;
+				}
+			}
+			
+			
+		}else {
+			throw FrontendModule.FRONTEND_0010;
+		}
+		
+		String patName = args.getString("patName");
+		if (StringUtils.isNotEmpty(patName)) {
+			args.put("patname", patName);
+		}
+		String accountid = args.getString("accountid");
+		if (StringUtils.isNotEmpty(accountid)) {
+			args.put("patid", accountid);
+		}
+		
+		
+		
+		//湘雅三医院预约挂号时，验证就诊卡号的正确性
+		if ("267".equals(hosId) && StringUtils.isNotEmpty(accountid)) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("userCode", cardId);
+			
+			TPatient tp = null;
+			try {
+				tp = patientDao.selectPatientBasicInfo(map);
+			} catch (Exception e) {
+				throw FrontendModule.FRONTEND_0016;
+			}
+
+			if (tp == null) {
+				throw FrontendModule.FRONTEND_0017;
+			} else {
+				//这里进行姓名和就诊卡号是否匹配的校验（包括就诊卡号的正确性）
+				AppDeploy deploy = appDeployDao.selectByPrimaryKey(hosId);
+				if (deploy == null) {
+					throw FrontendModule.FRONTEND_0018;
+				}
+				try {
+					// 获取需要访问的url，固定url或者带参数的url
+					String  url = findURL(deploy, "100401");
+					JSONObject req=new JSONObject();
+					// 请求如果需要转发到医院或者云平台，需要替换为对应医院或者云平台的token信息
+					req.put("captcha", findToken(deploy));
+					req.put("funcode", "100401");
+					req.put("patname", tp.getPatientName());
+					req.put("cardid", cardId);
+					String accounttype= args.getString("accounttype");
+					if (StringUtils.isNotEmpty(accounttype)) {
+						req.put("accounttype",accounttype );
+					} else {
+						req.put("accounttype", "1");
+					}
+					
+					req.put("accountid", accountid);
+					req.put("phonenumber", tp.getPatientMobile());
+//					System.out.println("req==100211========="+req);
+					String result = RequestForwarder.request(url, req.toJSONString());
+					JSONObject resultJsonObject=JSONObject.parseObject(result);
+//					System.out.println("result==100211========="+resultJsonObject.toString());
+					String state = resultJsonObject.getString("state");
+					if ("1".equals(state)) {
+						throw new BusException("FRONTEND_0019",resultJsonObject.getString("result"));
+					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					throw FrontendModule.FRONTEND_0020;
+				}
+			}
+		}
+		
+	}
+	
+	@Override
+	public void after(final JSONObject request, JSONObject response)
+			throws BusException {
+		String code = response.getString("code");
+		String message = response.getString("message");
+		if (CODE.OK.value().equalsIgnoreCase(code)) {
+			String hosId = request.getString("hosId");
+			String hosId2 = request.getString("hosId");
+			JSONObject args = request.getJSONObject("args");
+			String deptId = null;
+			String docId = null;
+			String cardId = null;
+			String deptName = null;
+			String docName = null;
+			String hosName = null;
+			Long patientid = null;
+			if (args != null) {
+				deptId = args.getString("deptId");
+				docId = args.getString("docId");
+				cardId = args.getString("cardId");
+				deptName = args.getString("deptName");
+				docName = args.getString("docName");
+				hosName = args.getString("hosName");
+				if (StringUtils.isNotEmpty(hosId)) {
+					// 查询平台医院id
+					GhHospital hos = ghHospitalDao.selectByPrimaryKey(hosId);
+					hosId = hos != null ? hos.getPlatCode() : hosId;
+					hosName = hos != null ? hos.getHosName() : hosName;
+				}
+				if (StringUtils.isNotEmpty(deptId)) {
+					// 查询平台科室id
+					GhDept dept = ghDeptDao.selectByPrimaryKey(Integer.parseInt(deptId));
+							
+					deptId = dept != null ? dept.getPlatDeptId().toString(): deptId;
+							
+					deptName = dept != null ? dept.getDeptName() : deptName;
+				}
+				// 查询平台医生id = null;
+				if (StringUtils.isNotEmpty(docId)) {
+					GhDoc ghdoc = ghDocDao.selectByPrimaryKey(Integer.parseInt(docId));
+							
+					docId = ghdoc != null ? ghdoc.getPlatDocId(): docId;
+							
+					docName = ghdoc != null ? ghdoc.getDocName() : args.getString("docName");
+				}
+				if (StringUtils.isNotEmpty(cardId)) {
+					TPatient patient = patientDao.selectByPatientCard(cardId.toUpperCase());
+							
+					patientid = patient != null ? patient.getPatientId() : null;
+				}
+
+				TOrder tOrder = new TOrder();
+				TOrder tOrder2=null;
+				tOrder.setHospitalId(hosId);
+				tOrder.setSchemeId(args.getString("schemeId"));
+				tOrder.setPatientId(patientid);
+				tOrder.setOrderTime(args.getString("orderTime"));
+				tOrder.setOrderDate(args.getString("resDate"));
+				tOrder.setTimePoint(args.getString("timePoint"));
+				String disNo=args.getString("disNo");
+				if (StringUtils.isNotBlank(disNo)) {
+					tOrder.setDisNo(Integer.valueOf(disNo));
+				}
+				tOrder.setOrderTimeSign(args.getString("orderTimeSign"));
+				tOrder.setOrderNumber(Integer.parseInt(response.getJSONObject("data").getJSONObject("scheme").getString("numno")));
+//				tOrder.setMedicalCard(response.getJSONObject("data").getJSONObject("scheme").getString("patid"));
+				tOrder.setMedicalCard(args.getString("accountid"));
+				
+				tOrder.setTakeCode("");
+				//需要依据不同的医院来设置状态，因为有的医院有支付功能，有的医院没支付功能
+				//0：成功，1：待支付，2：失败，3：已退号4：已受理退费、待退号
+				//***********************以下做测试用****************************//
+				if ("267".equals(hosId2)) {
+					tOrder.setOrderState("1");
+				} else {
+					tOrder.setOrderState("0");
+				}
+				//***********************以上做测试用****************************//
+//				tOrder.setOrderState("0");
+				tOrder.setErrCode("000");
+				tOrder.setOperNo(request.getString("clientIp"));
+				// tOrder.setPlatOrderId(Long.parseLong(orderId));
+				tOrder.setChannel(args.getString("source"));
+				tOrder.setDeptId(deptId);
+				tOrder.setDocId(docId);
+				tOrder.setHospitalName(hosName);
+				tOrder.setDeptName(deptName);
+				tOrder.setDocName(docName);
+				tOrder.setRegisterType("2");
+				tOrder.setCategor(args.getString("categor"));
+				tOrder.setMedicalCardType(args.getString("accounttype"));
+				if (StringUtils.isNotBlank(args.getString("totalFee")) ) {
+					tOrder.setTotalFee(Utils.decimalFormat.format(Double.valueOf(args.getString("totalFee"))));
+				}
+				
+				try {
+					orderDao.insertHosOrder(tOrder);
+					tOrder2 = orderDao.selectByOrderId(tOrder.getOrderId());
+					if (tOrder2!=null) {
+						response.getJSONObject("data").getJSONObject("scheme").put("platorderid", String.valueOf(tOrder2.getPlatOrderId()));
+					}else {
+						response.getJSONObject("data").getJSONObject("scheme").put("platorderid", "");
+					}
+					response.getJSONObject("data").getJSONObject("scheme").put("takecode", "");
+					response.getJSONObject("data").getJSONObject("scheme").put("orderNumber", tOrder2.getOrderNumber());
+					/*if(hosName.equals("浙江大学医学院附属第四医院")){
+						response.remove("message");
+						response.put("message", "预约成功!");
+					}*/
+				} catch (Exception e) {
+					logger.info(e.getMessage(), e);
+					throw FrontendModule.FRONTEND_0007;
+				}
+			}
+		}
+		/*else{
+			JSONObject arg2 = request.getJSONObject("args");
+			if (arg2 != null) {
+				String hosName = arg2.getString("hosName");
+				if(hosName.equals("浙江大学医学院附属第四医院")){
+					response.remove("message");
+					response.put("message", "预约失败!");
+				}
+			}
+			
+		}*/
+		
+		 
+		
+	}
+	
+}

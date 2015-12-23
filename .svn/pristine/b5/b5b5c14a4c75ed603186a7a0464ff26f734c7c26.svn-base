@@ -1,0 +1,240 @@
+package com.defray.action;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.bocnet.common.security.PKCS7Tool;
+import com.defray.bean.AlipayInfoBean;
+import com.defray.bean.ChinaBankInfoBean;
+import com.defray.service.AlipayService;
+import com.defray.util.Utils;
+import com.opensymphony.xwork2.ActionSupport;
+import com.tynet.service.RefundService;
+
+
+@Controller
+@Scope("prototype")
+public class DefrayAction extends ActionSupport{
+	
+	private static Logger log = LoggerFactory.getLogger(DefrayAction.class);
+	private static final long serialVersionUID = -6287879347497083310L;
+
+	@Autowired
+	private AlipayService alipayService;
+	//医院ID
+	private String hosId;
+	//订单ID
+	private String orderId;
+	//费用
+	private String orderFee;
+	//支付方式
+	private String defrayType;
+	//医院支付方式
+	private String defrayTypes;
+	//返回json
+	private String resultJson;
+	
+	private AlipayInfoBean aipayInfoBean;
+	private ChinaBankInfoBean chinaBankInfoBean;
+	
+	/** 证书路径*/
+	public static String keyStorePath = "";//D:\\doc\\key\\private_key.pfx
+	/** 根证书路径 */
+	public static String rootCertificatePath = "";//D:\\doc\\key\\root_key.cer
+	
+	public String defray(){
+		if (StringUtils.isBlank(orderId)) {
+			resultJson = Utils.GetRetJSONString("1", "orderId为空", null);
+			return "success";
+		}
+		
+		if (StringUtils.isBlank(orderFee)) {
+			resultJson = Utils.GetRetJSONString("1", "orderFee为空", null);
+			return "success";
+		}	
+		
+		if (StringUtils.isBlank(hosId)) {
+			resultJson = Utils.GetRetJSONString("1", "hosId为空", null);
+			return "success";
+		}
+		
+		// 根据hosId获取支付方式
+		defrayTypes = "003,002,001";
+		if(defrayTypes.contains("001")){
+			//支付宝
+			aipayInfoBean = new AlipayInfoBean();
+			aipayInfoBean.setOutTradeNo(orderId);
+			aipayInfoBean.setSubject("挂号费");
+			aipayInfoBean.setTotalFee(orderFee);
+		}
+		if(defrayTypes.contains("002")){
+			//中国银行
+			String path=this.getClass().getClassLoader().getResource("/").getPath();
+			path=path.substring(1, path.indexOf("WEB-INF"))+"WEB-INF/";
+			keyStorePath=path+"private_key.pfx";
+			rootCertificatePath=path+"root_key.cer";
+			chinaBankInfoBean=new ChinaBankInfoBean();
+			chinaBankInfoBean.setCurCode("001");
+			chinaBankInfoBean.setMerchantNo("104110059475555");
+			chinaBankInfoBean.setOrderAmount(Utils.decimalFormat.format(Double.valueOf("0.01")));//tOrder.getTotalFee() 测试用0.01
+			
+			chinaBankInfoBean.setOrderNo(orderId);
+			
+			chinaBankInfoBean.setOrderNote("挂号费");
+			chinaBankInfoBean.setOrderTime(Utils.sdf2.format(new Date()));//订单时间
+			chinaBankInfoBean.setOrderTimeoutDate(Utils.sdf2.format(new Date(new Date().getTime()+1000*60*30)));//订单超时时间
+			//chinaBankInfoBean.setOrderUrl("http://121.40.57.103:9092/hr-hos-pay/callbackOfChinaBank.do");//301
+			chinaBankInfoBean.setOrderUrl("http://115.236.176.107:8088/hr-hos-pay/callbackOfChinaBank.do");//77.48   
+			chinaBankInfoBean.setPayType("1");
+			chinaBankInfoBean.setSpMobile("");
+			String param=chinaBankInfoBean.getOrderNo()+"|"+chinaBankInfoBean.getOrderTime()+"|"+chinaBankInfoBean.getCurCode()+"|"+chinaBankInfoBean.getOrderAmount()+"|"+chinaBankInfoBean.getMerchantNo();
+			log.info("###支付时签名param:###"+param);
+			String paramAfterSign=sign(param);
+			if (StringUtils.isBlank(paramAfterSign)) {
+				log.info("###支付时签名错误###");
+				return "failure";
+			}
+			chinaBankInfoBean.setSignData(paramAfterSign);
+		}
+		return "pass";
+	}
+	
+	/**
+	 *  生成签名,如果异常返回null
+	 * @param param
+	 * @return
+	 */
+	public static String sign(String param) {
+
+		if(param==null)
+		{
+			return null;
+		}
+		
+		try {
+			log.info("###支付时签名sign tool:###"+keyStorePath+"|"+RefundService.keyStorePassword+"|"+RefundService.keyPassword);
+			PKCS7Tool tool = PKCS7Tool.getSigner(keyStorePath,
+					RefundService.keyStorePassword,
+					RefundService.keyPassword);
+			return tool.sign(param.getBytes());
+		} catch (GeneralSecurityException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
+	/**
+	 * 校验签名是否有效
+	 * @param signature 返回的签名
+	 * @param param     返回的参数
+	 * @param dn        证书dn,为空则不校验dn
+	 * @return
+	 */
+	public static boolean verifySign(String signature, String param, String dn)
+	{
+		
+		if(signature == null || param == null)
+		{
+			return false;
+		}
+		try {
+			PKCS7Tool vTool = PKCS7Tool.getVerifier(rootCertificatePath);
+			vTool.verify(signature, param.getBytes(), dn);
+			return true; // 校验成功
+		} catch (GeneralSecurityException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+	
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getOrderFee() {
+		return orderFee;
+	}
+
+	public void setOrderFee(String orderFee) {
+		this.orderFee = orderFee;
+	}
+
+	public String getResultJson() {
+		return resultJson;
+	}
+
+	public void setResultJson(String resultJson) {
+		this.resultJson = resultJson;
+	}
+
+	public String getDefrayType() {
+		return defrayType;
+	}
+
+	public void setDefrayType(String defrayType) {
+		this.defrayType = defrayType;
+	}
+
+	public String getHosId() {
+		return hosId;
+	}
+
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+
+	public String getDefrayTypes() {
+		return defrayTypes;
+	}
+
+	public void setDefrayTypes(String defrayTypes) {
+		this.defrayTypes = defrayTypes;
+	}
+
+	public AlipayInfoBean getAipayInfoBean() {
+		return aipayInfoBean;
+	}
+
+	public void setAipayInfoBean(AlipayInfoBean aipayInfoBean) {
+		this.aipayInfoBean = aipayInfoBean;
+	}
+
+	public ChinaBankInfoBean getChinaBankInfoBean() {
+		return chinaBankInfoBean;
+	}
+
+	public void setChinaBankInfoBean(ChinaBankInfoBean chinaBankInfoBean) {
+		this.chinaBankInfoBean = chinaBankInfoBean;
+	}
+	
+
+}

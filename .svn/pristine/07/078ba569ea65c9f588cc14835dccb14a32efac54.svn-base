@@ -1,0 +1,49 @@
+package com.tynet.dao;
+
+import com.tynet.model.CmsType;
+import com.tynet.model.CmsTypeExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CmsTypeMapper {
+	int countByExample(CmsTypeExample example);
+
+	int deleteByExample(CmsTypeExample example);
+
+	List<CmsType> selectByExample(CmsTypeExample example);
+
+	int updateByExampleSelective(@Param("record") CmsType record, @Param("example") CmsTypeExample example);
+
+	int updateByExample(@Param("record") CmsType record, @Param("example") CmsTypeExample example);
+
+	List<CmsType> selectByExampleAndPage(CmsTypeExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(Long typeId);
+
+	int insert(CmsType record);
+
+	int insertSelective(CmsType record);
+
+	CmsType selectByPrimaryKey(Long typeId);
+
+	int updateByPrimaryKeySelective(CmsType record);
+
+	int updateByPrimaryKey(CmsType record);
+
+	List<CmsType> queryList();
+
+	List<CmsType> queryPNameList();
+
+	List<CmsType> queryByPid(@Param("pid") long pid);
+
+	/**
+	 * like 查询
+	 * 
+	 * @param place
+	 * @return
+	 */
+	List<CmsType> queryByPlace(@Param("place") String place);
+}

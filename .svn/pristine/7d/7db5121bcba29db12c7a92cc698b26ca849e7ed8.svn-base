@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soft.gh.dao.TOrderMapper">
+	<resultMap id="BaseResultMap" type="com.soft.gh.domain.TOrder">
+		<id column="DDID" property="orderId" jdbcType="DECIMAL" />
+		<result column="HZID" property="patientId" jdbcType="DECIMAL" />
+		<result column="YYID" property="hospitalId" jdbcType="VARCHAR" />
+		<result column="YYPBID" property="schemeId" jdbcType="VARCHAR" />
+		<result column="CZSJ" property="optime" />
+		<result column="YYRQ" property="orderDate" jdbcType="VARCHAR" />
+		<result column="YYSJ" property="orderTime" jdbcType="VARCHAR" />
+		<result column="YYXH" property="orderNumber" jdbcType="DECIMAL" />
+		<result column="SXWBZ" property="orderTimeSign" jdbcType="CHAR" />
+		<result column="QHMM" property="takeCode" jdbcType="CHAR" />
+		<result column="DDZT" property="orderState" jdbcType="CHAR" />
+		<result column="HISJG" property="errCode" jdbcType="CHAR" />
+		<result column="CZYGH" property="operNo" jdbcType="VARCHAR" />
+		<result column="PTDDID" property="platOrderId" jdbcType="DECIMAL" />
+		<result column="YYQD" property="channel" jdbcType="VARCHAR" />
+		<result column="HOSPITAL_NAME" property="hospitalName" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="DOC_NAME" property="docName" jdbcType="VARCHAR" />
+    <result column="KSID" property="deptId" jdbcType="VARCHAR" />
+    <result column="YSID" property="docId" jdbcType="VARCHAR" />
+    <result column="PATIENT_NAME" property="patientName" jdbcType="VARCHAR" />
+     <result column="HZXM" property="patientName" jdbcType="VARCHAR" />
+     <result column="MEDICAL_CARD" property="medicalCard" jdbcType="VARCHAR" />
+     <result column="MEDICAL_CARD_TYPE" property="medicalCardType" jdbcType="VARCHAR" />
+     <result column="REGISTER_TYPE" property="registerType" jdbcType="VARCHAR" />
+     <result column="FEE" property="totalFee" jdbcType="DECIMAL" />
+     <result column="TRADE_NO" property="tradeNo" jdbcType="VARCHAR" />
+     <result column="TRADE_RESULT" property="tradeResult" jdbcType="VARCHAR" />
+     <result column="TRADE_PAY_TIME" property="tradePayTime" />
+     <result column="CATEGOR" property="categor" jdbcType="VARCHAR" />
+      <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+      <result column="TIME_POINT" property="timePoint" jdbcType="VARCHAR" />
+		<result column="DIS_NO" property="disNo" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap id="BillBoardMap" type="com.soft.gh.domain.TBillBoard">
+		<result column="YYID" property="hospitalId" jdbcType="VARCHAR" />
+		<result column="HOSPITAL_NAME" property="hospitalName" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="DOC_NAME" property="docName" jdbcType="VARCHAR" />
+    <result column="COUNT" property="count" jdbcType="VARCHAR" />
+    <result column="ROWNUM" property="rowNum" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="OrderCountMap" type="com.soft.gh.domain.GhCount">
+		<result column="YYQD" property="channel" jdbcType="VARCHAR" />
+		<result column="COUNT" property="count" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="OrderDayCountMap" type="com.soft.gh.domain.GhCount">
+		<result column="YYQD" property="channel" jdbcType="VARCHAR" />
+		<result column="COUNT" property="dayCount" jdbcType="VARCHAR" />
+	</resultMap>
+	
+
+	<sql id="Base_Column_List">
+		DDID, HZID, YYID, YYPBID, CZSJ, YYRQ, YYSJ, YYXH,
+		SXWBZ, QHMM, DDZT, HISJG,CZYGH, PTDDID,
+		TZZT,YYQD,HOSPITAL_NAME,DEPT_NAME,DOC_NAME,KSID,YSID,RATE_FLAG,
+		MEDICAL_CARD,MEDICAL_CARD_TYPE,
+		REGISTER_TYPE,FEE,TRADE_NO,TRADE_RESULT,TRADE_PAY_TIME,CATEGOR,PAY_TYPE,TIME_POINT,DIS_NO
+    </sql>
+
+	<insert id="insert" parameterType="com.soft.gh.domain.TOrder">
+		<selectKey resultType="java.lang.Long" keyProperty="orderId" order="BEFORE" >
+	      select SEQ_DDXX.Nextval from dual
+	    </selectKey>
+		insert into YYGH_DDXX (
+		DDID, HZID, YYID, YYPBID, CZSJ, YYRQ, YYSJ, YYXH,
+		SXWBZ, QHMM, DDZT, HISJG,CZYGH, PTDDID,
+		TZZT,YYQD,HOSPITAL_NAME,DEPT_NAME,DOC_NAME,KSID,YSID,RATE_FLAG,MEDICAL_CARD,MEDICAL_CARD_TYPE,
+		REGISTER_TYPE,FEE,CATEGOR,TIME_POINT,DIS_NO
+		)
+		values (#{orderId,jdbcType=DECIMAL}, #{patientId,jdbcType=DECIMAL},
+		#{hospitalId,jdbcType=CHAR},
+		#{schemeId,jdbcType=VARCHAR}, sysdate, #{orderDate},
+		#{orderTime,jdbcType=VARCHAR}, #{orderNumber,jdbcType=DECIMAL}, #{orderTimeSign,jdbcType=CHAR},
+		#{takeCode,jdbcType=VARCHAR}, #{orderState,jdbcType=CHAR},
+		#{errCode,jdbcType=VARCHAR},#{operNo,jdbcType=VARCHAR},#{platOrderId,jdbcType=DECIMAL},0,#{channel,jdbcType=VARCHAR},
+		#{hospitalName,jdbcType=VARCHAR},#{deptName,jdbcType=VARCHAR},#{docName,jdbcType=VARCHAR},#{deptId,jdbcType=VARCHAR},
+		#{docId,jdbcType=VARCHAR},#{rateFlag,jdbcType=VARCHAR},#{medicalCard,jdbcType=VARCHAR},#{medicalCardType,jdbcType=VARCHAR},
+		#{registerType,jdbcType=VARCHAR},#{totalFee,jdbcType=DECIMAL},
+		#{categor,jdbcType=VARCHAR},#{timePoint,jdbcType=VARCHAR},#{disNo,jdbcType=DECIMAL})
+	</insert>
+	
+	<insert id="insertHosOrder" parameterType="com.soft.gh.domain.TOrder">
+		<selectKey resultType="java.lang.Long" keyProperty="orderId" order="BEFORE" >
+	      select SEQ_DDXX.Nextval from dual
+	    </selectKey>
+		insert into YYGH_DDXX (
+		DDID, HZID, YYID, YYPBID, CZSJ, YYRQ, YYSJ, YYXH,
+		SXWBZ, QHMM, DDZT, HISJG,CZYGH, PTDDID,
+		TZZT,YYQD,HOSPITAL_NAME,DEPT_NAME,DOC_NAME,KSID,YSID,RATE_FLAG,MEDICAL_CARD,MEDICAL_CARD_TYPE,
+		REGISTER_TYPE,FEE,CATEGOR,TIME_POINT,DIS_NO
+		)
+		values (#{orderId,jdbcType=DECIMAL}, #{patientId,jdbcType=DECIMAL},
+		#{hospitalId,jdbcType=CHAR},
+		#{schemeId,jdbcType=VARCHAR}, sysdate, #{orderDate},
+		#{orderTime,jdbcType=VARCHAR}, #{orderNumber,jdbcType=DECIMAL}, #{orderTimeSign,jdbcType=CHAR},
+		#{takeCode,jdbcType=VARCHAR}, #{orderState,jdbcType=CHAR},
+		#{errCode,jdbcType=VARCHAR},#{operNo,jdbcType=VARCHAR},seq_ddxx_ddid.nextval,0,#{channel,jdbcType=VARCHAR},
+		#{hospitalName,jdbcType=VARCHAR},#{deptName,jdbcType=VARCHAR},#{docName,jdbcType=VARCHAR},#{deptId,jdbcType=VARCHAR},
+		#{docId,jdbcType=VARCHAR},#{rateFlag,jdbcType=VARCHAR},#{medicalCard,jdbcType=VARCHAR},#{medicalCardType,jdbcType=VARCHAR},
+		#{registerType,jdbcType=VARCHAR},#{totalFee,jdbcType=DECIMAL},
+		#{categor,jdbcType=VARCHAR},#{timePoint,jdbcType=VARCHAR},#{disNo,jdbcType=DECIMAL})
+	</insert>
+
+	<update id="updateOrder" parameterType="java.lang.Long">
+		update YYGH_DDXX set
+		DDZT = 2 where DDID = #{orderId}
+	</update>
+		<update id="updateHosOrder" parameterType="java.lang.Long">
+		update YYGH_DDXX set
+		DDZT = 3 where PTDDID = #{orderId}
+	</update>
+	<select id="selectByPlatOrderId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select
+	    <include refid="Base_Column_List" />
+	    from YYGH_DDXX
+	    where PTDDID = #{platOrderId}
+	</select>
+	<select id="selectByTradeNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+	    <include refid="Base_Column_List" />
+	    from YYGH_DDXX
+	    where TRADE_NO = #{tradeNo}
+	</select>
+	<select id="selectByOrderId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select
+	    <include refid="Base_Column_List" />
+	    from YYGH_DDXX
+	    where DDID = #{orderId}
+	</select>
+	
+	<select id="selectCurOrder" parameterType="com.soft.gh.domain.TOrder" resultMap="BaseResultMap">
+	    		select
+	    <include refid="Base_Column_List" />
+	    from YYGH_DDXX
+	    where hzid=#{patientId} and YYPBID=#{schemeId} and YYRQ=#{orderDate} and SXWBZ=#{orderTimeSign,jdbcType=CHAR} and YYXH=#{orderNumber,jdbcType=DECIMAL} and DDZT=0
+	</select>
+	<update id="updateState" parameterType="com.soft.gh.domain.TOrder" >
+    	update YYGH_DDXX set DDZT = #{orderState,jdbcType=CHAR} where DDID = #{orderId,jdbcType=DECIMAL}
+  	</update>
+  	<update id="updateIsRefund" parameterType="com.soft.gh.domain.TOrder" >
+    	update YYGH_DDXX set IS_REFUND = #{isRefund,jdbcType=VARCHAR} where DDID = #{orderId,jdbcType=DECIMAL}
+  	</update>
+  	<update id="updateTradeInfo" parameterType="com.soft.gh.domain.TOrder" >
+    	update YYGH_DDXX set DDZT = #{orderState,jdbcType=CHAR},TRADE_NO = #{tradeNo,jdbcType=VARCHAR},PAY_TYPE = #{payType,jdbcType=VARCHAR},TRADE_RESULT = #{tradeResult,jdbcType=VARCHAR},TRADE_PAY_TIME = sysdate where DDID = #{orderId,jdbcType=DECIMAL}
+  	</update>
+  	
+  	<update id="updateTradeResult" parameterType="com.soft.gh.domain.TOrder" >
+    	update YYGH_DDXX set TRADE_RESULT = #{tradeResult,jdbcType=CHAR} where DDID = #{orderId,jdbcType=DECIMAL}
+  	</update>
+  	<update id="updateStateAndRefundTime" parameterType="com.soft.gh.domain.TOrder" >
+    	update YYGH_DDXX set DDZT = #{orderState,jdbcType=CHAR},REFUND_TIME = sysdate where DDID = #{orderId,jdbcType=DECIMAL}
+  	</update>
+  	<update id="updateOrderStateByStop" parameterType="java.util.Map">
+  		update YYGH_DDXX set ddzt = 4 where YYID = #{hospitalId,jdbcType=VARCHAR} and  YYPBID = #{schemeId,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<select id="selectOrder" resultMap="BaseResultMap">
+				select hzxm,hospital_name,dept_name,doc_name,czsj from (select hzxm,hospital_name,dept_name,doc_name,czsj from yygh_ddxx t1,yygh_hzxx t2 where t1.hzid=t2.hzid and yyqd=4 order by czsj desc) where rownum &lt;11
+	</select>
+	<select id="selectPlatOrderId" resultType="java.lang.Long">
+		select seq_ddxx_ddid.nextval as ptddid from dual
+	</select>
+  	<select id="selectClientIp" parameterType="java.lang.String" resultType="java.lang.String">
+  	select count(czygh) from yygh_ddxx where czygh=#{clientIp} and czsj
+       between to_date(to_char(sysdate,'yyyy-mm-dd'),'yyyy-mm-dd hh24:mi:ss') and 
+               sysdate
+  	</select>
+ 
+ <select id="selectBillboard" resultMap="BillBoardMap">
+select a.*,rownum from (select yyid,hospital_name, dept_name, doc_name, count(1) count
+  from yygh_ddxx
+ where yyqd = 4 and doc_name !='普通'
+ group by hospital_name, dept_name, doc_name,yyid
+ order by count(1) desc) a
+	</select>
+	
+ <select id="selectOrderCount" resultMap="OrderCountMap">
+     select yyqd,count(1) count from yygh_ddxx  where yyqd in(2,3,4,5) group by yyqd
+ </select>
+ 
+  <select id="selectOrderDayCount" resultMap="OrderDayCountMap" parameterType="java.lang.String">
+  select yyqd,count(1) count from yygh_ddxx where to_char(czsj,'yyyy-MM-dd')=#{day} and yyqd in(2,3,4,5) group by yyqd
+ </select>
+ <select id="selectLastTopN" resultMap="BaseResultMap">
+	select dd.czsj,hz.hzxm as
+	patientName,dd.yyqd,dd.hospital_name, dd.dept_name, dd.doc_name
+	from
+	yygh_ddxx dd, YYGH_HZXX hz where dd.czsj > sysdate -1 and hz.hzid=dd.hzid and dd.yyqd !=0 order by dd.czsj
+	desc,dd.DDID desc
+ </select>
+ <select id="selectRateFlagId" resultType="java.lang.String">
+	select PTDDID from yygh_ddxx where RATE_FLAG = '1'
+	<if test="patientId != null"> and HZID=#{patientId}</if>
+	<if test="hospitalId != null"> and YYID=#{hospitalId,jdbcType=VARCHAR}</if>
+ </select>
+<select id="selectHosPatOrder" resultMap="BaseResultMap">
+    	select dd.czsj,hz.hzxm as
+  patientName,dd.yyqd,dd.hospital_name, dd.dept_name, dd.doc_name,
+      dd.DDID, dd.HZID,hos.hos_id as YYID, dd.YYPBID, dd.YYRQ,dd.YYSJ, dd.YYXH,
+    dd.SXWBZ,  dd.DDZT, dd.CZYGH, dd.PTDDID,
+   dp.dept_id as KSID,dd.YSID,dd.RATE_FLAG,dd.MEDICAL_CARD,MEDICAL_CARD_TYPE,REGISTER_TYPE,FEE,CATEGOR
+  from
+  yygh_ddxx dd, YYGH_HZXX hz 
+  ,gh_hospital hos,gh_dept dp
+  where hz.hzid=dd.hzid 
+  and dd.yyid=hos.plat_code and  dd.ksid=dp.plat_dept_id 
+  and DDZT !='6'
+		<if test="patientId != null"> and dd.HZID=#{patientId}</if>
+	<if test="hospitalId != null"> and dd.YYID=#{hospitalId}</if>
+	
+	order by decode(dd.ddzt,'5',0,'1',1,'0',2,'3',3),dd.yyrq desc,dd.sxwbz desc
+ </select>
+ <select id="selectHosPatOrder2" resultMap="BaseResultMap">
+    	select dd.czsj,hz.hzxm as
+	patientName,dd.yyqd,dd.hospital_name, dd.dept_name, dd.doc_name,
+			dd.DDID, dd.HZID, dd.YYID, dd.YYPBID, dd.YYRQ,dd.YYSJ, dd.YYXH,
+		dd.SXWBZ,  dd.DDZT, dd.CZYGH, dd.PTDDID,
+		dd.KSID,dd.YSID,dd.RATE_FLAG,dd.MEDICAL_CARD,MEDICAL_CARD_TYPE,REGISTER_TYPE,FEE,CATEGOR
+	from
+	yygh_ddxx dd, YYGH_HZXX hz where hz.hzid=dd.hzid
+		<if test="patientId != null"> and dd.HZID=#{patientId}</if>
+	<if test="hospitalId != null"> and dd.YYID=#{hospitalId}</if>
+	<if test="minDate!=null and minDate!=''">and yyrq &gt;= REPLACE(#{minDate},'-')</if>
+	<if test="maxDate!=null and maxDate!=''">and yyrq &lt;= REPLACE(#{maxDate},'-')</if>
+ </select>
+ <update id="updateRateFlag">
+ 	update yygh_ddxx set RATE_FLAG = '1' where PTDDID = #{orderId}
+ </update>
+ <select id="selectTodayOrders" resultMap="BaseResultMap">
+	select dd.czsj,hz.hzxm as
+	patientName,dd.yyqd,dd.hospital_name, dd.dept_name, dd.doc_name
+	from
+	yygh_ddxx dd, YYGH_HZXX hz where hz.hzid=dd.hzid and dd.czsj >=to_date(#{yyrq},'yyyyMMdd')  and dd.yyqd !=0 order by dd.czsj
+	desc,dd.DDID desc
+ </select>
+ 
+ <select id="selectByOrderState" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from yygh_ddxx
+		where  DDZT  = #{state}
+ </select>
+ <select id="selectNotRefundOrders" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from yygh_ddxx
+		where  IS_REFUND  = #{state}
+ </select>
+ 	
+ <select id="selectRefundOrder" resultMap="BaseResultMap" parameterType="com.soft.gh.domain.TOrder">
+    	select
+		<include refid="Base_Column_List" />
+	from
+	yygh_ddxx  where  DDZT  in('3','0')
+	and	  HZID=#{patientId,jdbcType=DECIMAL}
+	and SXWBZ=#{orderTimeSign,jdbcType=CHAR}
+	and YYRQ=#{orderDate,jdbcType=VARCHAR}
+	and YYPBID=#{schemeId,jdbcType=VARCHAR}
+ </select>
+  <select id="selectOrderedList" resultMap="BaseResultMap" parameterType="com.soft.gh.domain.TOrder">
+    	select
+		<include refid="Base_Column_List" />
+	from
+	yygh_ddxx  where  DDZT not in('3','6')
+	and	  HZID=#{patientId,jdbcType=DECIMAL}
+	and SXWBZ=#{orderTimeSign,jdbcType=CHAR}
+	and YYRQ=#{orderDate,jdbcType=VARCHAR}
+	and YYPBID=#{schemeId,jdbcType=VARCHAR}
+ </select>
+ 
+  <select id="selectOrderedListOfToday" resultMap="BaseResultMap" parameterType="com.soft.gh.domain.TOrder">
+    	select
+		<include refid="Base_Column_List" />
+	from
+	yygh_ddxx  where  DDZT not in('3','6')
+	and	  HZID=#{patientId,jdbcType=DECIMAL}
+	and SXWBZ=#{orderTimeSign,jdbcType=CHAR}
+	and YYRQ=#{orderDate,jdbcType=VARCHAR}
+ </select>
+ 
+</mapper>

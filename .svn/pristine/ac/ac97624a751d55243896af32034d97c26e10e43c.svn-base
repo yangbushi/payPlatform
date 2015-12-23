@@ -1,0 +1,50 @@
+package com.tynet.dao;
+
+import com.tynet.model.CmsTitle;
+import com.tynet.model.CmsTitleExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CmsTitleMapper {
+	int countByExample(CmsTitleExample example);
+
+	int deleteByExample(CmsTitleExample example);
+
+	List<CmsTitle> selectByExample(CmsTitleExample example);
+
+	int updateByExampleSelective(@Param("record") CmsTitle record, @Param("example") CmsTitleExample example);
+
+	int updateByExample(@Param("record") CmsTitle record, @Param("example") CmsTitleExample example);
+
+	List<CmsTitle> selectByExampleAndPage(CmsTitleExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(Long id);
+
+	int insert(CmsTitle record);
+
+	int insertSelective(CmsTitle record);
+
+	CmsTitle selectByPrimaryKey(Long id);
+
+	int updateByPrimaryKeySelective(CmsTitle record);
+
+	int updateByPrimaryKey(CmsTitle record);
+
+	List<CmsTitle> queryList();
+
+	void chfFlag(@Param("id") Long id, @Param("chkUserId") String chkUserId, @Param("chkFlag") String chkFlag);
+
+	List<CmsTitle> queryIndexList();
+
+	List<CmsTitle> selectByPidAndTypeId(@Param("pid") Long pid, @Param("typeId") Long typeId);
+
+	int selectByPidAndTypeIdCount(@Param("pid") Long pid, @Param("typeId") Long typeId);
+
+	List<CmsTitle> queryIndexHelpCenterList(@Param("pid") Long pid);
+
+	List<CmsTitle> queryTitleListById(@Param("typeId") Long typeId, @Param("pid") Long pid);
+
+}

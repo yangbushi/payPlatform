@@ -1,0 +1,33 @@
+package com.tynet.model;
+
+public class SearchRequest {
+
+    private String key;
+    private String itype;
+    private String hosId;
+
+    public String getHosId() {
+		return hosId;
+	}
+
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+
+	public String getItype() {
+		return itype;
+	}
+
+	public void setItype(String itype) {
+		this.itype = itype;
+	}
+
+	public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+}

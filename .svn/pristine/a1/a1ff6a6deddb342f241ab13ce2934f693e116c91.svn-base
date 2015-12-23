@@ -1,0 +1,37 @@
+package com.herenit.cloud.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.herenit.cloud.model.AppFunction;
+import com.herenit.cloud.model.AppFunctionExample;
+
+@Repository
+public interface AppFunctionMapper {
+
+	int countByExample(AppFunctionExample example);
+
+	int deleteByExample(AppFunctionExample example);
+
+	int deleteByPrimaryKey(String funcode);
+
+	int insert(AppFunction record);
+
+	int insertSelective(AppFunction record);
+
+	List<AppFunction> selectByExample(AppFunctionExample example);
+
+	AppFunction selectByPrimaryKey(String funcode);
+
+	int updateByExampleSelective(@Param("record") AppFunction record,
+			@Param("example") AppFunctionExample example);
+
+	int updateByExample(@Param("record") AppFunction record,
+			@Param("example") AppFunctionExample example);
+
+	int updateByPrimaryKeySelective(AppFunction record);
+
+	int updateByPrimaryKey(AppFunction record);
+}

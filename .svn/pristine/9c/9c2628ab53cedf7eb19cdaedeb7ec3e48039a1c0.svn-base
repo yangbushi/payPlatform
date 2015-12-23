@@ -1,0 +1,23 @@
+log4j.rootLogger=INFO,consoleOut,logfile
+
+log4j.appender.consoleOut=org.apache.log4j.ConsoleAppender
+log4j.appender.consoleOut.layout=org.apache.log4j.PatternLayout
+log4j.appender.consoleOut.layout.ConversionPattern=%d %p [%c] - %m%n
+
+#private static Logger log = LoggerFactory.getLogger(xxx.class);
+log4j.appender.logfile=org.apache.log4j.RollingFileAppender
+log4j.appender.logfile.File=/mnt/logs/hospay/hr-hos-pay.log
+log4j.appender.logfile.MaxFileSize=1024KB
+log4j.appender.logfile.MaxBackupIndex=100
+log4j.appender.logfile.layout=org.apache.log4j.PatternLayout
+log4j.appender.logfile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] [%c] [%p] - %m%n
+
+#private static Logger singleLog = LoggerFactory.getLogger("SingleLog");
+log4j.logger.SingleLog=INFO,singleLog
+log4j.appender.singleLog=org.apache.log4j.RollingFileAppender
+log4j.appender.singleLog.MaxFileSize=1024KB
+log4j.appender.singleLog.MaxBackupIndex=100
+log4j.appender.singleLog.File=/mnt/logs/hospay/single.log
+log4j.appender.singleLog.layout=org.apache.log4j.PatternLayout
+log4j.appender.singleLog.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] [%c] [%p] - %m%n
+log4j.additivity.singleLog=false

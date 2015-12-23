@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.GhDeptMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.GhDept" >
+    <id column="DEPT_ID" property="deptId" jdbcType="DECIMAL" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="DEPT_LEVEL" property="deptLevel" jdbcType="VARCHAR" />
+    <result column="INTRO" property="intro" jdbcType="VARCHAR" />
+    <result column="HOS_ID" property="hosId" jdbcType="VARCHAR" />
+    <result column="PLAT_DEPT_ID" property="platDeptId" jdbcType="VARCHAR" />
+    <result column="GB_DEPT_CODE" property="gbDeptCode" jdbcType="VARCHAR" />
+    <result column="MIN_AGE" property="minAge" jdbcType="DECIMAL" />
+    <result column="BOOK_COUNT" property="bookCount" jdbcType="DECIMAL" />
+    <result column="SHOW_NO" property="showNo" jdbcType="DECIMAL" />
+     <result column="PY_CODE" property="pyCode" jdbcType="VARCHAR" />
+     <result column="FLOOR" property="floor" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="mgDept" type="com.tynet.model.DeptInfo" extends="BaseResultMap">
+    <result column="HOS_NAME" property="hosName" jdbcType="VARCHAR" />
+    <result column="GB_DEPT_NAME" property="gbDeptName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    DEPT_ID, DEPT_NAME, DEPT_LEVEL, INTRO, HOS_ID, PLAT_DEPT_ID, GB_DEPT_CODE, MIN_AGE, 
+    BOOK_COUNT, SHOW_NO
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.GhDeptExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GH_DEPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.GhDeptExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GH_DEPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectChildren" resultMap="BaseResultMap" parameterType="java.lang.String" >
+select dept_id,dept_name,floor,gb_dept_code,hos_id from gh_dept where hos_id=#{0} and gb_dept_code like concat(#{1},'%') order by BOOK_COUNT desc
+
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.GhDeptExample" >
+    delete from GH_DEPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.GhDeptExample" resultType="java.lang.Integer" >
+    select count(*) from GH_DEPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update GH_DEPT
+    <set >
+      <if test="record.deptId != null" >
+        DEPT_ID = #{record.deptId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deptName != null" >
+        DEPT_NAME = #{record.deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptLevel != null" >
+        DEPT_LEVEL = #{record.deptLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.intro != null" >
+        INTRO = #{record.intro,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hosId != null" >
+        HOS_ID = #{record.hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platDeptId != null" >
+        PLAT_DEPT_ID = #{record.platDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gbDeptCode != null" >
+        GB_DEPT_CODE = #{record.gbDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.minAge != null" >
+        MIN_AGE = #{record.minAge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bookCount != null" >
+        BOOK_COUNT = #{record.bookCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.showNo != null" >
+        SHOW_NO = #{record.showNo,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update GH_DEPT
+    set DEPT_ID = #{record.deptId,jdbcType=DECIMAL},
+      DEPT_NAME = #{record.deptName,jdbcType=VARCHAR},
+      DEPT_LEVEL = #{record.deptLevel,jdbcType=VARCHAR},
+      INTRO = #{record.intro,jdbcType=VARCHAR},
+      HOS_ID = #{record.hosId,jdbcType=VARCHAR},
+      PLAT_DEPT_ID = #{record.platDeptId,jdbcType=VARCHAR},
+      GB_DEPT_CODE = #{record.gbDeptCode,jdbcType=VARCHAR},
+      MIN_AGE = #{record.minAge,jdbcType=DECIMAL},
+      BOOK_COUNT = #{record.bookCount,jdbcType=DECIMAL},
+      SHOW_NO = #{record.showNo,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from GH_DEPT
+    where DEPT_ID = #{deptId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectDeptByDoc" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select gd.dept_id,gd.dept_name from gh_dept gd left join gh_dept_doc gdd on gd.dept_id=gdd.dept_id where doc_id=#{docId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from GH_DEPT
+    where DEPT_ID = #{deptId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.GhDept" >
+    insert into GH_DEPT (DEPT_ID, DEPT_NAME, DEPT_LEVEL, 
+      INTRO, HOS_ID, PLAT_DEPT_ID, 
+      GB_DEPT_CODE, MIN_AGE, BOOK_COUNT, 
+      SHOW_NO)
+    values (#{deptId,jdbcType=DECIMAL}, #{deptName,jdbcType=VARCHAR}, #{deptLevel,jdbcType=VARCHAR}, 
+      #{intro,jdbcType=VARCHAR}, #{hosId,jdbcType=VARCHAR}, #{platDeptId,jdbcType=VARCHAR}, 
+      #{gbDeptCode,jdbcType=VARCHAR}, #{minAge,jdbcType=DECIMAL}, #{bookCount,jdbcType=DECIMAL}, 
+      #{showNo,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.GhDept" >
+    insert into GH_DEPT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      DEPT_ID,
+      DEPT_NAME,
+      DEPT_LEVEL,
+      INTRO,
+      HOS_ID,
+      PLAT_DEPT_ID,
+      GB_DEPT_CODE,
+      MIN_AGE,
+      BOOK_COUNT,
+      SHOW_NO,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{deptId,jdbcType=DECIMAL},
+      #{deptName,jdbcType=VARCHAR},
+      #{deptLevel,jdbcType=VARCHAR},
+      #{intro,jdbcType=VARCHAR},
+      #{hosId,jdbcType=VARCHAR},
+      #{platDeptId,jdbcType=VARCHAR},
+      #{gbDeptCode,jdbcType=VARCHAR},
+      #{minAge,jdbcType=DECIMAL},
+      #{bookCount,jdbcType=DECIMAL},
+      #{showNo,jdbcType=DECIMAL},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.GhDept" >
+    update GH_DEPT
+    <set >
+      <if test="deptName != null" >
+        DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="deptLevel != null" >
+        DEPT_LEVEL = #{deptLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null" >
+        INTRO = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="hosId != null" >
+        HOS_ID = #{hosId,jdbcType=VARCHAR},
+      </if>
+      <if test="platDeptId != null" >
+        PLAT_DEPT_ID = #{platDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="gbDeptCode != null" >
+        GB_DEPT_CODE = #{gbDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="minAge != null" >
+        MIN_AGE = #{minAge,jdbcType=DECIMAL},
+      </if>
+      <if test="bookCount != null" >
+        BOOK_COUNT = #{bookCount,jdbcType=DECIMAL},
+      </if>
+      <if test="showNo != null" >
+        SHOW_NO = #{showNo,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where DEPT_ID = #{deptId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.GhDept" >
+    update GH_DEPT
+    set DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      DEPT_LEVEL = #{deptLevel,jdbcType=VARCHAR},
+      INTRO = #{intro,jdbcType=VARCHAR},
+      HOS_ID = #{hosId,jdbcType=VARCHAR},
+      PLAT_DEPT_ID = #{platDeptId,jdbcType=VARCHAR},
+      GB_DEPT_CODE = #{gbDeptCode,jdbcType=VARCHAR},
+      MIN_AGE = #{minAge,jdbcType=DECIMAL},
+      BOOK_COUNT = #{bookCount,jdbcType=DECIMAL},
+      SHOW_NO = #{showNo,jdbcType=DECIMAL}
+    where DEPT_ID = #{deptId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateBookCount" parameterType="java.lang.String">
+      update gh_dept set book_count=nvl(book_count,0)+1 where plat_dept_id=#{deptId}
+  </update>
+  <select id="getDepartIdByHospitalIdName" resultMap="BaseResultMap">
+  select * from gh_dept where hos_Id=(select HOS_ID from gh_hospital where PLAT_CODE=#{0}) and DEPT_NAME=#{1}
+  </select>
+    <select id="selectByPlatDeptId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from GH_DEPT where PLAT_DEPT_ID = #{platDeptId} AND HOS_ID = #{hosId}
+  </select>
+   
+    <select id="selectByPlatDeptId2" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from GH_DEPT where PLAT_DEPT_ID = #{platDeptId}
+  </select>
+  <select id="selectList" resultMap="mgDept">
+     select d.dept_id,dc.dept_name gb_dept_name,d.dept_name,d.hos_id,d.plat_dept_id,d.gb_dept_code,d.min_age,d.book_count,h.hos_name from gh_dept d,gh_hospital h,gb_dept_code dc where d.hos_id=h.hos_id and dc.dept_code=d.gb_dept_code
+  </select>
+   <select id="selectInfo" resultMap="mgDept" parameterType="java.lang.String">
+select d.dept_id,dc.dept_name gb_dept_name,d.dept_name,d.hos_id,d.plat_dept_id,d.gb_dept_code,d.min_age,d.book_count,h.hos_name from gh_dept d,gh_hospital h,gb_dept_code dc where d.hos_id=h.hos_id and dc.dept_code=d.gb_dept_code and d.dept_id=#{deptId}
+  </select>
+  
+   <select id="selectNotStanDeptCount" resultType="java.lang.Integer">
+       select count(1) from gh_dept where substr(gb_dept_code,0,2) not in (select  dept_code from gb_dept_code where dept_code = substr(dept_code,0,2))
+ 
+   </select>
+   <select id="selectNotStanDept" resultMap="BaseResultMap">
+       select dept_id,dept_name,gb_dept_code,hos_id from gh_dept where substr(gb_dept_code,0,2) not in (select  dept_code from gb_dept_code where dept_code = substr(dept_code,0,2))
+   </select>
+   <select id="searchDeptByKey" resultMap="mgDept">
+	select DEPT_ID,h.hos_name,h.hos_id,d.dept_name,d.INTRO,d.py_code
+	py_code from GH_DEPT d left join GH_HOSPITAL h on d.hos_id = h.hos_id
+	<where>
+		<if test="hosId!=null and hosId!=''">
+			h.hos_id=#{hosId}
+		</if>
+		<if test="key!=null">
+			AND (d.dept_name like CONCAT(CONCAT('%', #{key}), '%') or d.py_code like
+			CONCAT(CONCAT('%', #{key}), '%'))
+		</if>
+		<if test="areaId != null and areaId !=''">
+			AND h.area_id = #{areaId}
+		</if>
+	</where>
+   </select>
+</mapper>

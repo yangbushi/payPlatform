@@ -1,0 +1,80 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class SysConfig implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer configId;
+
+    private String configKey;
+
+    private String configVal;
+
+    private String remark;
+
+    private String source;
+
+    private Short page;
+
+    private Short nav;
+
+    public Integer getConfigId() {
+        return configId;
+    }
+
+    public void setConfigId(Integer configId) {
+        this.configId = configId;
+    }
+
+    public String getConfigKey() {
+        return configKey;
+    }
+
+    public void setConfigKey(String configKey) {
+        this.configKey = configKey;
+    }
+
+    public String getConfigVal() {
+        return configVal;
+    }
+
+    public void setConfigVal(String configVal) {
+        this.configVal = configVal;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public Short getPage() {
+        return page;
+    }
+
+    public void setPage(Short page) {
+        this.page = page;
+    }
+
+    public Short getNav() {
+        return nav;
+    }
+
+    public void setNav(Short nav) {
+        this.nav = nav;
+    }
+}

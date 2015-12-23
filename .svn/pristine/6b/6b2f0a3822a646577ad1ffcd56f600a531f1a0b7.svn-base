@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soft.gh.dao.TSmsMapper" >
+  <resultMap id="BaseResultMap" type="com.soft.gh.domain.TSms" >
+    <id column="DXID" property="dxid" jdbcType="DECIMAL" />
+    <result column="FSSJH" property="fssjh" jdbcType="VARCHAR" />
+    <result column="DXNR" property="dxnr" jdbcType="VARCHAR" />
+    <result column="JRSJ" property="jrsj" jdbcType="DATE" />
+    <result column="DXZT" property="dxzt" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    DXID,FSSJH,DXNR,JRSJ,DXZT
+  </sql>
+  <insert id="insert" parameterType="com.soft.gh.domain.TSms">
+  	<selectKey order="BEFORE" resultType="java.lang.Long" keyProperty="dxid">
+  		select seq_sms.nextval from dual
+  	</selectKey>
+  	insert into t_sms (DXID,FSSJH,DXNR,JRSJ) 
+  	values(#{dxid,jdbcType=DECIMAL},#{fssjh,jdbcType=VARCHAR},#{dxnr,jdbcType=VARCHAR},sysdate)
+  </insert>
+</mapper>

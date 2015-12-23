@@ -1,0 +1,166 @@
+package com.defray.bean;
+
+
+
+import java.io.Serializable;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+import java.lang.String;
+import java.util.Date;
+import java.lang.Integer;
+import java.lang.Double;
+
+ 
+public class DefrayRecordEntity implements Serializable{
+
+	/** Comment for <code>serialVersionUID</code> */
+	private static final long serialVersionUID = -1L;
+
+	//========== properties ==========
+	
+	//ID
+	private long id;
+	//异常通知URL
+	private String abnormalUrl;
+	//正常通知URL
+	private String noticeUrl;
+	//支付发起时间
+	private Date defrayStartTime;
+	//支付成功时间
+	private Date defraySuccessTime;
+	//支付方式
+	private Integer defrayType;
+	//支付费用
+	private Double defrayFee;
+	//平台订单ID
+	private String orderId;
+	//平台医院ID
+	private String hospitalId;
+	//付款结果（0：成功，1：失败）
+	private Integer defrayResult;
+	//收款账户
+	private String defrayAccount;
+	//交易号
+	private String tradeNo;
+	//平台用户ID
+	private String psnId;
+	//通知平台结果（0：成功，1：失败）
+	private Integer noticeResult;
+
+    //========== getters and setters ==========
+    
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	public String getAbnormalUrl() {
+		return abnormalUrl;
+	}
+
+	public void setAbnormalUrl(String abnormalUrl) {
+		this.abnormalUrl = abnormalUrl;
+	}
+	public String getNoticeUrl() {
+		return noticeUrl;
+	}
+	
+	public void setNoticeUrl(String noticeUrl) {
+		this.noticeUrl = noticeUrl;
+	}
+	public Date getDefrayStartTime() {
+		return defrayStartTime;
+	}
+	
+	public void setDefrayStartTime(Date defrayStartTime) {
+		this.defrayStartTime = defrayStartTime;
+	}
+	public Date getDefraySuccessTime() {
+		return defraySuccessTime;
+	}
+	
+	public void setDefraySuccessTime(Date defraySuccessTime) {
+		this.defraySuccessTime = defraySuccessTime;
+	}
+	public Integer getDefrayType() {
+		return defrayType;
+	}
+	
+	public void setDefrayType(Integer defrayType) {
+		this.defrayType = defrayType;
+	}
+	public Double getDefrayFee() {
+		return defrayFee;
+	}
+	
+	public void setDefrayFee(Double defrayFee) {
+		this.defrayFee = defrayFee;
+	}
+	public String getOrderId() {
+		return orderId;
+	}
+	
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+	public String getHospitalId() {
+		return hospitalId;
+	}
+	
+	public void setHospitalId(String hospitalId) {
+		this.hospitalId = hospitalId;
+	}
+	public Integer getDefrayResult() {
+		return defrayResult;
+	}
+	
+	public void setDefrayResult(Integer defrayResult) {
+		this.defrayResult = defrayResult;
+	}
+	public String getDefrayAccount() {
+		return defrayAccount;
+	}
+	
+	public void setDefrayAccount(String defrayAccount) {
+		this.defrayAccount = defrayAccount;
+	}
+	public String getTradeNo() {
+		return tradeNo;
+	}
+	
+	public void setTradeNo(String tradeNo) {
+		this.tradeNo = tradeNo;
+	}
+	public String getPsnId() {
+		return psnId;
+	}
+	
+	public void setPsnId(String psnId) {
+		this.psnId = psnId;
+	}
+	public Integer getNoticeResult() {
+		return noticeResult;
+	}
+	
+	public void setNoticeResult(Integer noticeResult) {
+		this.noticeResult = noticeResult;
+	}
+
+	/**
+	* 重载toString方法
+	* @return
+	*
+	* @see java.lang.Object#toString()
+	*/
+	@Override
+    public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+}
+

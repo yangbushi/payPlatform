@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soft.gh.dao.TPatientMapper">
+	<resultMap id="BaseResultMap" type="com.soft.gh.domain.TPatient">
+		<id column="HZID" property="patientId" jdbcType="DECIMAL" />
+		<result column="HZXM" property="patientName" jdbcType="VARCHAR" />
+		<result column="ZJZL" property="patientIdCardType" jdbcType="CHAR" />
+		<result column="HZXB" property="patientSex" jdbcType="CHAR" />
+		<result column="HZKHLB" property="patientMediCardType" jdbcType="CHAR" />
+		<result column="HZKH" property="patientMediCard" jdbcType="VARCHAR" />
+		<result column="HZSJH" property="patientMobile" jdbcType="CHAR" />
+		<result column="HZLXDH" property="patientTele" jdbcType="CHAR" />
+		<result column="HZLXDZ" property="patientAddr" jdbcType="VARCHAR" />
+		<result column="HZYB" property="patientPostCode" jdbcType="CHAR" />
+		<result column="HZZCSJ" property="registerTime" jdbcType="DATE" />
+		<result column="HZZT" property="patientState" jdbcType="DECIMAL" />
+		<result column="CZYGH" property="operNo" jdbcType="VARCHAR" />
+		<result column="GXSJ" property="updateTime" jdbcType="DATE" />
+		<result column="HZZJH" property="patientCard" jdbcType="VARCHAR" />
+		<result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+		<result column="USERNAME" property="username" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="patientEmail" jdbcType="VARCHAR" />
+		<result column="ZCQD" property="channel" jdbcType="VARCHAR" />
+		<result column="openId" property="openId" jdbcType="VARCHAR" />
+		<result column="u_id" property="uid" jdbcType="VARCHAR" />
+		<result column="HOS_PLAT_CODE" property="hosPlatCode" jdbcType="VARCHAR" />
+		<result column="BIRTHDAY" property="birthday" jdbcType="DATE" />
+	</resultMap>
+	
+	<resultMap id="RegCountMap" type="com.soft.gh.domain.GhCount">
+		<result column="ZCQD" property="channel" jdbcType="VARCHAR" />
+		<result column="COUNT" property="count" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="RegDayCountMap" type="com.soft.gh.domain.GhCount">
+		<result column="ZCQD" property="channel" jdbcType="VARCHAR" />
+		<result column="COUNT" property="dayCount" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="cardMap" type="com.soft.gh.domain.TCard">
+		<result column="HOS_ID" property="hosPlatCode" jdbcType="VARCHAR" />
+		<result column="MEDICAL_CARD" property="medicalCard" jdbcType="VARCHAR" />
+		<result column="CARD_TYPE" property="cardType" jdbcType="VARCHAR" />
+		<result column="HZZJH" property="userCode" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		HZID, HZXM, ZJZL, HZXB, HZKHLB,
+		HZKH, HZSJH, HZLXDH, HZLXDZ, HZYB,
+		HZZCSJ, HZZT, CZYGH, GXSJ, HZZJH,PASSWORD,USERNAME,EMAIL,ZCQD,openId,u_id,JZKH,JZKLX,HOS_PLAT_CODE,birthday
+  	</sql>
+
+	<select id="selectByPatientCard" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from YYGH_HZXX
+		where HZZJH = #{patientCard}
+	</select>
+	<select id="selectByPatientId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+		select <include refid="Base_Column_List" />
+		 from YYGH_HZXX where HZID = #{patientId,jdbcType=DECIMAL}
+	</select>
+	<insert id="insert" parameterType="com.soft.gh.domain.TPatient">
+		insert into YYGH_HZXX (
+		<include refid="Base_Column_List" />
+		)
+		values
+		(#{patientId,jdbcType=DECIMAL},#{patientName,jdbcType=VARCHAR},#{patientIdCardType,jdbcType=CHAR},
+		#{patientSex,jdbcType=CHAR},#{patientMediCardType,jdbcType=CHAR},#{patientMediCard,jdbcType=VARCHAR},
+		#{patientMobile,jdbcType=CHAR},#{patientTele,jdbcType=CHAR},#{patientAddr,jdbcType=VARCHAR},
+		#{patientPostCode,jdbcType=CHAR},sysdate,0,
+		#{operNo,jdbcType=VARCHAR},sysdate,#{patientCard,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR},#{patientEmail,jdbcType=VARCHAR},#{channel,jdbcType=VARCHAR}
+		,#{openId,jdbcType=VARCHAR},#{uid,jdbcType=VARCHAR},#{patientHosCardId,jdbcType=VARCHAR}
+		,#{visitCardType,jdbcType=VARCHAR},#{hosPlatCode,jdbcType=VARCHAR},#{birthday,jdbcType=DATE}
+		)
+	</insert>
+	<insert id="insertHosPatient" parameterType="com.soft.gh.domain.TPatient">
+		insert into YYGH_HZXX (
+		<include refid="Base_Column_List" />
+		)
+		values
+		(seq_hzxx_id.nextval,#{patientName,jdbcType=VARCHAR},#{patientIdCardType,jdbcType=CHAR},
+		#{patientSex,jdbcType=CHAR},#{patientMediCardType,jdbcType=CHAR},#{patientMediCard,jdbcType=VARCHAR},
+		#{patientMobile,jdbcType=CHAR},#{patientTele,jdbcType=CHAR},#{patientAddr,jdbcType=VARCHAR},
+		#{patientPostCode,jdbcType=CHAR},sysdate,0,
+		#{operNo,jdbcType=VARCHAR},sysdate,#{patientCard,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR},#{patientEmail,jdbcType=VARCHAR},#{channel,jdbcType=VARCHAR}
+		,#{openId,jdbcType=VARCHAR},#{uid,jdbcType=VARCHAR},#{patientHosCardId,jdbcType=VARCHAR}
+		,#{visitCardType,jdbcType=VARCHAR},#{hosPlatCode,jdbcType=VARCHAR},#{birthday,jdbcType=DATE}
+		)
+	</insert>
+
+	<update id="takePassword" parameterType="com.soft.gh.domain.TPatient">
+        update YYGH_HZXX set password=#{password} where HZSJH=#{patientMobile} and HZXM=#{patientName}
+        and HZZJH=#{patientCard}
+	</update>
+
+	<update id="update" parameterType="com.soft.gh.domain.TPatient">
+        update YYGH_HZXX
+		set
+		HZSJH=#{patientMobile},
+		GXSJ=sysdate
+		<if test="patientName != null and patientName != ''">
+		,HZXM=#{patientName}
+		</if>
+		<if test="patientIdCardType != null and patientIdCardType != ''">
+		,ZJZL=#{patientIdCardType}
+		</if>
+		<if test="patientSex != null and patientSex != ''">
+		,HZXB=#{patientSex}
+		</if>
+		<if test="patientMediCardType != null and patientMediCardType != ''">
+		,HZKHLB=#{patientMediCardType}
+		</if>
+		<if test="patientMediCard !=null and patientMediCard != ''">
+		,HZKH=#{patientMediCard}
+		</if>
+		<if test="patientTele !=null and patientTele != ''">
+		,HZLXDH=#{patientTele}
+		</if>
+		<if test="patientPostCode !=null and patientPostCode!=''">
+		,HZYB=#{patientPostCode}
+		</if>
+		<if test="operNo !=null and operNo !=''">
+		,CZYGH=#{operNo}
+		</if>
+		<if test="patientAddr !=null and patientAddr !=''">
+		,HZLXDZ=#{patientAddr}
+		</if>
+		<if test="patientEmail !=null and patientEmail !=''">
+		,EMAIL=#{patientEmail}
+		</if>
+		<if test="password !=null and password != ''">
+		,PASSWORD=#{password}
+		</if>
+		<if test="patientHosCardId !=null and patientHosCardId != ''">
+		,JZKH=#{patientHosCardId}
+		</if>
+		<if test="visitCardType !=null and visitCardType != ''">
+		,JZKLX=#{visitCardType}
+		</if>
+		where
+		HZID=#{patientId}
+	</update>
+	<select id="selectPatientByPatientId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+		select <include refid="Base_Column_List" />  from YYGH_HZXX where HZID = #{patientId,jdbcType=DECIMAL}
+	</select>
+	
+	<select id="selectPatientByNameMobile" resultType="java.lang.String" parameterType="com.soft.gh.domain.TPatient">
+   	select HZXM from YYGH_HZXX where HZZJH=#{patientCard} and HZXM=#{patientName} and HZSJH=#{patientMobile}
+   </select>
+	
+	<update	id="updatePwd" parameterType="com.soft.gh.domain.TPatient">
+		update YYGH_HZXX set password=#{password} where HZZJH=#{patientCard}
+	</update>
+	
+	<update id="updatePatientStateByPatientIdPatientIdCard" parameterType="com.soft.gh.domain.TPatient">
+		update yygh_hzxx set hzzt=2 where hzid=#{patientId} and HZZJH = #{patientCard}
+	</update>
+	
+	<update id="addPwd" parameterType="com.soft.gh.domain.TPatient">
+		update yygh_hzxx set password=#{password} where HZZJH = #{patientCard}
+	</update>
+	
+<select id="selectRegCount" resultMap="RegCountMap">
+     select ZCQD,count(1) COUNT from yygh_hzxx  where zcqd in(2,3,4,5) group by zcqd
+ </select>
+ 
+  <select id="selectRegDayCount" resultMap="RegDayCountMap" parameterType="java.lang.String">
+  select ZCQD,count(1) COUNT from yygh_hzxx where to_char(hzzcsj,'yyyy-MM-dd')=#{day} and zcqd in(2,3,4,5) group by zcqd
+ </select>
+ 
+  <select id="selectList" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" /> from yygh_hzxx where zcqd=4
+  </select>
+   <select id="mgQuery" resultMap="BaseResultMap">
+		select * from (
+			select HZID, HZXM, ZJZL, HZXB, HZKHLB,
+			HZKH, HZSJH, HZLXDH, HZLXDZ, HZYB,
+			HZZCSJ, HZZT, CZYGH, GXSJ, HZZJH,PASSWORD,USERNAME,EMAIL,ZCQD,openId,u_id,rownum rn from yygh_hzxx
+			<where>
+	     	<if test="patientName != null and patientName != ''" > HZXM like concat('%',concat(#{patientName},'%')) </if>
+	     	<if test="end != null and end != ''" >AND rownum &lt;= #{end} </if>
+	     	</where>
+	     ) where #{start}&lt; rn
+	</select>
+	
+	 <select id="mgQueryCount" resultType="java.lang.Integer">
+   		select count(HZID) from yygh_hzxx 
+		 <where>
+	     	<if test="patientName != null and patientName != ''" > HZXM like concat('%',concat(#{patientName},'%')) </if>
+     	</where>
+  	</select>
+  <select id="selectInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" /> from yygh_hzxx where HZID = #{patientId} and zcqd=4
+  </select>
+  <select id="selectByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" /> from yygh_hzxx where openId = #{openId}
+  </select>
+  <select id="selectByUid" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" /> from yygh_hzxx where u_id = #{uid}
+  </select>
+  
+  <select id="selectPatient"  resultMap="BaseResultMap">
+      select <include refid="Base_Column_List" /> from yygh_hzxx where hos_plat_code = #orgCode} and hzzjh = #{userCode} 
+  </select>
+  
+  <update id="updateOpenId">
+  	update yygh_hzxx set openId = #{openId} where HZZJH = #{patientCard}
+  </update>
+  <update id="updateUid">
+  	update yygh_hzxx set u_id = #{uid} where HZZJH = #{patientCard}
+  </update>
+  <delete id="delete">
+  	delete yygh_hzxx where HZZJH= #{patientCard}
+  </delete>
+  
+  <update id="updatePatientInfo" parameterType="map">    
+     update yygh_hzxx set hzsjh = #{mobile}
+     <if test="name != null">,hzxm = #{name}</if> 
+     <if test="sex != null">,hzxb = #{sex}</if>
+     <if test="birthday != null">,birthday =to_date( #{birthday},'yyyy-mm-dd')</if>
+     where 1=1 
+     <if test="userCode != null"> and hzzjh = #{userCode}</if>
+     <if test="password != null"> and password = #{password}</if>     
+  </update> 
+  
+  <select id="selectPatientBasicInfo" parameterType="map" resultMap="BaseResultMap">    
+     select <include refid="Base_Column_List" /> from yygh_hzxx where HZZJH = #{userCode} 
+     <if test="password != null"> and password = #{password}</if> 
+  </select>
+ 
+   <select id="selectPatientByWeixinOpenId" parameterType="map" resultMap="BaseResultMap">    
+     select <include refid="Base_Column_List" /> from yygh_hzxx where WEIXINOPENID = #{weixinOpenID} 
+  </select>
+  
+   <select id="selectPatientByAlipayOpenID" parameterType="map" resultMap="BaseResultMap">    
+     select <include refid="Base_Column_List" /> from yygh_hzxx where ALIPAYOPENID = #{alipayOpenID} 
+  </select>
+  
+  <insert id="insertPatient" parameterType="com.soft.gh.domain.TPatient">
+		insert into YYGH_HZXX (
+		HZID, HZXM, ZJZL, HZXB,
+		HZSJH,HZZCSJ, HZZT, 
+		GXSJ, HZZJH,
+		PASSWORD,ZCQD,
+		HOS_PLAT_CODE
+		)
+		values
+		(seq_hzxx_id.nextval,#{patientName,jdbcType=VARCHAR},#{patientIdCardType,jdbcType=CHAR},#{patientSex,jdbcType=CHAR},
+		#{patientMobile,jdbcType=CHAR},sysdate,0,
+		sysdate,#{patientCard,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},#{channel,jdbcType=VARCHAR},
+		#{hosPlatCode,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="insertPatient2" parameterType="com.soft.gh.domain.TPatient">
+		insert into YYGH_HZXX (
+		HZID, HZXM, ZJZL, HZXB,
+		HZSJH,HZZCSJ, HZZT, 
+		GXSJ, HZZJH,
+		PASSWORD,ZCQD,
+		HOS_PLAT_CODE,birthday
+		)
+		values
+		(seq_hzxx_id.nextval,#{patientName,jdbcType=VARCHAR},#{patientIdCardType,jdbcType=CHAR},#{patientSex,jdbcType=CHAR},
+		#{patientMobile,jdbcType=CHAR},sysdate,0,
+		sysdate,#{patientCard,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},#{channel,jdbcType=VARCHAR},
+		#{hosPlatCode,jdbcType=VARCHAR},#{birthday,jdbcType=DATE}
+		)
+	</insert>
+	
+	<update id="updatePassword" parameterType="map">    
+     update yygh_hzxx set password = #{password}
+     where 1=1 
+      and hzzjh = #{userCode} 
+  	</update> 
+  	
+  	<update id="updateWeixinOpenId" parameterType="map">    
+     update yygh_hzxx set WEIXINOPENID = #{weixinOpenID}
+     where 1=1 
+      and hzzjh = #{userCode} 
+  	</update>
+  	
+  	<update id="updateAlipayOpenID" parameterType="map">    
+     update yygh_hzxx set ALIPAYOPENID = #{alipayOpenID}
+     where 1=1 
+      and hzzjh = #{userCode} 
+  	</update>
+  	
+  	<insert id="insertPatientCard" parameterType="map">
+		insert into GH_PATIENT_CARD_MAP (
+		ID, HOS_ID, MEDICAL_CARD, CARD_TYPE,
+		USER_ID
+		)
+		values
+		(GH_PATIENT_CARD_MAP_SEQ.nextval,
+		#{cardOrgCode,jdbcType=VARCHAR},
+		#{cardnumber,jdbcType=VARCHAR},
+		#{cardtype,jdbcType=VARCHAR},
+		#{userId,jdbcType=DECIMAL}
+		)
+	</insert>
+	
+	<delete id="deletePatientCard" parameterType="map">
+		delete GH_PATIENT_CARD_MAP where 
+		HOS_ID=#{cardOrgCode,jdbcType=VARCHAR} and  
+		MEDICAL_CARD=#{cardnumber,jdbcType=VARCHAR} and 
+		CARD_TYPE=#{cardtype,jdbcType=VARCHAR} and 
+		USER_ID=#{userId,jdbcType=DECIMAL}
+		
+	</delete>
+	
+	<select id="selectCards" parameterType="map" resultMap="cardMap">    
+     select c.*,p.hzzjh from GH_PATIENT_CARD_MAP c
+     left join YYGH_HZXX p on c.USER_ID = p.HZID
+     where 1=1
+     <if test="userCode != null"> and p.hzzjh = #{userCode} </if>
+     <if test="cardType != null"> and c.CARD_TYPE = #{cardType}</if> 
+  	</select> 
+  	<select id="selectCards2" parameterType="map" resultMap="cardMap">    
+     select c.*,p.hzzjh from GH_PATIENT_CARD_MAP c
+     left join YYGH_HZXX p on c.USER_ID = p.HZID
+     where 1=1
+     <if test="userCode != null"> and p.hzzjh = #{userCode} </if>
+     <if test="cardtype != null"> and c.CARD_TYPE = #{cardtype}</if> 
+  	</select> 
+</mapper>

@@ -1,0 +1,80 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class GhClientUpdate implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Integer id;
+
+    private Integer clientVersion;
+
+    private String apkName;
+
+    private String resUrl;
+
+    private String versionInfo;
+
+    private Short clientType;
+
+    private Short forceUpdate;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getClientVersion() {
+        return clientVersion;
+    }
+
+    public void setClientVersion(Integer clientVersion) {
+        this.clientVersion = clientVersion;
+    }
+
+    public String getApkName() {
+        return apkName;
+    }
+
+    public void setApkName(String apkName) {
+        this.apkName = apkName;
+    }
+
+    public String getResUrl() {
+        return resUrl;
+    }
+
+    public void setResUrl(String resUrl) {
+        this.resUrl = resUrl;
+    }
+
+    public String getVersionInfo() {
+        return versionInfo;
+    }
+
+    public void setVersionInfo(String versionInfo) {
+        this.versionInfo = versionInfo;
+    }
+
+    public Short getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(Short clientType) {
+        this.clientType = clientType;
+    }
+
+    public Short getForceUpdate() {
+        return forceUpdate;
+    }
+
+    public void setForceUpdate(Short forceUpdate) {
+        this.forceUpdate = forceUpdate;
+    }
+}

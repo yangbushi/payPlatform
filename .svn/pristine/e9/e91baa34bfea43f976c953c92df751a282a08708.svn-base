@@ -1,0 +1,31 @@
+package com.herenit.cloud.rules;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.exception.BusException;
+
+public interface Business {
+	Logger logger = LoggerFactory.getLogger(Business.class);
+
+	/**
+	 * BEFORE requesting to the actual service,what can we do with the
+	 * parameters
+	 * 
+	 * @param request
+	 * @throws BusException
+	 */
+	public abstract void before(JSONObject request) throws BusException;
+
+	/**
+	 * AFTER returned from the actual service,what can we do with the request
+	 * and response.
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws BusException
+	 */
+	public abstract void after(final JSONObject request, JSONObject response)
+			throws BusException;
+}

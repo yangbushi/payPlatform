@@ -1,0 +1,41 @@
+package com.tynet.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.GhHosFloor;
+import com.tynet.model.GhHosFloorExample;
+
+@Repository
+public interface GhHosFloorMapper {
+	int countByExample(GhHosFloorExample example);
+
+	int deleteByExample(GhHosFloorExample example);
+
+	List<GhHosFloor> selectByExample(GhHosFloorExample example);
+
+	int updateByExampleSelective(@Param("record") GhHosFloor record, @Param("example") GhHosFloorExample example);
+
+	int updateByExample(@Param("record") GhHosFloor record, @Param("example") GhHosFloorExample example);
+
+	List<GhHosFloor> selectByExampleAndPage(GhHosFloorExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(Long id);
+
+	int insert(GhHosFloor record);
+
+	int insertSelective(GhHosFloor record);
+
+	GhHosFloor selectByPrimaryKey(Long id);
+
+	int updateByPrimaryKeySelective(GhHosFloor record);
+
+	int updateByPrimaryKey(GhHosFloor record);
+
+	List<GhHosFloor> mgQuery();
+
+	List<GhHosFloor> selectBySource(@Param("source") String source);
+}

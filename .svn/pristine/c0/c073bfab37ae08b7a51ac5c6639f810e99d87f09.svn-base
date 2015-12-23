@@ -1,0 +1,34 @@
+package com.tynet.dao;
+
+import com.tynet.model.DzSymptom;
+import com.tynet.model.DzSymptomExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface DzSymptomMapper {
+    int countByExample(DzSymptomExample example);
+
+    int deleteByExample(DzSymptomExample example);
+
+    List<DzSymptom> selectByExample(DzSymptomExample example);
+
+    int updateByExampleSelective(@Param("record") DzSymptom record, @Param("example") DzSymptomExample example);
+
+    int updateByExample(@Param("record") DzSymptom record, @Param("example") DzSymptomExample example);
+
+    List<DzSymptom> selectByExampleAndPage(DzSymptomExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(Long symId);
+
+    int insert(DzSymptom record);
+
+    int insertSelective(DzSymptom record);
+
+    DzSymptom selectByPrimaryKey(Long symId);
+
+    int updateByPrimaryKeySelective(DzSymptom record);
+
+    int updateByPrimaryKey(DzSymptom record);
+}

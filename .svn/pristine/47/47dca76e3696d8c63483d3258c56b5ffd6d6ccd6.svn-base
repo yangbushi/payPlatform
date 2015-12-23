@@ -1,0 +1,610 @@
+package com.tynet.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class GhTjAppExample {
+    protected String pk_name = "APP_ID";
+
+    protected String orderByClause;
+
+    protected boolean distinct;
+
+    protected List<Criteria> oredCriteria;
+
+    public GhTjAppExample() {
+        oredCriteria = new ArrayList<Criteria>();
+    }
+
+    public void setPk_name(String pk_name) {
+        this.pk_name = pk_name;
+    }
+
+    public String getPk_name() {
+        return pk_name;
+    }
+
+    public void setOrderByClause(String orderByClause) {
+        this.orderByClause = orderByClause;
+    }
+
+    public String getOrderByClause() {
+        return orderByClause;
+    }
+
+    public void setDistinct(boolean distinct) {
+        this.distinct = distinct;
+    }
+
+    public boolean isDistinct() {
+        return distinct;
+    }
+
+    public List<Criteria> getOredCriteria() {
+        return oredCriteria;
+    }
+
+    public void or(Criteria criteria) {
+        oredCriteria.add(criteria);
+    }
+
+    public Criteria or() {
+        Criteria criteria = createCriteriaInternal();
+        oredCriteria.add(criteria);
+        return criteria;
+    }
+
+    public Criteria createCriteria() {
+        Criteria criteria = createCriteriaInternal();
+        if (oredCriteria.size() == 0) {
+            oredCriteria.add(criteria);
+        }
+        return criteria;
+    }
+
+    protected Criteria createCriteriaInternal() {
+        Criteria criteria = new Criteria();
+        return criteria;
+    }
+
+    public void clear() {
+        oredCriteria.clear();
+        orderByClause = null;
+        distinct = false;
+    }
+
+    protected abstract static class GeneratedCriteria {
+        protected List<Criterion> criteria;
+
+        protected GeneratedCriteria() {
+            super();
+            criteria = new ArrayList<Criterion>();
+        }
+
+        public boolean isValid() {
+            return criteria.size() > 0;
+        }
+
+        public List<Criterion> getAllCriteria() {
+            return criteria;
+        }
+
+        public List<Criterion> getCriteria() {
+            return criteria;
+        }
+
+        protected void addCriterion(String condition) {
+            if (condition == null) {
+                throw new RuntimeException("Value for condition cannot be null");
+            }
+            criteria.add(new Criterion(condition));
+        }
+
+        protected void addCriterion(String condition, Object value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            criteria.add(new Criterion(condition, value));
+        }
+
+        protected void addCriterion(String condition, Object value1, Object value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        public Criteria andAppIdIsNull() {
+            addCriterion("APP_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdIsNotNull() {
+            addCriterion("APP_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdEqualTo(Long value) {
+            addCriterion("APP_ID =", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdNotEqualTo(Long value) {
+            addCriterion("APP_ID <>", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdGreaterThan(Long value) {
+            addCriterion("APP_ID >", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("APP_ID >=", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdLessThan(Long value) {
+            addCriterion("APP_ID <", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdLessThanOrEqualTo(Long value) {
+            addCriterion("APP_ID <=", value, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdIn(List<Long> values) {
+            addCriterion("APP_ID in", values, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdNotIn(List<Long> values) {
+            addCriterion("APP_ID not in", values, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdBetween(Long value1, Long value2) {
+            addCriterion("APP_ID between", value1, value2, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIdNotBetween(Long value1, Long value2) {
+            addCriterion("APP_ID not between", value1, value2, "appId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoIsNull() {
+            addCriterion("APP_ICO is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoIsNotNull() {
+            addCriterion("APP_ICO is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoEqualTo(String value) {
+            addCriterion("APP_ICO =", value, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoNotEqualTo(String value) {
+            addCriterion("APP_ICO <>", value, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoGreaterThan(String value) {
+            addCriterion("APP_ICO >", value, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoGreaterThanOrEqualTo(String value) {
+            addCriterion("APP_ICO >=", value, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoLessThan(String value) {
+            addCriterion("APP_ICO <", value, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoLessThanOrEqualTo(String value) {
+            addCriterion("APP_ICO <=", value, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoLike(String value) {
+            addCriterion("APP_ICO like", value, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoNotLike(String value) {
+            addCriterion("APP_ICO not like", value, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoIn(List<String> values) {
+            addCriterion("APP_ICO in", values, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoNotIn(List<String> values) {
+            addCriterion("APP_ICO not in", values, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoBetween(String value1, String value2) {
+            addCriterion("APP_ICO between", value1, value2, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIcoNotBetween(String value1, String value2) {
+            addCriterion("APP_ICO not between", value1, value2, "appIco");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameIsNull() {
+            addCriterion("APP_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameIsNotNull() {
+            addCriterion("APP_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameEqualTo(String value) {
+            addCriterion("APP_NAME =", value, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameNotEqualTo(String value) {
+            addCriterion("APP_NAME <>", value, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameGreaterThan(String value) {
+            addCriterion("APP_NAME >", value, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameGreaterThanOrEqualTo(String value) {
+            addCriterion("APP_NAME >=", value, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameLessThan(String value) {
+            addCriterion("APP_NAME <", value, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameLessThanOrEqualTo(String value) {
+            addCriterion("APP_NAME <=", value, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameLike(String value) {
+            addCriterion("APP_NAME like", value, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameNotLike(String value) {
+            addCriterion("APP_NAME not like", value, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameIn(List<String> values) {
+            addCriterion("APP_NAME in", values, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameNotIn(List<String> values) {
+            addCriterion("APP_NAME not in", values, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameBetween(String value1, String value2) {
+            addCriterion("APP_NAME between", value1, value2, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppNameNotBetween(String value1, String value2) {
+            addCriterion("APP_NAME not between", value1, value2, "appName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroIsNull() {
+            addCriterion("APP_INTRO is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroIsNotNull() {
+            addCriterion("APP_INTRO is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroEqualTo(String value) {
+            addCriterion("APP_INTRO =", value, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroNotEqualTo(String value) {
+            addCriterion("APP_INTRO <>", value, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroGreaterThan(String value) {
+            addCriterion("APP_INTRO >", value, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroGreaterThanOrEqualTo(String value) {
+            addCriterion("APP_INTRO >=", value, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroLessThan(String value) {
+            addCriterion("APP_INTRO <", value, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroLessThanOrEqualTo(String value) {
+            addCriterion("APP_INTRO <=", value, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroLike(String value) {
+            addCriterion("APP_INTRO like", value, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroNotLike(String value) {
+            addCriterion("APP_INTRO not like", value, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroIn(List<String> values) {
+            addCriterion("APP_INTRO in", values, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroNotIn(List<String> values) {
+            addCriterion("APP_INTRO not in", values, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroBetween(String value1, String value2) {
+            addCriterion("APP_INTRO between", value1, value2, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppIntroNotBetween(String value1, String value2) {
+            addCriterion("APP_INTRO not between", value1, value2, "appIntro");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadIsNull() {
+            addCriterion("APP_DOWNLOAD is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadIsNotNull() {
+            addCriterion("APP_DOWNLOAD is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadEqualTo(String value) {
+            addCriterion("APP_DOWNLOAD =", value, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadNotEqualTo(String value) {
+            addCriterion("APP_DOWNLOAD <>", value, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadGreaterThan(String value) {
+            addCriterion("APP_DOWNLOAD >", value, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadGreaterThanOrEqualTo(String value) {
+            addCriterion("APP_DOWNLOAD >=", value, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadLessThan(String value) {
+            addCriterion("APP_DOWNLOAD <", value, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadLessThanOrEqualTo(String value) {
+            addCriterion("APP_DOWNLOAD <=", value, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadLike(String value) {
+            addCriterion("APP_DOWNLOAD like", value, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadNotLike(String value) {
+            addCriterion("APP_DOWNLOAD not like", value, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadIn(List<String> values) {
+            addCriterion("APP_DOWNLOAD in", values, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadNotIn(List<String> values) {
+            addCriterion("APP_DOWNLOAD not in", values, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadBetween(String value1, String value2) {
+            addCriterion("APP_DOWNLOAD between", value1, value2, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDownloadNotBetween(String value1, String value2) {
+            addCriterion("APP_DOWNLOAD not between", value1, value2, "appDownload");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountIsNull() {
+            addCriterion("APP_DOWNCOUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountIsNotNull() {
+            addCriterion("APP_DOWNCOUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountEqualTo(Long value) {
+            addCriterion("APP_DOWNCOUNT =", value, "appDowncount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountNotEqualTo(Long value) {
+            addCriterion("APP_DOWNCOUNT <>", value, "appDowncount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountGreaterThan(Long value) {
+            addCriterion("APP_DOWNCOUNT >", value, "appDowncount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountGreaterThanOrEqualTo(Long value) {
+            addCriterion("APP_DOWNCOUNT >=", value, "appDowncount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountLessThan(Long value) {
+            addCriterion("APP_DOWNCOUNT <", value, "appDowncount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountLessThanOrEqualTo(Long value) {
+            addCriterion("APP_DOWNCOUNT <=", value, "appDowncount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountIn(List<Long> values) {
+            addCriterion("APP_DOWNCOUNT in", values, "appDowncount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountNotIn(List<Long> values) {
+            addCriterion("APP_DOWNCOUNT not in", values, "appDowncount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountBetween(Long value1, Long value2) {
+            addCriterion("APP_DOWNCOUNT between", value1, value2, "appDowncount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppDowncountNotBetween(Long value1, Long value2) {
+            addCriterion("APP_DOWNCOUNT not between", value1, value2, "appDowncount");
+            return (Criteria) this;
+        }
+    }
+
+    public static class Criteria extends GeneratedCriteria {
+
+        protected Criteria() {
+            super();
+        }
+    }
+
+    public static class Criterion {
+        private String condition;
+
+        private Object value;
+
+        private Object secondValue;
+
+        private boolean noValue;
+
+        private boolean singleValue;
+
+        private boolean betweenValue;
+
+        private boolean listValue;
+
+        private String typeHandler;
+
+        public String getCondition() {
+            return condition;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public Object getSecondValue() {
+            return secondValue;
+        }
+
+        public boolean isNoValue() {
+            return noValue;
+        }
+
+        public boolean isSingleValue() {
+            return singleValue;
+        }
+
+        public boolean isBetweenValue() {
+            return betweenValue;
+        }
+
+        public boolean isListValue() {
+            return listValue;
+        }
+
+        public String getTypeHandler() {
+            return typeHandler;
+        }
+
+        protected Criterion(String condition) {
+            super();
+            this.condition = condition;
+            this.typeHandler = null;
+            this.noValue = true;
+        }
+
+        protected Criterion(String condition, Object value, String typeHandler) {
+            super();
+            this.condition = condition;
+            this.value = value;
+            this.typeHandler = typeHandler;
+            if (value instanceof List<?>) {
+                this.listValue = true;
+            } else {
+                this.singleValue = true;
+            }
+        }
+
+        protected Criterion(String condition, Object value) {
+            this(condition, value, null);
+        }
+
+        protected Criterion(String condition, Object value, Object secondValue, String typeHandler) {
+            super();
+            this.condition = condition;
+            this.value = value;
+            this.secondValue = secondValue;
+            this.typeHandler = typeHandler;
+            this.betweenValue = true;
+        }
+
+        protected Criterion(String condition, Object value, Object secondValue) {
+            this(condition, value, secondValue, null);
+        }
+    }
+}

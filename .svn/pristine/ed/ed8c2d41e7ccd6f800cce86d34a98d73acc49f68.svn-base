@@ -1,0 +1,32 @@
+package com.herenit.cloud.dao;
+
+import com.herenit.cloud.model.AppDeploy;
+import com.herenit.cloud.model.AppDeployExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface AppDeployMapper {
+    int countByExample(AppDeployExample example);
+
+    int deleteByExample(AppDeployExample example);
+
+    int deleteByPrimaryKey(String deployId);
+
+    int insert(AppDeploy record);
+
+    int insertSelective(AppDeploy record);
+
+    List<AppDeploy> selectByExample(AppDeployExample example);
+
+    AppDeploy selectByPrimaryKey(String deployId);
+
+    int updateByExampleSelective(@Param("record") AppDeploy record, @Param("example") AppDeployExample example);
+
+    int updateByExample(@Param("record") AppDeploy record, @Param("example") AppDeployExample example);
+
+    int updateByPrimaryKeySelective(AppDeploy record);
+
+    int updateByPrimaryKey(AppDeploy record);
+}

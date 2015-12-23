@@ -1,0 +1,162 @@
+package com.herenit.cloud.rules.impl;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.exception.FrontendModule;
+import com.herenit.cloud.rules.Business;
+import com.herenit.cloud.util.DataCache;
+import com.tynet.dao.GhDeptMapper;
+import com.tynet.dao.GhDocMapper;
+import com.tynet.model.GhDept;
+import com.tynet.model.GhDoc;
+import com.tynet.util.Utils;
+
+/**
+ * 排班信息转化
+ * 
+ * @author Administrator
+ */
+@Service
+public class NumSchemeBusiness implements Business {
+	@Autowired
+	private GhDeptMapper ghDeptDao;
+
+	@Autowired
+	private GhDocMapper ghDocDao;
+
+	@Override
+	public void before(JSONObject request) throws BusException {
+		JSONObject args = request.getJSONObject("args");
+		if (args == null) {
+			throw FrontendModule.FRONTEND_0030;
+		}
+		
+		String schId = args.getString("schId");
+		if (StringUtils.isNotEmpty(schId)) {
+			args.put("schid", schId);
+		}else {
+			throw FrontendModule.FRONTEND_0027;
+		}
+		String schdate = args.getString("schdate");
+		if (StringUtils.isBlank(schdate)) {
+			throw FrontendModule.FRONTEND_0028;
+		}
+		
+		String ampm = args.getString("ampm");
+		if (StringUtils.isBlank(ampm)) {
+			throw FrontendModule.FRONTEND_0029;
+		}
+		
+	}
+
+	@Override
+	public void after(final JSONObject request, JSONObject response)
+			throws BusException {
+		String code = response.getString("code");
+		if (CODE.OK.value().equalsIgnoreCase(code)) {
+			JSONObject data = response.getJSONObject("data");
+			if (data == null) {
+				return;
+			}
+			
+			String hosId = request.getString("hosId");
+			//100208排班号源查询后置处理
+			JSONObject scheme=data.getJSONObject("scheme");
+			String deptId ="";
+			String docId = "";
+			String title = "";
+			String schdate= "";
+			if (scheme!=null) {
+				deptId=scheme.getString("deptid");
+				docId =scheme.getString("docid");
+				title =scheme.getString("title");
+				schdate=scheme.getString("schdate");
+				if ("267".equals(hosId)) {
+					scheme.put("disnocode", "1");
+				}else {
+					scheme.put("disnocode", "2");
+				}
+				
+			}else {
+				throw FrontendModule.FRONTEND_0033;
+			}
+			
+			if (DataCache.titleMap==null) {
+				DataCache.initTitleMap();
+			}
+			
+			GhDept dept = null;
+			if (StringUtils.isNotEmpty(deptId)) {
+				dept = ghDeptDao.selectByPlatDeptId(deptId, hosId);
+				if (dept != null) {
+					scheme.put("deptid", dept.getDeptId());
+				}
+			}else {
+				scheme.put("deptid", "");
+			}
+			GhDoc doc = null;
+			if (StringUtils.isNotEmpty(docId)) {
+				doc = ghDocDao.selectByPlatDocId(docId, hosId);
+				if (doc != null) {
+					scheme.put("docid", doc.getDocId());
+					scheme.put("docgood", doc.getGoodat());
+					if (DataCache.titleMap.get(doc.getDocTitle())!=null) {
+						scheme.put("title", DataCache.titleMap.get(doc.getDocTitle()));
+					}
+				}else {
+					scheme.put("docid",docId);
+					scheme.put("docgood","");
+				}
+			}else {
+				scheme.put("docid", "");
+			}
+			//这里处理当日挂号时间段过期的问题
+			if (StringUtils.isNotBlank(schdate)) {
+				Date now=new Date();
+				String today=Utils.dateFormat.format(now);
+				if ("267".equals(hosId) && schdate.equals(today)) {
+					JSONArray array=data.getJSONArray("list");
+					if (array!=null && array.size()>0) {
+						JSONArray array2=new JSONArray();
+						for (int i = 0; i < array.size(); i++) {
+							JSONObject obj = array.getJSONObject(i);
+							if (obj == null) {
+								continue;
+							}else {
+								String timedesc=obj.getString("timedesc");
+								if (StringUtils.isNotBlank(timedesc) && timedesc.split("-").length>1) {
+									String endTime=timedesc.split("-")[1];
+									String hour=endTime.split(":")[0];
+									String minute=endTime.split(":")[1];
+									Calendar calendar=Calendar.getInstance();
+									calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(hour));
+									calendar.set(Calendar.MINUTE, Integer.valueOf(minute));
+									if (now.before(calendar.getTime())) {
+										array2.add(obj);
+									}
+								}
+								
+							}
+						}
+						data.remove("list");
+						data.put("list", array2);
+					}
+				}
+			}
+			
+		}
+	}
+
+	
+	
+
+}

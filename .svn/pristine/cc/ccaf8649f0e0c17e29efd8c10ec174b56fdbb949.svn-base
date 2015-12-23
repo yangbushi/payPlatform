@@ -1,0 +1,14 @@
+package com.herenit.cloud.dict;
+
+public enum DeoployType {
+	LongLink, DirectLink;
+	public String value() {
+		switch (this) {
+		case DirectLink:
+			return "0"; // 直连
+		case LongLink:
+			return "1"; // 长连接
+		}
+		return "0";
+	}
+}

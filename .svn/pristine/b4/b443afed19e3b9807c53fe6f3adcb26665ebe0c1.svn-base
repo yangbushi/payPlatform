@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.SurveyAnswerRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.SurveyAnswerRecord" >
+    <result column="id" property="id" jdbcType="DECIMAL" />
+    <result column="patientId" property="patientid" jdbcType="VARCHAR" />
+    <result column="sId" property="sid" jdbcType="DECIMAL" />
+    <result column="qId" property="qid" jdbcType="DECIMAL" />
+    <result column="aId" property="aid" jdbcType="DECIMAL" />
+    <result column="rContent" property="rcontent" jdbcType="VARCHAR" />
+    <result column="insTime" property="instime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, patientId, sId, qId, aId, rContent, insTime
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.SurveyAnswerRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from SURVEY_ANSWER_RECORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.SurveyAnswerRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from SURVEY_ANSWER_RECORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.SurveyAnswerRecordExample" >
+    delete from SURVEY_ANSWER_RECORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.SurveyAnswerRecordExample" resultType="java.lang.Integer" >
+    select count(*) from SURVEY_ANSWER_RECORD
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update SURVEY_ANSWER_RECORD
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.patientid != null" >
+        patientId = #{record.patientid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sid != null" >
+        sId = #{record.sid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.qid != null" >
+        qId = #{record.qid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.aid != null" >
+        aId = #{record.aid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rcontent != null" >
+        rContent = #{record.rcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.instime != null" >
+        insTime = #{record.instime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update SURVEY_ANSWER_RECORD
+    set id = #{record.id,jdbcType=DECIMAL},
+      patientId = #{record.patientid,jdbcType=VARCHAR},
+      sId = #{record.sid,jdbcType=DECIMAL},
+      qId = #{record.qid,jdbcType=DECIMAL},
+      aId = #{record.aid,jdbcType=DECIMAL},
+      rContent = #{record.rcontent,jdbcType=VARCHAR},
+      insTime = #{record.instime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <insert id="insert" parameterType="com.tynet.model.SurveyAnswerRecord" >
+    insert into SURVEY_ANSWER_RECORD (id, patientId, sId, 
+      qId, aId, rContent, 
+      insTime)
+    values (#{id,jdbcType=DECIMAL}, #{patientid,jdbcType=VARCHAR}, #{sid,jdbcType=DECIMAL}, 
+      #{qid,jdbcType=DECIMAL}, #{aid,jdbcType=DECIMAL}, #{rcontent,jdbcType=VARCHAR}, 
+      #{instime,jdbcType=TIMESTAMP})
+  </insert>
+  <select id="selectBySidAndPatId" resultMap="BaseResultMap">
+      select   id,
+      patientId,
+      sId,
+      qId,
+      aId,
+      rContent,
+      insTime from SURVEY_ANSWER_RECORD where sId=#{sId,jdbcType=VARCHAR} and patientId=#{patientId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insertSelective" parameterType="com.tynet.model.SurveyAnswerRecord" >
+    insert into SURVEY_ANSWER_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      patientId,
+      sId,
+      qId,
+      aId,
+      rContent,
+      insTime,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      SEQ_SURVEY_ANSWER_RECORD.Nextval,
+      #{patientid,jdbcType=VARCHAR},
+      #{sid,jdbcType=DECIMAL},
+      #{qid,jdbcType=DECIMAL},
+      #{aid,jdbcType=DECIMAL},
+      #{rcontent,jdbcType=VARCHAR},
+      #{instime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+</mapper>

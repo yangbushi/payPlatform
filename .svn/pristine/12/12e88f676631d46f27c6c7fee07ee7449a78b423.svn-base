@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.IdxLuceneTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.IdxLuceneTask" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="OBJ_ID" property="objId" jdbcType="VARCHAR" />
+    <result column="OBJ_TYPE" property="objType" jdbcType="VARCHAR" />
+    <result column="OPT" property="opt" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="HANDLE_TIME" property="handleTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, OBJ_ID, OBJ_TYPE, OPT, CREATE_TIME, "STATE", HANDLE_TIME
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.IdxLuceneTaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from IDX_LUCENE_TASK
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.IdxLuceneTaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from IDX_LUCENE_TASK
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.IdxLuceneTaskExample" >
+    delete from IDX_LUCENE_TASK
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.IdxLuceneTaskExample" resultType="java.lang.Integer" >
+    select count(*) from IDX_LUCENE_TASK
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update IDX_LUCENE_TASK
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.objId != null" >
+        OBJ_ID = #{record.objId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.objType != null" >
+        OBJ_TYPE = #{record.objType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opt != null" >
+        OPT = #{record.opt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        "STATE" = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleTime != null" >
+        HANDLE_TIME = #{record.handleTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update IDX_LUCENE_TASK
+    set ID = #{record.id,jdbcType=DECIMAL},
+      OBJ_ID = #{record.objId,jdbcType=VARCHAR},
+      OBJ_TYPE = #{record.objType,jdbcType=VARCHAR},
+      OPT = #{record.opt,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      "STATE" = #{record.state,jdbcType=VARCHAR},
+      HANDLE_TIME = #{record.handleTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from IDX_LUCENE_TASK
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from IDX_LUCENE_TASK
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.IdxLuceneTask" >
+    insert into IDX_LUCENE_TASK (ID, OBJ_ID, OBJ_TYPE, 
+      OPT, CREATE_TIME, "STATE", 
+      HANDLE_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{objId,jdbcType=VARCHAR}, #{objType,jdbcType=VARCHAR}, 
+      #{opt,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR}, 
+      #{handleTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.IdxLuceneTask" >
+    insert into IDX_LUCENE_TASK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      OBJ_ID,
+      OBJ_TYPE,
+      OPT,
+      CREATE_TIME,
+      "STATE",
+      HANDLE_TIME,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      #{objId,jdbcType=VARCHAR},
+      #{objType,jdbcType=VARCHAR},
+      #{opt,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{state,jdbcType=VARCHAR},
+      #{handleTime,jdbcType=TIMESTAMP},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.IdxLuceneTask" >
+    update IDX_LUCENE_TASK
+    <set >
+      <if test="objId != null" >
+        OBJ_ID = #{objId,jdbcType=VARCHAR},
+      </if>
+      <if test="objType != null" >
+        OBJ_TYPE = #{objType,jdbcType=VARCHAR},
+      </if>
+      <if test="opt != null" >
+        OPT = #{opt,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        "STATE" = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="handleTime != null" >
+        HANDLE_TIME = #{handleTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.IdxLuceneTask" >
+    update IDX_LUCENE_TASK
+    set OBJ_ID = #{objId,jdbcType=VARCHAR},
+      OBJ_TYPE = #{objType,jdbcType=VARCHAR},
+      OPT = #{opt,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      "STATE" = #{state,jdbcType=VARCHAR},
+      HANDLE_TIME = #{handleTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

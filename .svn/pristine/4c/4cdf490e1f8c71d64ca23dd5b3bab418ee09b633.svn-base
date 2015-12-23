@@ -1,0 +1,47 @@
+package com.soft.gh.domain;
+
+import java.io.Serializable;
+
+public class TArea implements Serializable {
+    private Long areaId;
+
+    private String areaName;
+
+    private String areaCode;
+
+    private String parentId;
+
+    private static final long serialVersionUID = 1L;
+
+    public Long getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(Long areaId) {
+        this.areaId = areaId;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+}

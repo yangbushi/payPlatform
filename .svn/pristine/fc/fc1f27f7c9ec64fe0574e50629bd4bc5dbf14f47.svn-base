@@ -1,0 +1,313 @@
+package com.soft.gh.domain;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import com.soft.gh.util.StringUtil;
+
+public class TPatient implements Serializable {
+	private Long patientId;
+	
+	private String patientHosCardId;
+
+	private String patientName;
+
+	private String patientIdCardType;
+
+	private String patientSex;
+
+	private String patientMediCardType;
+
+	private String patientMediCard;
+
+	private String patientMobile;
+
+	private String patientTele;
+
+	private String patientAddr;
+
+	private String patientPostCode;
+
+	private Date registerTime;
+
+	private Short patientState;
+
+	private String operNo;
+
+	private Date updateTime;
+
+	private String patientCard;
+
+	private String password;
+
+	private String username;
+
+	private String channel;
+
+	private String patientEmail;
+
+	private String openId;
+
+	private String uid;
+	
+	private String visitCardType;
+	
+	private String hosPlatCode;
+	
+	private Date birthday;
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getHosPlatCode() {
+		return hosPlatCode;
+	}
+
+	public void setHosPlatCode(String hosPlatCode) {
+		this.hosPlatCode = hosPlatCode;
+	}
+
+	public String getVisitCardType() {
+		return visitCardType;
+	}
+
+	public void setVisitCardType(String visitCardType) {
+		this.visitCardType = visitCardType;
+	}
+
+	private String patientCheck;
+	private int xyd;
+	
+	private String pwdSet;
+	// 信誉度说明
+	private String xydsm;
+	
+	//是否绑定（0没绑定，1绑定）
+	private String bind;
+
+	public int getXyd() {
+		return xyd;
+	}
+
+	public void setXyd(int xyd) {
+		this.xyd = xyd;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getPatientCheck() {
+		return patientCheck;
+	}
+
+	public void setPatientCheck(String patientCheck) {
+		this.patientCheck = StringUtil.delHTMLTag(patientCheck);
+	}
+
+	public String getPatientEmail() {
+		return patientEmail;
+	}
+
+	public void setPatientEmail(String patientEmail) {
+		this.patientEmail = StringUtil.delHTMLTag(patientEmail);
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = StringUtil.delHTMLTag(username);
+	}
+	public String getPatientHosCardId() {
+		return patientHosCardId;
+	}
+
+	public void setPatientHosCardId(String patientHosCardId) {
+		this.patientHosCardId = patientHosCardId;
+	}
+
+	private static final long serialVersionUID = 1L;
+
+	public Long getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(Long patientId) {
+		this.patientId = Long.parseLong((StringUtil.delHTMLTag(patientId.toString())));
+	}
+
+	public String getPatientName() {
+		return patientName;
+	}
+
+	public void setPatientName(String patientName) {
+		this.patientName = StringUtil.delHTMLTag(patientName);
+	}
+
+	public String getPatientIdCardType() {
+		return patientIdCardType;
+	}
+
+	public void setPatientIdCardType(String patientIdCardType) {
+		this.patientIdCardType = StringUtil.delHTMLTag(patientIdCardType);
+	}
+
+	public String getPatientSex() {
+		return patientSex;
+	}
+
+	public void setPatientSex(String patientSex) {
+		this.patientSex = StringUtil.delHTMLTag(patientSex);
+	}
+
+	public String getPatientMediCardType() {
+		return patientMediCardType;
+	}
+
+	public void setPatientMediCardType(String patientMediCardType) {
+		this.patientMediCardType = StringUtil.delHTMLTag(patientMediCardType);
+	}
+
+	public String getPatientMediCard() {
+		return patientMediCard;
+	}
+
+	public void setPatientMediCard(String patientMediCard) {
+		this.patientMediCard = StringUtil.delHTMLTag(patientMediCard);
+	}
+
+	public String getPatientMobile() {
+		return patientMobile;
+	}
+
+	public void setPatientMobile(String patientMobile) {
+		this.patientMobile = StringUtil.delHTMLTag(patientMobile);
+	}
+
+	public String getPatientTele() {
+		return patientTele;
+	}
+
+	public void setPatientTele(String patientTele) {
+		this.patientTele = StringUtil.delHTMLTag(patientTele);
+	}
+
+	public String getPatientAddr() {
+		return patientAddr;
+	}
+
+	public void setPatientAddr(String patientAddr) {
+		this.patientAddr = StringUtil.delHTMLTag(patientAddr);
+	}
+
+	public String getPatientPostCode() {
+		return patientPostCode;
+	}
+
+	public void setPatientPostCode(String patientPostCode) {
+		this.patientPostCode = StringUtil.delHTMLTag(patientPostCode);
+	}
+
+	public Date getRegisterTime() {
+		return registerTime;
+	}
+
+	public void setRegisterTime(Date registerTime) {
+		this.registerTime = registerTime;
+	}
+
+	public Short getPatientState() {
+		return patientState;
+	}
+
+	public void setPatientState(Short patientState) {
+		this.patientState = Short.parseShort(StringUtil.delHTMLTag(patientState.toString()));
+	}
+
+	public String getOperNo() {
+		return operNo;
+	}
+
+	public void setOperNo(String operNo) {
+		this.operNo = StringUtil.delHTMLTag(operNo);
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getPatientCard() {
+		return patientCard;
+	}
+
+	public void setPatientCard(String patientCard) {
+		this.patientCard = StringUtil.delHTMLTag(patientCard);
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = StringUtil.delHTMLTag(password);
+	}
+
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = StringUtil.delHTMLTag(channel);
+	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = StringUtil.delHTMLTag(openId);
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = StringUtil.delHTMLTag(uid);
+	}
+
+	public String getPwdSet() {
+		return pwdSet;
+	}
+
+	public void setPwdSet(String pwdSet) {
+		this.pwdSet = StringUtil.delHTMLTag(pwdSet);
+	}
+
+	public String getXydsm() {
+		return xydsm;
+	}
+
+	public void setXydsm(String xydsm) {
+		this.xydsm = xydsm;
+	}
+
+	public String getBind() {
+		return bind;
+	}
+
+	public void setBind(String bind) {
+		this.bind = bind;
+	}
+}

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.defray.dao.DefrayRefundRecordMapper">
+
+	<resultMap id="BASE-RESULT" type="com.defray.bean.DefrayRefundRecordEntity">
+		<result property="id" column="id" />
+		<result property="abnormalUrl" column="abnormal_url" />
+		<result property="noticeUrl" column="notice_url" />
+		<result property="refundStartTime" column="refund_start_time" />
+		<result property="refundSuccessTime" column="refund_success_time" />
+		<result property="defrayType" column="defray_type" />
+		<result property="refundFee" column="refund_fee" />
+		<result property="orderId" column="order_id" />
+		<result property="hospitalId" column="hospital_id" />
+		<result property="refundResult" column="refund_result" />
+		<result property="refundAccount" column="refund_account" />
+		<result property="tradeNo" column="trade_no" />
+		<result property="psnId" column="psnId" />
+		<result property="noticeResult" column="notice_result" />
+		<result property="buyerEmail" column="buyer_email" />
+		<result property="sellerEmail" column="seller_email" />
+	</resultMap>
+
+	
+  	<insert id="insert" parameterType="com.defray.bean.DefrayRefundRecordEntity">
+  		INSERT INTO defray_refund_record ( 
+			id,abnormal_url,notice_url,refund_start_time,refund_success_time,defray_type,refund_fee,order_id,hospital_id,refund_result,refund_account,trade_no,psnId,notice_result,buyer_email,seller_email			
+  		) VALUES (
+			#{id},#{abnormalUrl},#{noticeUrl},#{refundStartTime},#{refundSuccessTime},#{defrayType},#{refundFee},#{orderId},#{hospitalId},#{refundResult},#{refundAccount},#{tradeNo},#{psnId},#{noticeResult},#{buyerEmail},#{sellerEmail}		
+  		)   
+    	<selectKey resultType="Long" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	
+  	<update id="update" parameterType="com.defray.bean.DefrayRefundRecordEntity" >
+		UPDATE
+			defray_refund_record
+		SET
+			 <if test="id!=null"> id = #{id} </if>
+			 <if test="abnormalUrl!=null">, abnormal_url = #{abnormalUrl} </if>
+			 <if test="noticeUrl!=null">, notice_url = #{noticeUrl} </if>
+			 <if test="refundStartTime!=null">, refund_start_time = #{refundStartTime} </if>
+			 <if test="refundSuccessTime!=null">, refund_success_time = #{refundSuccessTime} </if>
+			 <if test="defrayType!=null">, defray_type = #{defrayType} </if>
+			 <if test="refundFee!=null">, refund_fee = #{refundFee} </if>
+			 <if test="orderId!=null">, order_id = #{orderId} </if>
+			 <if test="hospitalId!=null">, hospital_id = #{hospitalId} </if>
+			 <if test="refundResult!=null">, refund_result = #{refundResult} </if>
+			 <if test="refundAccount!=null">, refund_account = #{refundAccount} </if>
+			 <if test="tradeNo!=null">, trade_no = #{tradeNo} </if>
+			 <if test="psnId!=null">, psnId = #{psnId} </if>
+			 <if test="noticeResult!=null">, notice_result = #{noticeResult} </if>
+			 <if test="buyerEmail!=null">, buyer_email = #{buyerEmail} </if>
+			 <if test="sellerEmail!=null">, seller_email = #{sellerEmail} </if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	
+	<select id="getByKey" resultMap="BASE-RESULT">
+		SELECT * FROM
+			defray_refund_record
+		<where>
+			id = #{key}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM
+			defray_refund_record
+		<where>
+			id = #{key}
+		</where>
+	</delete>
+	
+	<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">
+		SELECT * FROM
+			defray_refund_record
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+		<if test="param.orderByStr!=null">
+			order by ${param.orderByStr}
+		</if>
+		<if test="param.start!=null and param.pageNum!=null">LIMIT #{param.start},#{param.pageNum}</if>
+	</select>
+
+
+	<select id="getEntitysCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM
+			defray_refund_record
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+	</select>
+	
+	<sql id="compareParamColumns">
+		1
+  		<if test="param.id!=null">
+  			AND  id = #{param.id}
+  		</if>
+  		<if test="param.abnormalUrl!=null">
+  			AND  abnormal_url = #{param.abnormalUrl}
+  		</if>
+  		<if test="param.noticeUrl!=null">
+  			AND  notice_url = #{param.noticeUrl}
+  		</if>
+  		<if test="param.refundStartTime!=null">
+  			AND  refund_start_time = #{param.refundStartTime}
+  		</if>
+  		<if test="param.refundSuccessTime!=null">
+  			AND  refund_success_time = #{param.refundSuccessTime}
+  		</if>
+  		<if test="param.defrayType!=null">
+  			AND  defray_type = #{param.defrayType}
+  		</if>
+  		<if test="param.refundFee!=null">
+  			AND  refund_fee = #{param.refundFee}
+  		</if>
+  		<if test="param.orderId!=null">
+  			AND  order_id = #{param.orderId}
+  		</if>
+  		<if test="param.hospitalId!=null">
+  			AND  hospital_id = #{param.hospitalId}
+  		</if>
+  		<if test="param.refundResult!=null">
+  			AND  refund_result = #{param.refundResult}
+  		</if>
+  		<if test="param.refundAccount!=null">
+  			AND  refund_account = #{param.refundAccount}
+  		</if>
+  		<if test="param.tradeNo!=null">
+  			AND  trade_no = #{param.tradeNo}
+  		</if>
+  		<if test="param.psnId!=null">
+  			AND  psnId = #{param.psnId}
+  		</if>
+  		<if test="param.noticeResult!=null">
+  			AND  notice_result = #{param.noticeResult}
+  		</if>
+  		<if test="param.buyerEmail!=null">
+  			AND  buyer_email = #{param.buyerEmail}
+  		</if>
+  		<if test="param.sellerEmail!=null">
+  			AND  seller_email = #{param.sellerEmail}
+  		</if>
+	</sql>
+	
+	<!-- mybatis-config.xml 
+	<typeAlias alias="DefrayRefundRecordEntity" 	type="bean.DefrayRefundRecordEntity" />
+	<mapper resource="sql-mapper/DefrayRefundRecordMapper.xml" />
+	-->
+	<!-- spring-dao-beans.xml
+	<bean id="DefrayRefundRecordDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+    	<property name="mapperInterface" value="dao.DefrayRefundRecordDao" />  
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />  
+	</bean>
+	-->
+</mapper>

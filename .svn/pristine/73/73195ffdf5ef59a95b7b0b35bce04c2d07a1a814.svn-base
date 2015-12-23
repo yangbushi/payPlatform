@@ -1,0 +1,76 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+public class SysDict implements Serializable {
+    private Integer id;
+
+    private String label;
+
+    private String value;
+
+    private String type;
+
+    private String desciption;
+
+    private BigDecimal sort;
+
+    private String delFlag;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDesciption() {
+        return desciption;
+    }
+
+    public void setDesciption(String desciption) {
+        this.desciption = desciption;
+    }
+
+    public BigDecimal getSort() {
+        return sort;
+    }
+
+    public void setSort(BigDecimal sort) {
+        this.sort = sort;
+    }
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
+}

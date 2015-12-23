@@ -1,0 +1,56 @@
+package com.tynet.util;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+public class DESUtil {
+	private static final byte[] KEY = "L5IRTNDW".getBytes();
+	private static byte[] iv = { 1, 2, 3, 4, 5, 6, 7, 8 };
+
+	public static String encryptDES(String encryptString) throws Exception {
+		//      IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);  
+		IvParameterSpec zeroIv = new IvParameterSpec(iv);
+		SecretKeySpec key = new SecretKeySpec(KEY, "DES");
+		Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+		cipher.init(Cipher.ENCRYPT_MODE, key, zeroIv);
+		byte[] encryptedData = cipher.doFinal(encryptString.getBytes());
+
+		return Base64.encode(encryptedData);
+	}
+
+	public static String decryptDES(String decryptString) throws Exception {
+		byte[] byteMi = Base64.decode(decryptString);
+		IvParameterSpec zeroIv = new IvParameterSpec(iv);
+		//      IvParameterSpec zeroIv = new IvParameterSpec(new byte[8]);  
+		SecretKeySpec key = new SecretKeySpec(KEY, "DES");
+		Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+		cipher.init(Cipher.DECRYPT_MODE, key, zeroIv);
+		byte decryptedData[] = cipher.doFinal(byteMi);
+
+		return new String(decryptedData,"UTF-8");
+	}
+	
+	public static void main(String[] args) {
+		try {
+//			String des= encryptDES("http://183.129.141.106:9559/services/watcherImpl");
+//			System.out.println(des);
+			System.out.println(decryptDES("Y3tiqrSphIQyYWKKg4rTnpjv01ICRNobJrbkegnHCW9pQhMNzkatAfH0BGpL 7JL07hBHPkJmYM8fNXufjAJUS6YKkqe8YFEZGU4OB2Abc4sPO4xiDp9Sm3vN YG6FRnob/C+c3N/BYGX04FVJtDgUwKbTH8bR4dYTFrgVKVddY2z7Ijm4Rv5F m+YfWBkgXjOseMHwPFylMhvhk/rsK8iip5d1MqFnlvWWPOvwDAYlnC4="));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+//	{
+//	    "service": "orderService",
+//	    "hosId": "267",
+//	    "method": "QueryHosOrderListPage",
+//	    "args": {
+//	        "hosIds": "267",
+//	        "pageNo": "1"
+//	    },
+//	    "appKey": "7BCFA124A7E2D755FEDFF1D5C343A63D",
+//	    "version": "3.0"
+//	}
+}

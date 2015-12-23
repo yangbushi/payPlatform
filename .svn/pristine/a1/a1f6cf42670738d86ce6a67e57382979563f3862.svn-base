@@ -1,0 +1,79 @@
+package com.herenit.cloud.model;
+
+import java.io.Serializable;
+
+public class AppDeploy implements Serializable {
+	
+	private static final long serialVersionUID = 1404695747220093770L;
+
+	private String deployId;
+
+	private String servicePrefix;
+
+	private String uriType;
+
+	private String deployType;
+
+	private String authcode;
+
+	private String password;
+
+	private String fixedToken;
+
+	public String getDeployId() {
+		return deployId;
+	}
+
+	public void setDeployId(String deployId) {
+		this.deployId = deployId == null ? null : deployId.trim();
+	}
+
+	public String getServicePrefix() {
+		return servicePrefix;
+	}
+
+	public void setServicePrefix(String servicePrefix) {
+		this.servicePrefix = servicePrefix == null ? null : servicePrefix
+				.trim();
+	}
+
+	public String getUriType() {
+		return uriType;
+	}
+
+	public void setUriType(String uriType) {
+		this.uriType = uriType == null ? null : uriType.trim();
+	}
+
+	public String getDeployType() {
+		return deployType;
+	}
+
+	public void setDeployType(String deployType) {
+		this.deployType = deployType == null ? null : deployType.trim();
+	}
+
+	public String getAuthcode() {
+		return authcode;
+	}
+
+	public void setAuthcode(String authcode) {
+		this.authcode = authcode == null ? null : authcode.trim();
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password == null ? null : password.trim();
+	}
+
+	public String getFixedToken() {
+		return fixedToken;
+	}
+
+	public void setFixedToken(String fixedToken) {
+		this.fixedToken = fixedToken == null ? null : fixedToken.trim();
+	}
+}

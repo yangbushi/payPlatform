@@ -1,0 +1,21 @@
+package com.herenit.cloud.rules.impl;
+
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.rules.Business;
+
+@Service
+public class NoHandleBusiness implements Business {
+
+	@Override
+	public void before(JSONObject request) throws BusException {
+	}
+
+	@Override
+	public void after(final JSONObject request, JSONObject response)
+			throws BusException {
+	}
+
+}

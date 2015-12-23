@@ -1,0 +1,139 @@
+package com.herenit.cloud.rules.impl;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import oracle.net.aso.l;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.exception.FrontendModule;
+import com.herenit.cloud.rules.Business;
+import com.soft.gh.dao.TOrderMapper;
+import com.soft.gh.dao.TPatientMapper;
+import com.soft.gh.domain.TCard;
+import com.soft.gh.domain.TOrder;
+import com.soft.gh.domain.TPatient;
+import com.tynet.dao.GhDeptMapper;
+import com.tynet.dao.GhDocMapper;
+import com.tynet.model.GhDept;
+import com.tynet.model.GhDoc;
+import com.tynet.util.Utils;
+
+/**
+ * 排班信息转化
+ * 
+ * @author Administrator
+ */
+@Service
+public class PatientCallBusiness implements Business {
+	
+	@Autowired
+	private TPatientMapper patientDao;
+	@Autowired
+	private TOrderMapper orderDao;
+	
+	@Override
+	public void before(JSONObject request) throws BusException {
+
+			JSONObject args = request.getJSONObject("args");
+			if (args == null) {
+				return;
+			}
+			
+			
+			String patId = args.getString("patId");
+			if (StringUtils.isNotEmpty(patId)) {
+				TPatient ttPatient=patientDao.selectByPatientCard(patId);
+				Date now=new Date();
+				Calendar noon=Calendar.getInstance();
+				noon.set(Calendar.HOUR_OF_DAY, 12);
+				noon.set(Calendar.MINUTE, 0);
+				String dateString=Utils.dateFormat.format(now);
+				TOrder record=new TOrder();
+				record.setPatientId(ttPatient.getPatientId());
+				record.setOrderDate(dateString);
+				if (now.before(noon.getTime())) {
+					record.setOrderTimeSign("1");
+				} else {
+					record.setOrderTimeSign("2");
+				}
+				List<TOrder> list=orderDao.selectOrderedListOfToday(record);
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("userCode", patId);
+				if (list!=null && list.size()>0) {
+					TOrder tOrder=list.get(0);
+					String medicalCard=tOrder.getMedicalCard();
+					if (StringUtils.isNotBlank(medicalCard)) {
+						args.put("patid", medicalCard);
+					} else {
+						List<TCard> tcl = patientDao.selectCards2(map);
+						if (tcl!=null && tcl.size()>0) {
+							TCard tCard=tcl.get(0);
+							args.put("patid", tCard.getMedicalCard());
+						} else {
+							throw FrontendModule.FRONTEND_0037;
+						}
+					}
+					
+				}else {
+					List<TCard> tcl = patientDao.selectCards2(map);
+					if (tcl!=null && tcl.size()>0) {
+						TCard tCard=tcl.get(0);
+						args.put("patid", tCard.getMedicalCard());
+					} else {
+						throw FrontendModule.FRONTEND_0037;
+					}
+				}
+				
+			}else {
+				throw FrontendModule.FRONTEND_0034;
+			}
+		
+		
+	}
+
+	@Override
+	public void after(final JSONObject request, JSONObject response)
+			throws BusException {
+		
+			String code = response.getString("code");
+			if (CODE.OK.value().equalsIgnoreCase(code)) {
+				JSONObject data = response.getJSONObject("data");
+				if (data == null) {
+					return;
+				}
+				JSONArray array = data.getJSONArray("list");
+				if (array!=null && array.size()>0) {
+					
+					JSONObject obj = array.getJSONObject(0);
+					if (obj != null) {
+						String doctime=obj.getString("doctime");
+						String timedesc=obj.getString("timedesc");
+						if (!timedesc.equals(doctime)) {
+							throw new BusException("FRONTEND_0035","您的分诊时间段为"+timedesc+"，请耐心等待！");
+						}
+					}
+					
+				}else {
+					throw  FrontendModule.FRONTEND_0039;
+				}
+				
+
+			}
+		
+	}
+
+	
+	
+
+}

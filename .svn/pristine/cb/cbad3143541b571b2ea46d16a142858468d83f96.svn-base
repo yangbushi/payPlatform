@@ -1,0 +1,961 @@
+package com.tynet.model;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+public class JzVaccineExample {
+    protected String pk_name = "VACCINE_ID";
+
+    protected String orderByClause;
+
+    protected boolean distinct;
+
+    protected List<Criteria> oredCriteria;
+
+    public JzVaccineExample() {
+        oredCriteria = new ArrayList<Criteria>();
+    }
+
+    public void setPk_name(String pk_name) {
+        this.pk_name = pk_name;
+    }
+
+    public String getPk_name() {
+        return pk_name;
+    }
+
+    public void setOrderByClause(String orderByClause) {
+        this.orderByClause = orderByClause;
+    }
+
+    public String getOrderByClause() {
+        return orderByClause;
+    }
+
+    public void setDistinct(boolean distinct) {
+        this.distinct = distinct;
+    }
+
+    public boolean isDistinct() {
+        return distinct;
+    }
+
+    public List<Criteria> getOredCriteria() {
+        return oredCriteria;
+    }
+
+    public void or(Criteria criteria) {
+        oredCriteria.add(criteria);
+    }
+
+    public Criteria or() {
+        Criteria criteria = createCriteriaInternal();
+        oredCriteria.add(criteria);
+        return criteria;
+    }
+
+    public Criteria createCriteria() {
+        Criteria criteria = createCriteriaInternal();
+        if (oredCriteria.size() == 0) {
+            oredCriteria.add(criteria);
+        }
+        return criteria;
+    }
+
+    protected Criteria createCriteriaInternal() {
+        Criteria criteria = new Criteria();
+        return criteria;
+    }
+
+    public void clear() {
+        oredCriteria.clear();
+        orderByClause = null;
+        distinct = false;
+    }
+
+    protected abstract static class GeneratedCriteria {
+        protected List<Criterion> criteria;
+
+        protected GeneratedCriteria() {
+            super();
+            criteria = new ArrayList<Criterion>();
+        }
+
+        public boolean isValid() {
+            return criteria.size() > 0;
+        }
+
+        public List<Criterion> getAllCriteria() {
+            return criteria;
+        }
+
+        public List<Criterion> getCriteria() {
+            return criteria;
+        }
+
+        protected void addCriterion(String condition) {
+            if (condition == null) {
+                throw new RuntimeException("Value for condition cannot be null");
+            }
+            criteria.add(new Criterion(condition));
+        }
+
+        protected void addCriterion(String condition, Object value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            criteria.add(new Criterion(condition, value));
+        }
+
+        protected void addCriterion(String condition, Object value1, Object value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        public Criteria andVaccineIdIsNull() {
+            addCriterion("VACCINE_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdIsNotNull() {
+            addCriterion("VACCINE_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdEqualTo(Long value) {
+            addCriterion("VACCINE_ID =", value, "vaccineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdNotEqualTo(Long value) {
+            addCriterion("VACCINE_ID <>", value, "vaccineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdGreaterThan(Long value) {
+            addCriterion("VACCINE_ID >", value, "vaccineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("VACCINE_ID >=", value, "vaccineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdLessThan(Long value) {
+            addCriterion("VACCINE_ID <", value, "vaccineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdLessThanOrEqualTo(Long value) {
+            addCriterion("VACCINE_ID <=", value, "vaccineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdIn(List<Long> values) {
+            addCriterion("VACCINE_ID in", values, "vaccineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdNotIn(List<Long> values) {
+            addCriterion("VACCINE_ID not in", values, "vaccineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdBetween(Long value1, Long value2) {
+            addCriterion("VACCINE_ID between", value1, value2, "vaccineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineIdNotBetween(Long value1, Long value2) {
+            addCriterion("VACCINE_ID not between", value1, value2, "vaccineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameIsNull() {
+            addCriterion("VACCINE_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameIsNotNull() {
+            addCriterion("VACCINE_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameEqualTo(String value) {
+            addCriterion("VACCINE_NAME =", value, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameNotEqualTo(String value) {
+            addCriterion("VACCINE_NAME <>", value, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameGreaterThan(String value) {
+            addCriterion("VACCINE_NAME >", value, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameGreaterThanOrEqualTo(String value) {
+            addCriterion("VACCINE_NAME >=", value, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameLessThan(String value) {
+            addCriterion("VACCINE_NAME <", value, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameLessThanOrEqualTo(String value) {
+            addCriterion("VACCINE_NAME <=", value, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameLike(String value) {
+            addCriterion("VACCINE_NAME like", value, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameNotLike(String value) {
+            addCriterion("VACCINE_NAME not like", value, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameIn(List<String> values) {
+            addCriterion("VACCINE_NAME in", values, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameNotIn(List<String> values) {
+            addCriterion("VACCINE_NAME not in", values, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameBetween(String value1, String value2) {
+            addCriterion("VACCINE_NAME between", value1, value2, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineNameNotBetween(String value1, String value2) {
+            addCriterion("VACCINE_NAME not between", value1, value2, "vaccineName");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxIsNull() {
+            addCriterion("VACCINE_SX is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxIsNotNull() {
+            addCriterion("VACCINE_SX is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxEqualTo(String value) {
+            addCriterion("VACCINE_SX =", value, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxNotEqualTo(String value) {
+            addCriterion("VACCINE_SX <>", value, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxGreaterThan(String value) {
+            addCriterion("VACCINE_SX >", value, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxGreaterThanOrEqualTo(String value) {
+            addCriterion("VACCINE_SX >=", value, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxLessThan(String value) {
+            addCriterion("VACCINE_SX <", value, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxLessThanOrEqualTo(String value) {
+            addCriterion("VACCINE_SX <=", value, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxLike(String value) {
+            addCriterion("VACCINE_SX like", value, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxNotLike(String value) {
+            addCriterion("VACCINE_SX not like", value, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxIn(List<String> values) {
+            addCriterion("VACCINE_SX in", values, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxNotIn(List<String> values) {
+            addCriterion("VACCINE_SX not in", values, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxBetween(String value1, String value2) {
+            addCriterion("VACCINE_SX between", value1, value2, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineSxNotBetween(String value1, String value2) {
+            addCriterion("VACCINE_SX not between", value1, value2, "vaccineSx");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseIsNull() {
+            addCriterion("VACCINE_DISEASE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseIsNotNull() {
+            addCriterion("VACCINE_DISEASE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseEqualTo(String value) {
+            addCriterion("VACCINE_DISEASE =", value, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseNotEqualTo(String value) {
+            addCriterion("VACCINE_DISEASE <>", value, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseGreaterThan(String value) {
+            addCriterion("VACCINE_DISEASE >", value, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseGreaterThanOrEqualTo(String value) {
+            addCriterion("VACCINE_DISEASE >=", value, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseLessThan(String value) {
+            addCriterion("VACCINE_DISEASE <", value, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseLessThanOrEqualTo(String value) {
+            addCriterion("VACCINE_DISEASE <=", value, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseLike(String value) {
+            addCriterion("VACCINE_DISEASE like", value, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseNotLike(String value) {
+            addCriterion("VACCINE_DISEASE not like", value, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseIn(List<String> values) {
+            addCriterion("VACCINE_DISEASE in", values, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseNotIn(List<String> values) {
+            addCriterion("VACCINE_DISEASE not in", values, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseBetween(String value1, String value2) {
+            addCriterion("VACCINE_DISEASE between", value1, value2, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDiseaseNotBetween(String value1, String value2) {
+            addCriterion("VACCINE_DISEASE not between", value1, value2, "vaccineDisease");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsIsNull() {
+            addCriterion("VACCINE_PARTS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsIsNotNull() {
+            addCriterion("VACCINE_PARTS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsEqualTo(String value) {
+            addCriterion("VACCINE_PARTS =", value, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsNotEqualTo(String value) {
+            addCriterion("VACCINE_PARTS <>", value, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsGreaterThan(String value) {
+            addCriterion("VACCINE_PARTS >", value, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsGreaterThanOrEqualTo(String value) {
+            addCriterion("VACCINE_PARTS >=", value, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsLessThan(String value) {
+            addCriterion("VACCINE_PARTS <", value, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsLessThanOrEqualTo(String value) {
+            addCriterion("VACCINE_PARTS <=", value, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsLike(String value) {
+            addCriterion("VACCINE_PARTS like", value, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsNotLike(String value) {
+            addCriterion("VACCINE_PARTS not like", value, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsIn(List<String> values) {
+            addCriterion("VACCINE_PARTS in", values, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsNotIn(List<String> values) {
+            addCriterion("VACCINE_PARTS not in", values, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsBetween(String value1, String value2) {
+            addCriterion("VACCINE_PARTS between", value1, value2, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccinePartsNotBetween(String value1, String value2) {
+            addCriterion("VACCINE_PARTS not between", value1, value2, "vaccineParts");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayIsNull() {
+            addCriterion("VACCINE_WAY is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayIsNotNull() {
+            addCriterion("VACCINE_WAY is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayEqualTo(String value) {
+            addCriterion("VACCINE_WAY =", value, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayNotEqualTo(String value) {
+            addCriterion("VACCINE_WAY <>", value, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayGreaterThan(String value) {
+            addCriterion("VACCINE_WAY >", value, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayGreaterThanOrEqualTo(String value) {
+            addCriterion("VACCINE_WAY >=", value, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayLessThan(String value) {
+            addCriterion("VACCINE_WAY <", value, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayLessThanOrEqualTo(String value) {
+            addCriterion("VACCINE_WAY <=", value, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayLike(String value) {
+            addCriterion("VACCINE_WAY like", value, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayNotLike(String value) {
+            addCriterion("VACCINE_WAY not like", value, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayIn(List<String> values) {
+            addCriterion("VACCINE_WAY in", values, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayNotIn(List<String> values) {
+            addCriterion("VACCINE_WAY not in", values, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayBetween(String value1, String value2) {
+            addCriterion("VACCINE_WAY between", value1, value2, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineWayNotBetween(String value1, String value2) {
+            addCriterion("VACCINE_WAY not between", value1, value2, "vaccineWay");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountIsNull() {
+            addCriterion("VACCINE_COUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountIsNotNull() {
+            addCriterion("VACCINE_COUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountEqualTo(String value) {
+            addCriterion("VACCINE_COUNT =", value, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountNotEqualTo(String value) {
+            addCriterion("VACCINE_COUNT <>", value, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountGreaterThan(String value) {
+            addCriterion("VACCINE_COUNT >", value, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountGreaterThanOrEqualTo(String value) {
+            addCriterion("VACCINE_COUNT >=", value, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountLessThan(String value) {
+            addCriterion("VACCINE_COUNT <", value, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountLessThanOrEqualTo(String value) {
+            addCriterion("VACCINE_COUNT <=", value, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountLike(String value) {
+            addCriterion("VACCINE_COUNT like", value, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountNotLike(String value) {
+            addCriterion("VACCINE_COUNT not like", value, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountIn(List<String> values) {
+            addCriterion("VACCINE_COUNT in", values, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountNotIn(List<String> values) {
+            addCriterion("VACCINE_COUNT not in", values, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountBetween(String value1, String value2) {
+            addCriterion("VACCINE_COUNT between", value1, value2, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineCountNotBetween(String value1, String value2) {
+            addCriterion("VACCINE_COUNT not between", value1, value2, "vaccineCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseIsNull() {
+            addCriterion("VACCINE_DOSE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseIsNotNull() {
+            addCriterion("VACCINE_DOSE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseEqualTo(String value) {
+            addCriterion("VACCINE_DOSE =", value, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseNotEqualTo(String value) {
+            addCriterion("VACCINE_DOSE <>", value, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseGreaterThan(String value) {
+            addCriterion("VACCINE_DOSE >", value, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseGreaterThanOrEqualTo(String value) {
+            addCriterion("VACCINE_DOSE >=", value, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseLessThan(String value) {
+            addCriterion("VACCINE_DOSE <", value, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseLessThanOrEqualTo(String value) {
+            addCriterion("VACCINE_DOSE <=", value, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseLike(String value) {
+            addCriterion("VACCINE_DOSE like", value, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseNotLike(String value) {
+            addCriterion("VACCINE_DOSE not like", value, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseIn(List<String> values) {
+            addCriterion("VACCINE_DOSE in", values, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseNotIn(List<String> values) {
+            addCriterion("VACCINE_DOSE not in", values, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseBetween(String value1, String value2) {
+            addCriterion("VACCINE_DOSE between", value1, value2, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDoseNotBetween(String value1, String value2) {
+            addCriterion("VACCINE_DOSE not between", value1, value2, "vaccineDose");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesIsNull() {
+            addCriterion("VACCINE_DES is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesIsNotNull() {
+            addCriterion("VACCINE_DES is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesEqualTo(String value) {
+            addCriterion("VACCINE_DES =", value, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesNotEqualTo(String value) {
+            addCriterion("VACCINE_DES <>", value, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesGreaterThan(String value) {
+            addCriterion("VACCINE_DES >", value, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesGreaterThanOrEqualTo(String value) {
+            addCriterion("VACCINE_DES >=", value, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesLessThan(String value) {
+            addCriterion("VACCINE_DES <", value, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesLessThanOrEqualTo(String value) {
+            addCriterion("VACCINE_DES <=", value, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesLike(String value) {
+            addCriterion("VACCINE_DES like", value, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesNotLike(String value) {
+            addCriterion("VACCINE_DES not like", value, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesIn(List<String> values) {
+            addCriterion("VACCINE_DES in", values, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesNotIn(List<String> values) {
+            addCriterion("VACCINE_DES not in", values, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesBetween(String value1, String value2) {
+            addCriterion("VACCINE_DES between", value1, value2, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineDesNotBetween(String value1, String value2) {
+            addCriterion("VACCINE_DES not between", value1, value2, "vaccineDes");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderIsNull() {
+            addCriterion("VACCINE_ORDER is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderIsNotNull() {
+            addCriterion("VACCINE_ORDER is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderEqualTo(BigDecimal value) {
+            addCriterion("VACCINE_ORDER =", value, "vaccineOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderNotEqualTo(BigDecimal value) {
+            addCriterion("VACCINE_ORDER <>", value, "vaccineOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderGreaterThan(BigDecimal value) {
+            addCriterion("VACCINE_ORDER >", value, "vaccineOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("VACCINE_ORDER >=", value, "vaccineOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderLessThan(BigDecimal value) {
+            addCriterion("VACCINE_ORDER <", value, "vaccineOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("VACCINE_ORDER <=", value, "vaccineOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderIn(List<BigDecimal> values) {
+            addCriterion("VACCINE_ORDER in", values, "vaccineOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderNotIn(List<BigDecimal> values) {
+            addCriterion("VACCINE_ORDER not in", values, "vaccineOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("VACCINE_ORDER between", value1, value2, "vaccineOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineOrderNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("VACCINE_ORDER not between", value1, value2, "vaccineOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateIsNull() {
+            addCriterion("VACCINE_STATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateIsNotNull() {
+            addCriterion("VACCINE_STATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateEqualTo(String value) {
+            addCriterion("VACCINE_STATE =", value, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateNotEqualTo(String value) {
+            addCriterion("VACCINE_STATE <>", value, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateGreaterThan(String value) {
+            addCriterion("VACCINE_STATE >", value, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateGreaterThanOrEqualTo(String value) {
+            addCriterion("VACCINE_STATE >=", value, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateLessThan(String value) {
+            addCriterion("VACCINE_STATE <", value, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateLessThanOrEqualTo(String value) {
+            addCriterion("VACCINE_STATE <=", value, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateLike(String value) {
+            addCriterion("VACCINE_STATE like", value, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateNotLike(String value) {
+            addCriterion("VACCINE_STATE not like", value, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateIn(List<String> values) {
+            addCriterion("VACCINE_STATE in", values, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateNotIn(List<String> values) {
+            addCriterion("VACCINE_STATE not in", values, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateBetween(String value1, String value2) {
+            addCriterion("VACCINE_STATE between", value1, value2, "vaccineState");
+            return (Criteria) this;
+        }
+
+        public Criteria andVaccineStateNotBetween(String value1, String value2) {
+            addCriterion("VACCINE_STATE not between", value1, value2, "vaccineState");
+            return (Criteria) this;
+        }
+    }
+
+    public static class Criteria extends GeneratedCriteria {
+
+        protected Criteria() {
+            super();
+        }
+    }
+
+    public static class Criterion {
+        private String condition;
+
+        private Object value;
+
+        private Object secondValue;
+
+        private boolean noValue;
+
+        private boolean singleValue;
+
+        private boolean betweenValue;
+
+        private boolean listValue;
+
+        private String typeHandler;
+
+        public String getCondition() {
+            return condition;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public Object getSecondValue() {
+            return secondValue;
+        }
+
+        public boolean isNoValue() {
+            return noValue;
+        }
+
+        public boolean isSingleValue() {
+            return singleValue;
+        }
+
+        public boolean isBetweenValue() {
+            return betweenValue;
+        }
+
+        public boolean isListValue() {
+            return listValue;
+        }
+
+        public String getTypeHandler() {
+            return typeHandler;
+        }
+
+        protected Criterion(String condition) {
+            super();
+            this.condition = condition;
+            this.typeHandler = null;
+            this.noValue = true;
+        }
+
+        protected Criterion(String condition, Object value, String typeHandler) {
+            super();
+            this.condition = condition;
+            this.value = value;
+            this.typeHandler = typeHandler;
+            if (value instanceof List<?>) {
+                this.listValue = true;
+            } else {
+                this.singleValue = true;
+            }
+        }
+
+        protected Criterion(String condition, Object value) {
+            this(condition, value, null);
+        }
+
+        protected Criterion(String condition, Object value, Object secondValue, String typeHandler) {
+            super();
+            this.condition = condition;
+            this.value = value;
+            this.secondValue = secondValue;
+            this.typeHandler = typeHandler;
+            this.betweenValue = true;
+        }
+
+        protected Criterion(String condition, Object value, Object secondValue) {
+            this(condition, value, secondValue, null);
+        }
+    }
+}

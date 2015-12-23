@@ -1,0 +1,46 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class GbDeptCode implements Serializable {
+    private String deptCode;
+
+    private String deptName;
+    
+    private List<GbDeptCode> children;
+    
+    private List<GhDept> department;
+
+    public List<GbDeptCode> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<GbDeptCode> children) {
+		this.children = children;
+	}
+
+	public List<GhDept> getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(List<GhDept> department) {
+		this.department = department;
+	}
+
+	public String getDeptCode() {
+        return deptCode;
+    }
+
+    public void setDeptCode(String deptCode) {
+        this.deptCode = deptCode;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+}

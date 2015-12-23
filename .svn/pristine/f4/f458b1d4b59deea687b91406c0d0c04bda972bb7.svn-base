@@ -1,0 +1,45 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class SurveyInfo implements Serializable {
+    private Long sid;
+
+    private String sname;
+
+    private String scontent;
+    private List<SurveyQuestion> question;
+
+    public List<SurveyQuestion> getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(List<SurveyQuestion> question) {
+		this.question = question;
+	}
+
+	public Long getSid() {
+        return sid;
+    }
+
+    public void setSid(Long sid) {
+        this.sid = sid;
+    }
+
+    public String getSname() {
+        return sname;
+    }
+
+    public void setSname(String sname) {
+        this.sname = sname;
+    }
+
+    public String getScontent() {
+        return scontent;
+    }
+
+    public void setScontent(String scontent) {
+        this.scontent = scontent;
+    }
+}

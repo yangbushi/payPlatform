@@ -1,0 +1,69 @@
+package com.herenit.cloud.manager.impl;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.herenit.api.bean.v1.AccessToken;
+import com.herenit.api.bean.v1.Accessor;
+import com.herenit.cloud.exception.AccessModule;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.manager.AccessManager;
+import com.herenit.cloud.util.Base64Util;
+import com.herenit.cloud.util.Md5Encrypt;
+import com.herenit.cloud.util.SecurityUtil;
+
+@Service("accessManager")
+public class AccessManagerImpl implements AccessManager {
+
+	Logger logger = LoggerFactory.getLogger(AccessManagerImpl.class);
+
+	static final String sign = "part-b";
+	static final String authcode = "ws";
+	static final String password = Base64Util.encode(Md5Encrypt.md5("heren"));
+	
+	public static void main(String[] args) {
+		System.out.println(Md5Encrypt.md5("123123"));//4297f44b13955235245b2497399d7a93
+	}
+	
+	@Override
+	public AccessToken authenticate(Accessor user) throws BusException {
+
+		if (user == null || StringUtils.isEmpty(user.getAuthcode())
+				|| StringUtils.isEmpty(user.getPassword())) {
+			throw AccessModule.ACCESS_0001;
+		}
+
+		// 后台验证授权用户名/密码等流程，可以是更复杂的数据库用户验证，前期简单验证
+		if (!(authcode.equalsIgnoreCase(user.getAuthcode()) && password
+				.equalsIgnoreCase(user.getPassword()))) {
+			throw AccessModule.ACCESS_0001;
+		}
+
+		// 根据业务需要生成token，此处为简单的字符串加密
+		String token = SecurityUtil.encrypt(sign);
+
+		AccessToken to = new AccessToken();
+		to.setToken(token);
+		to.setConnTime(System.currentTimeMillis());
+		to.setTimeout(4 * 60 * 60 * 1000);
+		return to;
+	}
+
+	@Override
+	public boolean verify(String token) {
+		if (StringUtils.isEmpty(token)) {
+			return false;
+		}
+
+		// 根据业务需要验证token，此处为简单字符串解密验证
+		String code = SecurityUtil.decrypt(token);
+		if (code != null && sign.equalsIgnoreCase(code)) {
+			return true;
+		}
+
+		return false;
+	}
+
+}

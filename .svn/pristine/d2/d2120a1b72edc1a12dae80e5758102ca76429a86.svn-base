@@ -1,0 +1,35 @@
+package com.tynet.dao;
+
+import com.tynet.model.GhClientUpdate;
+import com.tynet.model.GhClientUpdateExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface GhClientUpdateMapper {
+	int countByExample(GhClientUpdateExample example);
+
+	int deleteByExample(GhClientUpdateExample example);
+
+	List<GhClientUpdate> selectByExample(GhClientUpdateExample example);
+
+	int updateByExampleSelective(@Param("record") GhClientUpdate record, @Param("example") GhClientUpdateExample example);
+
+	int updateByExample(@Param("record") GhClientUpdate record, @Param("example") GhClientUpdateExample example);
+
+	List<GhClientUpdate> selectByExampleAndPage(GhClientUpdateExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(Integer id);
+
+	int insert(GhClientUpdate record);
+
+	int insertSelective(GhClientUpdate record);
+
+	GhClientUpdate selectByPrimaryKey(Integer id);
+
+	int updateByPrimaryKeySelective(GhClientUpdate record);
+
+	int updateByPrimaryKey(GhClientUpdate record);
+}

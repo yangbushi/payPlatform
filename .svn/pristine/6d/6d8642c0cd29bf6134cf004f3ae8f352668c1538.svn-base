@@ -1,0 +1,278 @@
+package com.defray.service;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Serializable;
+import java.net.URLDecoder;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.ServletResponseAware;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.context.ServletContextAware;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alipay.config.AlipayConfig;
+import com.alipay.util.AlipayNotify;
+import com.alipay.util.AlipaySubmit;
+import com.alipay.util.UtilDate;
+import com.defray.bean.ChinaBankInfoBean;
+import com.defray.bean.DefrayHospitalEntity;
+import com.defray.bean.DefrayRecordEntity;
+import com.defray.bean.DefrayRefundRecordEntity;
+import com.defray.bean.DefrayResultBean;
+import com.defray.model.DefrayHospitalModel;
+import com.defray.model.DefrayRecordModel;
+import com.defray.model.DefrayRefundRecordModel;
+import com.defray.util.HttpUtil;
+import com.defray.util.HttpUtil.METHOD;
+import com.defray.util.Utils;
+import com.opensymphony.xwork2.ActionSupport;
+import com.unionpay.acp.sdk.LogUtil;
+import com.unionpay.acp.sdk.SDKConfig;
+import com.unionpay.acp.sdk.SDKConstants;
+import com.unionpay.acp.sdk.SDKUtil;
+
+
+/**
+ * union 支付处理
+ * @author lcc
+ *
+ */
+@Controller
+@Scope("prototype")
+public class UnionpayService extends ActionSupport implements Serializable{
+
+	private static final long serialVersionUID = -7144524630548398608L;
+	private static Logger log = LoggerFactory.getLogger(UnionpayService.class);
+
+	@Autowired
+	private DefrayRecordModel defrayRecordModel;
+	@Autowired
+	private DefrayHospitalModel defrayHospitalModel;
+	@Autowired
+	private DefrayRefundRecordModel defrayRefundRecordModel;
+	
+	/**
+	 * 支付同步回调
+	 * @return
+	 * @throws Exception 
+	 */
+	public String frontRcvResponse() throws Exception{
+		//测试阶段
+		LogUtil.writeLog("FrontRcvResponse前台接收报文返回开始");
+		HttpServletRequest req = getRequest();
+		HttpServletResponse resp = getResponse();
+		req.setCharacterEncoding("ISO-8859-1");
+		String encoding = req.getParameter(SDKConstants.param_encoding);
+		LogUtil.writeLog("返回报文中encoding=[" + encoding + "]");
+
+		Map<String, String> respParam = getAllRequestParam(req);
+
+		// 打印请求报文
+		LogUtil.printRequestLog(respParam);
+
+		Map<String, String> valideData = null;
+		StringBuffer page = new StringBuffer();
+		if (null != respParam && !respParam.isEmpty()) {
+			Iterator<Entry<String, String>> it = respParam.entrySet()
+					.iterator();
+			valideData = new HashMap<String, String>(respParam.size());
+			while (it.hasNext()) {
+				Entry<String, String> e = it.next();
+				String key = (String) e.getKey();
+				String value = (String) e.getValue();
+				value = new String(value.getBytes("ISO-8859-1"), encoding);
+				page.append("<tr><td width=\"30%\" align=\"right\">" + key
+						+ "(" + key + ")</td><td>" + value + "</td></tr>");
+				valideData.put(key, value);
+			}
+		}
+		if (!SDKUtil.validate(valideData, encoding)) {
+			LogUtil.writeLog("验证签名结果[失败].");
+		} else {
+			LogUtil.writeLog("验证签名结果[成功].");
+			//商家逻辑处理
+			//System.out.println(valideData.get("orderId")); //其他字段也可用类似方式获取
+		}
+
+		LogUtil.writeLog("FrontRcvResponse前台接收报文返回结束");
+		return null;
+	}
+	
+	/**
+	 * 支付异步回调
+	 * @return
+	 * @throws Exception 
+	 */
+	public String backRcvResponse() throws Exception {
+		
+		HttpServletRequest req = getRequest();
+		req.setCharacterEncoding("ISO-8859-1");
+		String encoding = req.getParameter(SDKConstants.param_encoding);
+		// 获取请求参数中所有的信息
+		Map<String, String> reqParam = getAllRequestParam(req);
+		// 打印请求报文
+		LogUtil.printRequestLog(reqParam);
+
+		Map<String, String> valideData = null;
+		if (null != reqParam && !reqParam.isEmpty()) {
+			Iterator<Entry<String, String>> it = reqParam.entrySet().iterator();
+			valideData = new HashMap<String, String>(reqParam.size());
+			while (it.hasNext()) {
+				Entry<String, String> e = it.next();
+				String key = (String) e.getKey();
+				String value = (String) e.getValue();
+				value = new String(value.getBytes("ISO-8859-1"), encoding);
+				valideData.put(key, value);
+			}
+		}
+
+		// 验证签名
+		if (!SDKUtil.validate(valideData, encoding)) {
+			LogUtil.writeLog("验证签名结果[失败].");
+		} else {
+			System.out.println(valideData.get("orderId")); //其他字段也可用类似方式获取
+			LogUtil.writeLog("验证签名结果[成功].");
+		}
+		return NONE;
+	}
+	
+	/**
+	 * 支付中断回调
+	 * @return
+	 */
+	public String interruptNoticeOfAlipay(){
+		return NONE;
+	}
+	
+	/**
+	 * 支付Order查询
+	 * @return
+	 */
+	public String query(){
+		/**
+		 * 参数初始化
+		 * 在java main 方式运行时必须每次都执行加载
+		 * 如果是在web应用开发里,这个方写在可使用监听的方式写入缓存,无须在这出现
+		 */
+		SDKConfig.getConfig().loadPropertiesFromSrc();// 从classpath加载acp_sdk.properties文件
+
+		/**
+		 * 组装请求报文
+		 */
+		Map<String, String> data = new HashMap<String, String>();
+		// 版本号
+		data.put("version", "5.0.0");
+		// 字符集编码 默认"UTF-8"
+		data.put("encoding", "UTF-8");
+		// 签名方法 01 RSA
+		data.put("signMethod", "01");
+		// 交易类型 
+		data.put("txnType", "00");
+		// 交易子类型 
+		data.put("txnSubType", "00");
+		// 业务类型
+		data.put("bizType", "000000");
+		// 渠道类型，07-PC，08-手机
+		data.put("channelType", "08");
+		// 接入类型，商户接入填0 0- 商户 ， 1： 收单， 2：平台商户
+		data.put("accessType", "0");
+		// 商户号码，请改成自己的商户号
+		data.put("merId", "888888888888888");
+		// 商户订单号，请修改被查询的交易的订单号
+		data.put("orderId", "20150211215817604");
+		// 订单发送时间，请修改被查询的交易的订单发送时间
+		data.put("txnTime", "20150211215817");
+
+		data = UnionpayBase.signData(data);
+
+		// 交易请求url 从配置文件读取
+		String url = SDKConfig.getConfig().getSingleQueryUrl();
+
+		Map<String, String> resmap = UnionpayBase.submitUrl(data, url);
+
+		System.out.println("请求报文=["+data.toString()+"]");
+		System.out.println("应答报文=["+resmap.toString()+"]");
+		return NONE;
+	}
+	
+
+	/**
+	 * 消费撤销
+	 * @return
+	 */
+	public String consumeUndo(){
+		return NONE;
+	}
+	
+	
+	
+	/**
+	 * 退款异步回调
+	 * 
+	 * @return
+	 */
+	public String asynchronousNoticeOfRefund() {
+		return NONE;
+	}
+	
+	/**
+     * 获得response
+     */
+    private HttpServletResponse getResponse() {
+        return ServletActionContext.getResponse();
+    }
+    
+    /**
+     * 获得request
+     */
+    private HttpServletRequest getRequest() {
+        return ServletActionContext.getRequest();
+    }
+    
+    /**
+	 * 获取请求参数中所有的信息
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Map<String, String> getAllRequestParam(final HttpServletRequest request) {
+		Map<String, String> res = new HashMap<String, String>();
+		Enumeration<?> temp = request.getParameterNames();
+		if (null != temp) {
+			while (temp.hasMoreElements()) {
+				String en = (String) temp.nextElement();
+				String value = request.getParameter(en);
+				res.put(en, value);
+				//在报文上送时，如果字段的值为空，则不上送<下面的处理为在获取所有参数数据时，判断若值为空，则删除这个字段>
+				//System.out.println("ServletUtil类247行  temp数据的键=="+en+"     值==="+value);
+				if (null == res.get(en) || "".equals(res.get(en))) {
+					res.remove(en);
+				}
+			}
+		}
+		return res;
+	}
+	
+}

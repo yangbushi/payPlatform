@@ -1,0 +1,39 @@
+package com.tynet.dao;
+
+import com.tynet.model.CommentsReplyForm;
+import com.tynet.model.GhCommentsReply;
+import com.tynet.model.GhCommentsReplyExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface GhCommentsReplyMapper {
+    int countByExample(GhCommentsReplyExample example);
+
+    int deleteByExample(GhCommentsReplyExample example);
+
+    List<GhCommentsReply> selectByExample(GhCommentsReplyExample example);
+
+    int updateByExampleSelective(@Param("record") GhCommentsReply record, @Param("example") GhCommentsReplyExample example);
+
+    int updateByExample(@Param("record") GhCommentsReply record, @Param("example") GhCommentsReplyExample example);
+
+    List<GhCommentsReply> selectByExampleAndPage(GhCommentsReplyExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(GhCommentsReply record);
+
+    int insertSelective(GhCommentsReply record);
+
+    GhCommentsReply selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(GhCommentsReply record);
+
+    int updateByPrimaryKey(GhCommentsReply record);
+    
+    List<CommentsReplyForm> selectList();
+    
+    int selectListCount();
+}

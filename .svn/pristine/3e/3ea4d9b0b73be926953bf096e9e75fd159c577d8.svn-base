@@ -1,0 +1,89 @@
+package com.herenit.cloud.rules.impl;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.exception.FrontendModule;
+import com.herenit.cloud.rules.Business;
+import com.soft.gh.dao.TOrderMapper;
+import com.soft.gh.dao.TPatientMapper;
+import com.soft.gh.domain.TOrder;
+import com.soft.gh.domain.TPatient;
+import com.tynet.dao.GhDocMapper;
+
+@Service
+public class CancelOrderBusiness implements Business {
+	@Autowired
+	private TPatientMapper patientDao;
+
+	@Autowired
+	private TOrderMapper orderDao;
+
+	@Autowired
+	GhDocMapper ghDocDao;
+
+	@Override
+	public void before(JSONObject request) throws BusException {
+		request.put("funcode", "10021202");
+		JSONObject args = request.getJSONObject("args");
+		if (args != null) {
+			String orderId = args.getString("platOrderId");
+			if (StringUtils.isEmpty(orderId)) {
+				throw FrontendModule.FRONTEND_0032;
+			}
+			TOrder order = orderDao.selectByPlatOrderId(Long.parseLong(orderId));
+					
+			if (order == null) {
+				throw FrontendModule.FRONTEND_0008;
+			}
+			TPatient patient = patientDao.selectByPatientId(order.getPatientId());
+					
+			String patname = "";
+			String patcard = "";
+			String phonenumber="";
+			if (patient != null) {
+				patname = patient.getPatientName();
+				patcard = patient.getPatientCard();
+				phonenumber=patient.getPatientMobile();
+			}
+
+			args.put("cardid", patcard);
+			args.put("patname", patname);
+			args.put("phonenumber", phonenumber);
+			args.put("ampm", order.getOrderTimeSign());
+			args.put("schdate", order.getOrderDate());
+			args.put("visitdate", order.getOrderDate());
+			args.put("schid", order.getSchemeId());
+			args.put("patid", order.getMedicalCard());
+			args.put("accounttype", "1");
+			args.put("accountid", order.getMedicalCard()==null ? "" : order.getMedicalCard());
+			args.put("timepoint", order.getTimePoint()==null ? "" : order.getTimePoint());
+			args.put("disno", order.getDisNo()==null ? "" : order.getDisNo());
+			args.remove("platOrderId");
+		}else {
+			throw FrontendModule.FRONTEND_0030;
+		}
+	}
+
+	@Override
+	public void after(final JSONObject request, JSONObject response)
+			throws BusException {
+		String code = response.getString("code");
+		if (CODE.OK.value().equalsIgnoreCase(code)) {
+			JSONObject args = request.getJSONObject("args");
+			if (args != null) {
+				String orderId = args.getString("platOrderId");
+				try {
+					orderDao.updateHosOrder(Long.parseLong(orderId));
+				} catch (Exception e) {
+					logger.error(e.getMessage(), e);
+					throw FrontendModule.FRONTEND_0009;
+				}
+			}
+		}
+	}
+}

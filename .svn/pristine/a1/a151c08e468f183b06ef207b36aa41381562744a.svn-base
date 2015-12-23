@@ -1,0 +1,34 @@
+package com.tynet.dao;
+
+import com.tynet.model.GhRateHos;
+import com.tynet.model.GhRateHosExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface GhRateHosMapper {
+    int countByExample(GhRateHosExample example);
+
+    int deleteByExample(GhRateHosExample example);
+
+    List<GhRateHos> selectByExample(GhRateHosExample example);
+
+    int updateByExampleSelective(@Param("record") GhRateHos record, @Param("example") GhRateHosExample example);
+
+    int updateByExample(@Param("record") GhRateHos record, @Param("example") GhRateHosExample example);
+
+    List<GhRateHos> selectByExampleAndPage(GhRateHosExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(Long id);
+
+    int insert(GhRateHos record);
+
+    int insertSelective(GhRateHos record);
+
+    GhRateHos selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(GhRateHos record);
+
+    int updateByPrimaryKey(GhRateHos record);
+}

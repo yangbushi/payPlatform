@@ -1,0 +1,139 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class HosScheme implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long schemeId;
+
+	private Long deptId;
+
+	private Long docId;
+
+	private String ampm;
+
+	private String weekday;
+
+	private String hosId;
+	private String tdocName;
+	/**
+	 * 页面显示
+	 */
+	private String hosName;
+	/**
+	 * 页面显示
+	 */
+	private String deptName;
+	/**
+	 * 页面显示
+	 */
+	private String docName;
+	private String pltHosId;
+	private String pltDocId;
+
+	public Long getSchemeId() {
+		return schemeId;
+	}
+
+	public void setSchemeId(Long schemeId) {
+		this.schemeId = schemeId;
+	}
+
+	public Long getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Long deptId) {
+		this.deptId = deptId;
+	}
+
+	public Long getDocId() {
+		return docId;
+	}
+
+	public void setDocId(Long docId) {
+		this.docId = docId;
+	}
+
+	public String getAmpm() {
+		return ampm;
+	}
+
+	public void setAmpm(String ampm) {
+		this.ampm = ampm;
+	}
+
+	public String getWeekday() {
+		return weekday;
+	}
+
+	public void setWeekday(String weekday) {
+		this.weekday = weekday;
+	}
+
+	public String getHosId() {
+		return hosId;
+	}
+
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+
+	public String getHosName() {
+		return hosName;
+	}
+
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getDocName() {
+		return docName;
+	}
+
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+
+	@Override
+	public String toString() {
+		return "HosScheme [schemeId=" + schemeId + ", deptId=" + deptId + ", docId=" + docId + ", ampm=" + ampm + ", weekday=" + weekday + ", hosId=" + hosId + ", hosName="
+				+ hosName + ", deptName=" + deptName + ", docName=" + docName + "]";
+	}
+
+	public String getPltHosId() {
+		return pltHosId;
+	}
+
+	public void setPltHosId(String pltHosId) {
+		this.pltHosId = pltHosId;
+	}
+
+	public String getPltDocId() {
+		return pltDocId;
+	}
+
+	public void setPltDocId(String pltDocId) {
+		this.pltDocId = pltDocId;
+	}
+
+	public String getTdocName() {
+		return tdocName;
+	}
+
+	public void setTdocName(String tdocName) {
+		this.tdocName = tdocName;
+	}
+}

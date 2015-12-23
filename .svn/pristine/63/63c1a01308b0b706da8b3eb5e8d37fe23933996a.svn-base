@@ -1,0 +1,263 @@
+package com.soft.gh.util;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.soft.gh.domain.TPatient;
+
+public class setParametersUtil {
+
+	private static Logger log = LoggerFactory.getLogger(setParametersUtil.class);
+
+	public static Map<String, String> setParams(Map<String, String> params, String operNo) {
+		StringBuffer sb = new StringBuffer();
+		String rands = StringUtil.genRandomStr(4);
+		sb.append(Md5Util.encode(ConfigConst.PASSWORD)).append(ConfigConst.USERNAME).append(rands);
+		params.put("jymm", Md5Util.encode(sb.toString()));
+		params.put("fwsid", ConfigConst.USERNAME);
+		params.put("sjm", rands);
+		params.put("yyr", operNo);
+		return params;
+
+	}
+
+	public static Map<String, String> setRegParams(TPatient patient, String code, String yyqd, String pwd) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "register");
+		params.put("yyid", "000000");
+		params.put("yhxm", patient.getPatientName().trim());
+		params.put("sjhm", patient.getPatientMobile().trim());
+		params.put("zjhm", patient.getPatientCard().trim());
+		params.put("xb", patient.getPatientSex().trim());
+		params.put("zjlx", patient.getPatientIdCardType());
+		params.put("lxdh", patient.getPatientTele() == null ? "" : patient.getPatientTele());
+		params.put("ybklx", patient.getPatientMediCardType().trim().equals("-1") ? "" : patient.getPatientMediCardType());
+		params.put("ybkh", patient.getPatientMediCard());
+		params.put("lxdz", patient.getPatientAddr());
+		params.put("yzbm", patient.getPatientPostCode());
+		params.put("yzm", code);
+		params.put("yyqd", yyqd);
+		params.put("mm", pwd);
+		params = setParams(params, patient.getOperNo());
+		log.info("注册患者信息交易参数为：{}", params);
+		return params;
+	}
+
+	public static Map<String, String> setUpdatePatientParams(TPatient patient,String code) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "modify");
+		params.put("yyid", "000000");
+		params.put("yhid", patient.getPatientId().toString().trim());
+		params.put("sjhm", patient.getPatientMobile().trim());
+		params.put("zjlx", "0");
+		params.put("lxdh", patient.getPatientTele());
+		params.put("ybklx", patient.getPatientMediCardType().trim().equals("-1") ? "" : patient.getPatientMediCardType());
+		params.put("ybkh", patient.getPatientMediCard());
+		params.put("lxdz", patient.getPatientAddr());
+		params.put("yzbm", patient.getPatientPostCode());
+		params.put("yhxm", patient.getPatientName().toString().trim());
+		params.put("yzm", code);
+		params.put("xb", patient.getPatientSex());
+		params = setParams(params, patient.getOperNo());
+		log.info("修改患者信息交易参数为：医院编号:[" + params.get("yyid") + "],交易密码：[" + params.get("jymm") + "],交易代码：[" + params.get("qqlx") + "]," + "用户请求IP：[" + params.get("yyr")
+				+ "],服务商编号：[" + params.get("fwsid") + "],服务商本地验证随机码：[" + params.get("sjm") + "],患者姓名：[" + params.get("yhid") + "],证件类型：[" + params.get("zjlx") + "],医保卡类型：["
+				+ params.get("ybklx") + "],医保卡：[" + params.get("ybkh") + "],患者手机号：[" + params.get("sjhm") + "],患者电话：[" + params.get("lxdh") + "],患者地址：[" + params.get("lxdz")
+				+ "],患者邮编：[" + params.get("yzbm") + "],患者性别：[" + params.get("xb") + "]");
+		return params;
+	}
+
+	public static Map<String, String> setOrderParams(String hospitalId, String operNo, String patientId, String numResourceId, String code, String yyqd) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "book");
+		params.put("yyid", hospitalId);
+		params.put("yhid", patientId);
+		params.put("hyid", numResourceId);
+		params.put("yzm", code);
+		params.put("yyqd", yyqd);
+		params = setParams(params, operNo);
+		log.info("患者预约交易参数为：{}", params);
+		return params;
+	}
+
+	public static Map<String, String> setDeleteNumParams(String hospitalId, String operNo, String orderCode, String takeCode) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "cancel");
+		params.put("yyid", hospitalId);
+		params.put("ddid", orderCode);
+		params.put("qhmm", takeCode);
+		params = setParams(params, operNo);
+		log.info("患者退号交易参数为：医院编号:[" + params.get("yyid") + "],交易密码：[" + params.get("jymm") + "],交易代码：[" + params.get("qqlx") + "]," + "用户请求IP：[" + params.get("yyr") + "],服务商编号：["
+				+ params.get("fwsid") + "],服务商本地验证随机码：[" + params.get("sjm") + "],订单流水号：[" + params.get("ddid") + "],取号密码：[" + params.get("qhmm") + "]");
+		return params;
+	}
+
+	public static Map<String, String> setRegImgParams(String operNo, String patientCard, String patientPhone) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "captcha");
+		params.put("yyid", "000000");
+		params.put("yzmlx", "1");
+		params.put("ywlx", "1");
+		params.put("zjhm", patientCard);
+		params.put("sjhm", patientPhone);
+		params = setParams(params, operNo);
+		log.info("获取注册验证码交易参数为：{}", params);
+		return params;
+	}
+
+	public static Map<String, String> setOrderImgParams(String hospitalId, String operNo, String patientId, String numId) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "captcha");
+		params.put("yyid", hospitalId);
+		params.put("yzmlx", "1");
+		params.put("ywlx", "2");
+		params.put("hyid", numId);
+		params.put("yhid", patientId);
+		params = setParams(params, operNo);
+		log.info("获取预约验证码交易参数为：{}", params);
+		return params;
+	}
+
+	public static Map<String, String> setPatientCheck(String patientId, String patientCheck, String operNo) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("sfrz", patientCheck);
+		params.put("yhid", patientId);
+		params = setParams(params, operNo);
+		log.info("获取预约验证码交易参数为：{}", params);
+		return params;
+	}
+
+	public static Map<String, String> setAuth(String patientId, String sfrz, String operNo) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "auth");
+		params.put("yyid", "000000");
+		params.put("yhid", patientId);
+		params.put("sfrz", sfrz);
+		params = setParams(params, operNo);
+		log.info("获取setAuth用户验证交易参数为：{}", params);
+		return params;
+	}
+
+	public static Map<String, String> setIdle(String yyid, String operNo) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "idle");
+		params.put("yyid", yyid);
+		params = setParams(params, operNo);
+		log.info("获取setIdle用户验证交易参数为：{}", params);
+		return params;
+	}
+	
+	public static Map<String, String> setResetPwdCaptchaParams(String operNo, String patientCard) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "captcha");
+		params.put("yyid", "000000");
+		params.put("yzmlx", "3");
+		params.put("ywlx", "4");
+		params.put("zjhm", patientCard);
+		params = setParams(params, operNo);
+		log.info("获取重置密码明文验证码交易参数为：{}", params);
+		return params;
+	}
+	
+	public static Map<String, String> setUpdatePatCaptchaParams(String operNo, String patientId) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "captcha");
+		params.put("yyid", "000000");
+		params.put("yzmlx", "3");
+		params.put("ywlx", "3");
+		params.put("yhid", patientId);
+		params = setParams(params, operNo);
+		log.info("获取修改用户明文验证码交易参数为：{}", params);
+		return params;
+	}
+	
+	public static Map<String, String> setRegCaptchaParams(String operNo, String patientCard, String patientPhone) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "captcha");
+		params.put("yyid", "000000");
+		params.put("yzmlx", "3");
+		params.put("ywlx", "1");
+		params.put("zjhm", patientCard);
+		params.put("sjhm", patientPhone);
+		params = setParams(params, operNo);
+		log.info("获取注册明文验证码交易参数为：{}", params);
+		return params;
+	}
+	
+	public static Map<String, String> setPwdchkParams(String operNo, String patientCard, String mm) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "pwdchk");
+		params.put("yyid", "000000");
+		params.put("zjhm", patientCard);
+		params.put("mm", mm);
+		params = setParams(params, operNo);
+		log.info("密码校验交易参数为：{}", params);
+		return params;
+	}
+	
+	public static Map<String, String> setCapchkParams(String operNo, String cid, String yzm) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "capchk");
+		params.put("yyid", "000000");
+		params.put("yzm", yzm);
+		params.put("cid", cid);
+		params = setParams(params, operNo);
+		log.info("验证码校验交易参数为：{}", params);
+		return params;
+	}
+	
+	public static Map<String, String> setResetPwdParams(String operNo, String patientId,String cid, String xmm) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "rspwd");
+		params.put("yyid", "000000");
+		params.put("yhid", patientId);
+		params.put("xmm", xmm);
+		params.put("cid", cid);
+		params = setParams(params, operNo);
+		log.info("重置密码验证码交易参数为：{}", params);
+		return params;
+	}
+	
+	public static Map<String, String> setUpdatePwdParams(String operNo, String patientId, String ymm, String xmm) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "pwd");
+		params.put("yyid", "000000");
+		params.put("yhid", patientId);
+		params.put("ymm", ymm);
+		params.put("xmm", xmm);
+		params = setParams(params, operNo);
+		log.info("修改密码验证码交易参数为：{}", params);
+		return params;
+	}
+	
+	public static Map<String, String> setOrderCapChkParams(String hospitalId, String operNo, String patientId, String numResourceId, String code) {
+		Map<String, String> params = null;
+		params = new HashMap<String, String>();
+		params.put("qqlx", "orderCapChk");
+		params.put("yyid", hospitalId);
+		params.put("yhid", patientId);
+		params.put("hyid", numResourceId);
+		params.put("yzm", code);
+		params = setParams(params, operNo);
+		log.info("患者预约验证码校验参数为：{}", params);
+		return params;
+	}
+}

@@ -1,0 +1,15 @@
+package com.tynet.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.TParams;
+@Repository
+public interface TParamsMapper {
+
+	String queryValue(String key);
+	
+	void saveValue(TParams param);
+	
+	void updateValue(TParams param);
+	
+}

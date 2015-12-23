@@ -1,0 +1,68 @@
+package com.soft.gh.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import com.soft.gh.domain.GhCount;
+import com.soft.gh.domain.TBillBoard;
+import com.soft.gh.domain.TOrder;
+@Repository
+public interface TOrderMapper {
+	int insert(TOrder tOrder);
+	int insertHosOrder(TOrder tOrder);
+
+	int updateOrder(@Param("orderId")Long orderId);
+	int updateHosOrder(@Param("orderId")Long orderId);
+    
+    int updateOrderStateByStop(Map<String,String> prarams);
+    
+    TOrder selectByPlatOrderId(Long platOrderId);
+    TOrder selectByOrderId(Long orderId);
+    TOrder selectByTradeNo(String tradeNo);
+    int updateState(TOrder record);
+    int updateIsRefund(TOrder record);
+    int updateTradeInfo(TOrder record);
+    int updateTradeResult(TOrder record);
+    int updateStateAndRefundTime(TOrder record);
+    List<TOrder> selectOrder();
+    Long selectPlatOrderId();
+	String selectClientIp(String clientIp);
+	
+	List<TBillBoard> selectBillboard();
+	
+	List<GhCount> selectOrderCount();
+	
+	List<GhCount> selectOrderDayCount(String day);
+
+	List<TOrder> selectLastTopN(RowBounds bounds);
+
+	/**
+	 * 获取已评价订单的PTDDID的list
+	 * 
+	 * @param patientId
+	 * @param hospitalId
+	 * @return
+	 */
+	List<String> selectRateFlagId(@Param("patientId") Long patientId, @Param("hospitalId") String hospitalId);
+	List<TOrder> selectHosPatOrder(@Param("patientId") Long patientId, @Param("hospitalId") String hospitalId);
+	List<TOrder> selectHosPatOrder2(@Param("patientId") Long patientId, @Param("hospitalId") String hospitalId, @Param("minDate") String minDate, @Param("maxDate") String maxDate);
+	TOrder selectCurOrder(TOrder order);
+	
+	void updateRateFlag(@Param("orderId") Long orderId);
+	
+	List<TOrder> selectTodayOrders(@Param("yyrq") String yyrq, RowBounds rowBounds);
+	
+	List<TOrder> selectByOrderState(@Param("state")String state);
+	
+	List<TOrder> selectNotRefundOrders(@Param("state")String state);
+	
+	List<TOrder> selectRefundOrder(TOrder record);
+	
+	List<TOrder> selectOrderedList(TOrder record);
+	
+	List<TOrder> selectOrderedListOfToday(TOrder record);
+}

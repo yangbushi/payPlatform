@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.defray.dao.DefrayTypeMapper">
+
+	<resultMap id="BASE-RESULT" type="com.defray.bean.DefrayTypeEntity">
+		<result property="id" column="id" />
+		<result property="payName" column="pay_name" />
+		<result property="icon" column="icon" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="isDel" column="is_del" />
+	</resultMap>
+
+	
+  	<insert id="insert" parameterType="com.defray.bean.DefrayTypeEntity">
+  		INSERT INTO defray_type ( 
+			id,pay_name,icon,create_time,update_time,is_del			
+  		) VALUES (
+			#{id},#{payName},#{icon},#{createTime},#{updateTime},#{isDel}			
+  		)   
+    	<selectKey resultType="Integer" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	
+  	<update id="update" parameterType="com.defray.bean.DefrayTypeEntity" >
+		UPDATE
+			defray_type
+		SET
+			 <if test="id!=null"> id = #{id} </if>
+			 <if test="payName!=null">, pay_name = #{payName} </if>
+			 <if test="icon!=null">, icon = #{icon} </if>
+			 <if test="createTime!=null">, create_time = #{createTime} </if>
+			 <if test="updateTime!=null">, update_time = #{updateTime} </if>
+			 <if test="isDel!=null">, is_del = #{isDel} </if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	
+	<select id="getByKey" resultMap="BASE-RESULT">
+		SELECT * FROM
+			defray_type
+		<where>
+			id = #{key}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM
+			defray_type
+		<where>
+			id = #{key}
+		</where>
+	</delete>
+	
+	<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">
+		SELECT * FROM
+			defray_type
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+		<if test="param.orderByStr!=null">
+			order by ${param.orderByStr}
+		</if>
+		<if test="param.start!=null and param.pageNum!=null">LIMIT #{param.start},#{param.pageNum}</if>
+	</select>
+
+
+	<select id="getEntitysCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM
+			defray_type
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+	</select>
+	
+	<sql id="compareParamColumns">
+		1
+  		<if test="param.id!=null">
+  			AND  id = #{param.id}
+  		</if>
+  		<if test="param.payName!=null">
+  			AND  pay_name = #{param.payName}
+  		</if>
+  		<if test="param.icon!=null">
+  			AND  icon = #{param.icon}
+  		</if>
+  		<if test="param.createTime!=null">
+  			AND  create_time = #{param.createTime}
+  		</if>
+  		<if test="param.updateTime!=null">
+  			AND  update_time = #{param.updateTime}
+  		</if>
+  		<if test="param.isDel!=null">
+  			AND  is_del = #{param.isDel}
+  		</if>
+	</sql>
+	
+	<!-- mybatis-config.xml 
+	<typeAlias alias="DefrayTypeEntity" 	type="bean.DefrayTypeEntity" />
+	<mapper resource="sql-mapper/DefrayTypeMapper.xml" />
+	-->
+	<!-- spring-dao-beans.xml
+	<bean id="DefrayTypeDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+    	<property name="mapperInterface" value="dao.DefrayTypeDao" />  
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />  
+	</bean>
+	-->
+</mapper>

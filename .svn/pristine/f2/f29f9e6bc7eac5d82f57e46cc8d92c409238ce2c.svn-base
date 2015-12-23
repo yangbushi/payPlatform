@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.defray.dao.DefrayHospitalMapper">
+
+	<resultMap id="BASE-RESULT" type="com.defray.bean.DefrayHospitalEntity">
+		<result property="id" column="id" />
+		<result property="hospitalId" column="hospital_id" />
+		<result property="hospitalName" column="hospital_name" />
+		<result property="payType" column="pay_type" />
+		<result property="isUse" column="is_use" />
+		<result property="payAccount" column="pay_account" />
+		<result property="isDel" column="is_del" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	
+  	<insert id="insert" parameterType="com.defray.bean.DefrayHospitalEntity">
+  		INSERT INTO defray_hospital ( 
+			id,hospital_id,hospital_name,pay_type,is_use,pay_account,is_del,create_time,update_time			
+  		) VALUES (
+			#{id},#{hospitalId},#{hospitalName},#{payType},#{isUse},#{payAccount},#{isDel},#{createTime},#{updateTime}			
+  		)   
+    	<selectKey resultType="Integer" keyProperty="id">    
+      		SELECT LAST_INSERT_ID()     
+		</selectKey>
+  	</insert>
+  	
+  	<update id="update" parameterType="com.defray.bean.DefrayHospitalEntity" >
+		UPDATE
+			defray_hospital
+		SET
+			 <if test="id!=null"> id = #{id} </if>
+			 <if test="hospitalId!=null">, hospital_id = #{hospitalId} </if>
+			 <if test="hospitalName!=null">, hospital_name = #{hospitalName} </if>
+			 <if test="payType!=null">, pay_type = #{payType} </if>
+			 <if test="isUse!=null">, is_use = #{isUse} </if>
+			 <if test="payAccount!=null">, pay_account = #{payAccount} </if>
+			 <if test="isDel!=null">, is_del = #{isDel} </if>
+			 <if test="createTime!=null">, create_time = #{createTime} </if>
+			 <if test="updateTime!=null">, update_time = #{updateTime} </if>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	
+	<select id="getByKey" resultMap="BASE-RESULT">
+		SELECT * FROM
+			defray_hospital
+		<where>
+			id = #{key}
+		</where>
+	</select>
+	
+	<delete id="deleteByKey">
+		DELETE FROM
+			defray_hospital
+		<where>
+			id = #{key}
+		</where>
+	</delete>
+	
+	<select id="findEntitys" parameterType="map" resultMap="BASE-RESULT">
+		SELECT * FROM
+			defray_hospital
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+		<if test="param.orderByStr!=null">
+			order by ${param.orderByStr}
+		</if>
+		<if test="param.start!=null and param.pageNum!=null">LIMIT #{param.start},#{param.pageNum}</if>
+	</select>
+
+
+	<select id="getEntitysCount" parameterType="map" resultType="int">
+		SELECT count(*) FROM
+			defray_hospital
+		<where>
+			<include refid="compareParamColumns" />
+		</where>
+	</select>
+	
+	<sql id="compareParamColumns">
+		1
+  		<if test="param.id!=null">
+  			AND  id = #{param.id}
+  		</if>
+  		<if test="param.hospitalId!=null">
+  			AND  hospital_id = #{param.hospitalId}
+  		</if>
+  		<if test="param.hospitalName!=null">
+  			AND  hospital_name = #{param.hospitalName}
+  		</if>
+  		<if test="param.payType!=null">
+  			AND  pay_type = #{param.payType}
+  		</if>
+  		<if test="param.isUse!=null">
+  			AND  is_use = #{param.isUse}
+  		</if>
+  		<if test="param.payAccount!=null">
+  			AND  pay_account = #{param.payAccount}
+  		</if>
+  		<if test="param.isDel!=null">
+  			AND  is_del = #{param.isDel}
+  		</if>
+  		<if test="param.createTime!=null">
+  			AND  create_time = #{param.createTime}
+  		</if>
+  		<if test="param.updateTime!=null">
+  			AND  update_time = #{param.updateTime}
+  		</if>
+	</sql>
+	
+	<!-- mybatis-config.xml 
+	<typeAlias alias="DefrayHospitalEntity" 	type="bean.DefrayHospitalEntity" />
+	<mapper resource="sql-mapper/DefrayHospitalMapper.xml" />
+	-->
+	<!-- spring-dao-beans.xml
+	<bean id="DefrayHospitalDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+    	<property name="mapperInterface" value="dao.DefrayHospitalDao" />  
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory" />  
+	</bean>
+	-->
+</mapper>

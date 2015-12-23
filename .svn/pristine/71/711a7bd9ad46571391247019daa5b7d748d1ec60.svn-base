@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.TBulletinMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.TBulletin" >
+    <id column="ID" property="bulletinId" jdbcType="DECIMAL" />
+    <result column="TITLE" property="bulletinTitle" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="bulletinContent" jdbcType="CLOB" />
+    <result column="SOURCE" property="bulletinSource" jdbcType="VARCHAR" />
+    <result column="TITLE_IMG" property="bulletinImg" jdbcType="VARCHAR" />
+    <result column="CHK_TIME" property="bulletinDate" jdbcType="DATE" />
+    <result column="COLLECT_ID" property="collectId" jdbcType="DECIMAL" />
+    <result column="PLACE" property="place" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMap" type="com.tynet.model.TBulletin" extends="BaseResultMap">
+    <result column="hosId" property="hosId" jdbcType="VARCHAR" />
+    <result column="typeId" property="typeId" jdbcType="VARCHAR" />
+  </resultMap>
+    <resultMap id="TypeResultMap" type="com.tynet.model.CmsType" >
+    <id column="TYPE_ID" property="typeId" jdbcType="DECIMAL" />
+    <result column="PID" property="pid" jdbcType="DECIMAL" />
+    <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectList" resultMap="BaseResultMap">
+      select t.id,t.title,t.chk_time,t.title_img,t.source,t.place,cc.content from cms_title t,cms_type_map ctm,cms_type ct,cms_content cc where t.id=ctm.id and ct.type_id=ctm.type_id and t.id=cc.id and ct.type_id =#{type} and t.chk_flag=1
+      order by t.chk_time desc
+  </select>
+  <select id="selectMyBull" resultMap="BaseResultMap">
+	select collect_id,
+	t.id,
+	title,
+	chk_time,
+	title_img,
+	source,
+	content
+	from gh_mycollect m
+	left join cms_title t on m.collect_content = t.id
+	left join cms_content cc on t.id = cc.id
+	where t.chk_flag = 1
+	and collect_type = #{type}
+	and collect_patient = #{patientId} 
+  </select>
+    <select id="selectInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+       select t.id,t.title,t.chk_time,t.title_img,t.source,t.place,cc.content from cms_title t,cms_content cc where t.id=cc.id and t.chk_flag=1 and t.id=#{bulletinId}
+  </select>
+  <select id="selectFatherId" resultMap="TypeResultMap" parameterType="java.lang.String">
+      select type_id,pid,type_name from cms_type where pid=#{pid} order by type_id
+  </select>
+  
+  <select id="selectFatherIdAndHosId" resultMap="TypeResultMap" >
+      select type_id,pid,type_name from cms_type where pid=#{pid} and hosid=#{hosId} order by type_id
+  </select>
+  
+  <select id="selectChildren" resultMap="BaseResultMap" parameterType="java.lang.String">
+       select t.id,t.title,t.chk_time,t.title_img,t.source,t.place,cc.content from cms_title t,cms_type_map ctm,cms_type ct,cms_content cc where t.id=ctm.id and ct.type_id=ctm.type_id and t.id=cc.id and ct.type_id =#{type} and t.chk_flag=1  order by t.sort, t.chk_time
+  </select>
+  <select id="selectList1" resultMap="ResultMap">
+	select t.id,t.source1 as hosId ,
+	t.title,t.chk_time,t.title_img,t.source,t.place,cc.content
+	from
+	cms_title t,cms_type_map ctm,cms_type ct,cms_content cc where
+	t.id=ctm.id and ct.type_id=ctm.type_id and t.id=cc.id and ct.type_id
+	=#{type} and t.chk_flag=1 
+	<if test="hosId != null">
+		 and t.source1=#{hosId} 
+	</if>
+	order by t.chk_time desc
+  </select>
+  <select id="selectListByHosIds" resultMap="ResultMap">
+	select t.id,t.source1 as hosId ,
+	t.title,t.chk_time,t.title_img,t.source,t.place,cc.content
+	from
+	cms_title t,cms_type_map ctm,cms_type ct,cms_content cc where
+	t.id=ctm.id and ct.type_id=ctm.type_id and t.id=cc.id and ct.type_id
+	=#{type} and t.chk_flag=1
+	<if test="source1 != null">
+		and t.source1 in
+		<foreach collection="source1" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</if>
+	<if test="hosIds != null">
+		and t.hos_Id in
+		<foreach collection="hosIds" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</if>
+	order by t.chk_time desc
+  </select>
+  <select id="selectPushFirst" resultMap="ResultMap">
+	select * from (
+		select
+			t.id,t.title,t.chk_time,t.title_img,t.source,t.place,cc.content,ct.type_id as typeId from
+			cms_title t,cms_type_map ctm,cms_type ct,cms_content cc where
+			t.id=ctm.id and ct.type_id=ctm.type_id and t.id=cc.id and ct.pid
+			=#{type} and t.chk_flag=1
+			<if test="bulletinId != null">
+				and t.CHK_TIME > (select CHK_TIME from cms_title t1
+				where ID
+				=
+				#{bulletinId})
+			</if>
+		order by t.CHK_TIME desc
+	) where rownum &lt;=1
+  </select>
+  <select id="selectPushList" resultMap="BaseResultMap">
+	select * from (
+		select
+			t.id,t.title,t.chk_time,t.title_img,t.source,t.place,cc.content from
+			cms_title t,cms_type_map ctm,cms_type ct,cms_content cc where
+			t.id=ctm.id and ct.type_id=ctm.type_id and t.id=cc.id and ct.pid
+			=#{type} and t.chk_flag=1
+			<if test="bulletinId != null">
+				and t.CHK_TIME > (select CHK_TIME from cms_title t1
+				where ID
+				=
+				#{bulletinId})
+			</if>
+		order by t.CHK_TIME desc
+	) where rownum &lt;=10
+  </select>
+  <select id="selectByTypeId" resultMap="BaseResultMap">
+		select
+			t.id,t.title,t.chk_time,t.title_img,t.source,t.place,cc.content from
+			cms_title t,cms_type_map ctm,cms_type ct,cms_content cc where
+			t.id=ctm.id and ct.type_id=ctm.type_id and t.id=cc.id and ct.type_id
+			=#{typeId} and t.chk_flag=1
+		order by t.CHK_TIME desc
+  </select>
+</mapper>

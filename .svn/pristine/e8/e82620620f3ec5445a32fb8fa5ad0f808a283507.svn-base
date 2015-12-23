@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="user-nologin-pg" extends="json-default"
+		namespace="/">
+		<action name="getAndroid" class="com.tynet.action.AndroidAction" method="getAndroid">
+			<result type="redirect">
+				http://211.140.7.44:9901/update/bookplat.apk
+			</result>
+		</action>
+		<action name="service" class="com.tynet.action.AndroidAction" method="Service">
+		</action>
+		<action name="payChinaBank" class="com.tynet.action.PayOfChinaBankAction" method="payChinaBank">
+			<result name="success">cbpay.jsp</result>
+			<result name="failure">fail.jsp</result>
+			<exception-mapping result="failure" exception="java.lang.Exception"></exception-mapping>
+		</action>
+		
+		<action name="callbackOfChinaBank" class="com.tynet.action.CallbackOfChinaBankAction" method="callbackOfChinaBank">
+			<result name="success">paySuccess.jsp</result>
+			<result name="failure">payFail.jsp</result>
+			<exception-mapping result="failure" exception="java.lang.Exception"></exception-mapping>
+		</action>
+		
+		<action name="callbackOfAlipay" class="com.tynet.action.CallbackOfAlipayAction" method="callbackOfAlipay">
+			<result name="success">paySuccess.jsp</result>
+			<result name="failure">payFail.jsp</result>
+			<exception-mapping result="failure" exception="java.lang.Exception"></exception-mapping>
+		</action>
+		
+		<action name="notifyOfAlipay" class="com.tynet.action.NotifyOfAlipayAction" method="notifyOfAlipay">
+		</action>
+		<action name="notify_url_refund" class="com.tynet.action.RefundNotifyOfAlipayAction" method="refundNotifyOfAlipayAction">
+		</action>
+		
+		<action name="refund" class="com.tynet.action.RefundServiceOfAlipayAction" method="refund">
+      		<result type="json">
+      		<param name="root">resultJson</param>
+ 			</result> 
+		</action>
+		
+		<action name="entrance" class="com.defray.action.DefrayAction"
+			method="entrance">
+			<result name="pass">jsp/chooseDefray.jsp</result>
+			<result type="json">
+				<param name="root">resultJson</param>
+			</result>
+		</action>
+				
+		<action name="defray" class="com.defray.action.DefrayAction"
+			method="defray">
+			<result name="pass">jsp/alipay.jsp</result>
+			<result type="json">
+				<param name="root">resultJson</param>
+			</result>
+		</action>
+		
+		<action name="interruptNoticeOfAlipay" class="com.defray.service.AlipayService"
+			method="interruptNoticeOfAlipay">
+			<result type="json">
+				<param name="root">resultJson</param>
+			</result>
+		</action>
+		<action name="asynchronousNoticeOfAlipay" class="com.defray.service.AlipayService"
+			method="asynchronousNoticeOfAlipay">
+			<result type="json">
+				<param name="root">resultJson</param>
+			</result>
+		</action>
+		<action name="synchronizeNoticeOfAlipay" class="com.defray.service.AlipayService"
+			method="synchronizeNoticeOfAlipay">
+			<result type="json">
+				<param name="root">resultJson</param>
+			</result>
+		</action>
+	</package>
+
+</struts>
+

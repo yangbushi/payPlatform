@@ -1,0 +1,29 @@
+package com.tynet.dao;
+
+import com.tynet.model.SurveyNorAnswer;
+import com.tynet.model.SurveyNorAnswerExample;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface SurveyNorAnswerMapper {
+    int countByExample(SurveyNorAnswerExample example);
+
+    int deleteByExample(SurveyNorAnswerExample example);
+
+    List<SurveyNorAnswer> selectByExample(SurveyNorAnswerExample example);
+    int selectResultCount(@Param("patientId") String patientId,@Param("sId") String sId);
+
+    int updateByExampleSelective(@Param("record") SurveyNorAnswer record, @Param("example") SurveyNorAnswerExample example);
+
+    int updateByExample(@Param("record") SurveyNorAnswer record, @Param("example") SurveyNorAnswerExample example);
+
+    List<SurveyNorAnswer> selectByExampleAndPage(SurveyNorAnswerExample example, RowBounds rowBound);
+
+    int insert(SurveyNorAnswer record);
+
+    int insertSelective(SurveyNorAnswer record);
+}

@@ -1,0 +1,68 @@
+package com.tynet.dao;
+
+import com.tynet.model.DocForm;
+import com.tynet.model.GhDoc;
+import com.tynet.model.GhDocExample;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface GhDocMapper {
+	int countByExample(GhDocExample example);
+
+	int deleteByExample(GhDocExample example);
+
+	List<GhDoc> selectByExample(GhDocExample example);
+
+	int updateByExampleSelective(@Param("record") GhDoc record, @Param("example") GhDocExample example);
+
+	int updateByExample(@Param("record") GhDoc record, @Param("example") GhDocExample example);
+
+	List<GhDoc> selectByExampleAndPage(GhDocExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(Integer docId);
+
+	int insert(GhDoc record);
+
+	int insertSelective(GhDoc record);
+
+	GhDoc selectByPrimaryKey(Integer docId);
+
+	int updateByPrimaryKeySelective(GhDoc record);
+
+	int updateByPrimaryKey(GhDoc record);
+
+	int updateBookCount(String docId);
+
+	DocForm selectHosDocDept(String docId);
+
+	/**
+	 * 查询热门医生
+	 * 
+	 * @return
+	 */
+	List<GhDoc> queryHotDoctor();
+
+	List<GhDoc> queryDocByPlatdeptid(@Param("plat_dept_id") String plat_dept_id);
+
+	GhDoc selectByPlatDocId(@Param("platDocId") String platDocId,@Param("hosId") String hosId);
+
+	GhDoc selectByPlatHosIdAndDeptNameAndDocName(@Param("platHosId") String platHosId, @Param("deptName") String deptName, @Param("docName") String docName);
+
+	List<DocForm> selectDocByDeptId(String deptId);
+
+	List<DocForm> searchHosDoc(@Param("hosId") String hosId, @Param("docName") String docName);
+
+	List<DocForm> selectMyDoc(@Param("type") String type, @Param("patientId") String patientId);
+
+	List<DocForm> selectMyDocInHosIds(Map<String, Object> params);
+
+	DocForm selectInfo(String docId);
+	DocForm selectInfoByPlatDocId(String docId);
+
+	List<DocForm> searchDocByKey(@Param("key") String key, @Param("hosId") String hosId, @Param("areaId") String areaId);
+}

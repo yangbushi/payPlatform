@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.SurveyResultMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.SurveyResult" >
+    <result column="SCORE_ID" property="scoreId" jdbcType="DECIMAL" />
+    <result column="S_ID" property="sId" jdbcType="DECIMAL" />
+    <result column="SCORE_MIN" property="scoreMin" jdbcType="DECIMAL" />
+    <result column="SCORE_MAX" property="scoreMax" jdbcType="DECIMAL" />
+    <result column="SCORE_RESULT" property="scoreResult" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SCORE_ID, S_ID, SCORE_MIN, SCORE_MAX, SCORE_RESULT
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.SurveyResultExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from YYGH.SURVEY_RESULT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectResult" resultMap="BaseResultMap">
+      select * from SURVEY_RESULT where S_ID=#{sId} and (score_min&lt;=#{score} and SCORE_MAX&gt;=#{score})
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.SurveyResultExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from YYGH.SURVEY_RESULT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.SurveyResultExample" >
+    delete from YYGH.SURVEY_RESULT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.SurveyResultExample" resultType="java.lang.Integer" >
+    select count(*) from YYGH.SURVEY_RESULT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update YYGH.SURVEY_RESULT
+    <set >
+      <if test="record.scoreId != null" >
+        SCORE_ID = #{record.scoreId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sId != null" >
+        S_ID = #{record.sId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.scoreMin != null" >
+        SCORE_MIN = #{record.scoreMin,jdbcType=DECIMAL},
+      </if>
+      <if test="record.scoreMax != null" >
+        SCORE_MAX = #{record.scoreMax,jdbcType=DECIMAL},
+      </if>
+      <if test="record.scoreResult != null" >
+        SCORE_RESULT = #{record.scoreResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update YYGH.SURVEY_RESULT
+    set SCORE_ID = #{record.scoreId,jdbcType=DECIMAL},
+      S_ID = #{record.sId,jdbcType=DECIMAL},
+      SCORE_MIN = #{record.scoreMin,jdbcType=DECIMAL},
+      SCORE_MAX = #{record.scoreMax,jdbcType=DECIMAL},
+      SCORE_RESULT = #{record.scoreResult,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <insert id="insert" parameterType="com.tynet.model.SurveyResult" >
+    insert into YYGH.SURVEY_RESULT (SCORE_ID, S_ID, SCORE_MIN, 
+      SCORE_MAX, SCORE_RESULT)
+    values (#{scoreId,jdbcType=DECIMAL}, #{sId,jdbcType=DECIMAL}, #{scoreMin,jdbcType=DECIMAL}, 
+      #{scoreMax,jdbcType=DECIMAL}, #{scoreResult,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.SurveyResult" >
+    insert into YYGH.SURVEY_RESULT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      SCORE_ID,
+      S_ID,
+      SCORE_MIN,
+      SCORE_MAX,
+      SCORE_RESULT,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{scoreId,jdbcType=DECIMAL},
+      #{sId,jdbcType=DECIMAL},
+      #{scoreMin,jdbcType=DECIMAL},
+      #{scoreMax,jdbcType=DECIMAL},
+      #{scoreResult,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+</mapper>

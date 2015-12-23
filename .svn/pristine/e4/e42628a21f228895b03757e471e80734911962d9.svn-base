@@ -1,0 +1,43 @@
+package com.tynet.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.DzHosFloor;
+import com.tynet.model.DzHosFloorExample;
+
+@Repository
+public interface DzHosFloorMapper {
+	int countByExample(DzHosFloorExample example);
+
+	int deleteByExample(DzHosFloorExample example);
+
+	List<DzHosFloor> selectByExample(DzHosFloorExample example);
+
+	int updateByExampleSelective(@Param("record") DzHosFloor record, @Param("example") DzHosFloorExample example);
+
+	int updateByExample(@Param("record") DzHosFloor record, @Param("example") DzHosFloorExample example);
+
+	List<DzHosFloor> selectByExampleAndPage(DzHosFloorExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(Long id);
+
+	DzHosFloor selectByPrimaryKey(Long id);
+
+	int updateByPrimaryKeySelective(DzHosFloor record);
+
+	int updateByPrimaryKey(DzHosFloor record);
+
+	/**
+	 * @param type
+	 *            0-查询医院，1-楼层查询详情
+	 * @param platCode
+	 * @return
+	 */
+	List<DzHosFloor> selectByTypeAndHosId(@Param("type") int type, @Param("platCode") String platCode);
+	
+	List<DzHosFloor> selectByTypeAndHosId2( @Param("platCode") String platCode);
+}

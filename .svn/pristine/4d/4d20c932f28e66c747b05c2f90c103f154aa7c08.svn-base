@@ -1,0 +1,112 @@
+package com.defray.util;
+
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.thoughtworks.xstream.XStream;
+
+public class Utils {
+	public static SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public static SimpleDateFormat sdf2=new SimpleDateFormat("yyyyMMddHHmmss");
+	public static SimpleDateFormat sdf3=new SimpleDateFormat("yyyyMMddHHmm");
+	public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+	public static DecimalFormat decimalFormat = new DecimalFormat("0.00");
+	
+	private static Logger logger = Logger.getLogger(Utils.class);
+
+	private static Properties props = new Properties();
+
+	static {
+		try {
+			props.load(Utils.class.getClassLoader().getResourceAsStream("message_zh_CN.properties"));
+
+		} catch (IOException e) {
+			logger.error("内部错误", e);
+		}
+
+	}
+
+    public static String Entity2Xml(Object object, String name)
+    {
+        try
+        {
+        	XStream xStream=new XStream();
+        	xStream.alias(name, object.getClass());
+  		    return xStream.toXML(object);
+        }
+        catch (Exception ex) {
+        	return "";
+        }
+    }
+
+    public static String Entitys2JSON(Object obj)
+    {
+    	return JSON.toJSONString(obj);
+    }
+
+    public static String GetRetJSONString(String code){
+    	return GetRetJSONString(code , "" , null);
+    }
+
+    public static String GetRetJSONString(String code ,Object data){
+    	return GetRetJSONString(code , "" , data);
+    }
+
+    public static String GetRetJSONString(String code, String msg ,Object data)
+    {
+    	JSONObject json = new JSONObject();
+    	json.put("code", code);
+    	if(msg == null || msg.length() == 0){
+    		json.put("message", Utils.getMessage(code));
+    	}else{
+    		json.put("message", msg);
+    	}
+
+    	if(data != null ){
+    		json.put("data", data);
+    	}
+
+        return json.toJSONString();
+    }
+
+    public static String Filter(String str, String mode)
+    {
+        mode = mode.toLowerCase();
+
+        if (mode == "html"){
+                str = str.replaceAll("\r\n", "\n");
+                str = str.replaceAll("'", "&#39;");
+                str = str.replaceAll("\"", "&#34;");
+                str = str.replaceAll("<", "&#60;");
+                str = str.replaceAll(">", "&#62;");
+                str = str.replaceAll("\n", "<br />");
+        }else if(mode == "nohtml"){
+                str = str.replaceAll("<[^>]*>", "");
+        }else if(mode == "sql1"){
+                str = str.replaceAll("'", "");
+                str = str.replaceAll(";", "");
+        }else if(mode == "htmltojs"){
+                str = str.replaceAll("\r\n", "\n");
+                str = str.replaceAll("\\", "\\\\");
+                str = str.replaceAll("'", "\\\'");
+                str = str.replaceAll("\"", "\\\"");
+                str = str.replaceAll("/", "\\/");
+                str = str.replaceAll("\n", "<br />");
+                str = str.replaceAll(" ", "&nbsp;");
+        }else{
+                str = str.replaceAll("'", "''");
+                str = str.replaceAll(";", "；");
+        }
+        return str;
+    }
+
+    public static String getMessage(String key){
+    	return props.getProperty(key);
+    }
+}

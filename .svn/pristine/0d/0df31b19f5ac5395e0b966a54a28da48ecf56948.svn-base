@@ -1,0 +1,49 @@
+package com.tynet.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.GhRateDoc;
+import com.tynet.model.GhRateDocExample;
+
+@Repository
+public interface GhRateDocMapper {
+	int countByExample(GhRateDocExample example);
+
+	int deleteByExample(GhRateDocExample example);
+
+	List<GhRateDoc> selectByExample(GhRateDocExample example);
+
+	int updateByExampleSelective(@Param("record") GhRateDoc record, @Param("example") GhRateDocExample example);
+
+	int updateByExample(@Param("record") GhRateDoc record, @Param("example") GhRateDocExample example);
+
+	List<GhRateDoc> selectByExampleAndPage(GhRateDocExample example, RowBounds rowBound);
+
+	int deleteByPrimaryKey(Long id);
+
+	int insert(GhRateDoc record);
+
+	int insertSelective(GhRateDoc record);
+
+	GhRateDoc selectByPrimaryKey(Long id);
+
+	int updateByPrimaryKeySelective(GhRateDoc record);
+
+	int updateByPrimaryKey(GhRateDoc record);
+
+	List<GhRateDoc> queryRateDocList(GhRateDoc record);
+
+	int queryRateDocListCount(GhRateDoc record);
+
+	/**
+	 * 获取该医生评价
+	 * 
+	 * @param docId
+	 * @return
+	 */
+	GhRateDoc selectPingJiaForDoc(@Param("docId") Long docId);
+}

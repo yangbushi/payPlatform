@@ -1,0 +1,64 @@
+package com.herenit.cloud.manager.impl;
+
+import java.lang.reflect.Method;
+
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.base.commons.utils.SpringContextUtil;
+import com.herenit.cloud.bean.RestfulBean;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.exception.FrontendModule;
+import com.herenit.cloud.manager.ExecuteStrategy;
+import com.herenit.cloud.model.AppFunction;
+
+@Service
+public class LocalExecuteStrategy implements ExecuteStrategy {
+
+	@Override
+	public String execute(AppFunction fun, JSONObject args) throws BusException {
+		
+		if (logger.isDebugEnabled()){
+			logger.debug("Start execute local service for function '{}'.",fun.getFuncode());
+		}
+			
+					
+		try {
+			RestfulBean bean = RestfulBean.beanCache.get("@javax.ws.rs.Path(value=" + fun.getFuncode() + ")");
+					
+			if (bean != null) {
+				Object serviceBean = SpringContextUtil.getBean(bean.getBeanName());
+						
+				if (logger.isDebugEnabled()){
+					logger.debug("Found service '{}' method '{}' for function '{}'.",
+							new String[] { bean.getBeanName(),bean.getMethodName(), fun.getFuncode() });
+				}
+				String re = null;
+				if (serviceBean != null) {
+					Method method = serviceBean.getClass().getMethod(bean.getMethodName(),new Class[] { JSONObject.class });
+					String funCode=args.getString("funcode");
+					if ("100808".equals(funCode) || "100601".equals(funCode)|| "100903".equals(funCode)|| "100508".equals(funCode)) {
+						args.getJSONObject("args").put("hosId", args.getString("hosId"));
+					}
+					re = (String) method.invoke(serviceBean,
+									new Object[] { (args.getJSONObject("args") != null) ? args.getJSONObject("args"): new JSONObject() });
+					if (logger.isDebugEnabled()){
+						logger.debug("Invoke local service for function '{}'.",fun.getFuncode());
+					}
+					return re;
+				}
+			}
+			if (logger.isErrorEnabled()){
+				logger.error("No service found for function '{}'.",fun.getFuncode());
+			}
+			throw FrontendModule.FRONTEND_0001;
+		} catch (Exception e) {
+			if (logger.isErrorEnabled())
+				logger.error(
+						"Invoke local service has error for function '{}'.",
+						fun.getFuncode());
+			logger.error(e.getMessage(), e);
+		}
+		throw FrontendModule.FRONTEND_0004;
+	}
+}

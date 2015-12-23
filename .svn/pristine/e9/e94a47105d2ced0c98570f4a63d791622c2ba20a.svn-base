@@ -1,0 +1,55 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class GhCollectHos implements Serializable {
+    private Long id;
+
+    private String patientId;
+
+    private String hosId;
+
+    private Short isDel;
+
+    private String apkName;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
+    public String getHosId() {
+        return hosId;
+    }
+
+    public void setHosId(String hosId) {
+        this.hosId = hosId;
+    }
+
+    public Short getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Short isDel) {
+        this.isDel = isDel;
+    }
+
+    public String getApkName() {
+        return apkName;
+    }
+
+    public void setApkName(String apkName) {
+        this.apkName = apkName;
+    }
+}

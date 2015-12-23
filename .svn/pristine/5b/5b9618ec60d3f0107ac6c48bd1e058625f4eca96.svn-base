@@ -1,0 +1,116 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+public class JzVaccine implements Serializable {
+    private Long vaccineId;
+
+    private String vaccineName;
+
+    private String vaccineSx;
+
+    private String vaccineDisease;
+
+    private String vaccineParts;
+
+    private String vaccineWay;
+
+    private String vaccineCount;
+
+    private String vaccineDose;
+
+    private String vaccineDes;
+
+    private BigDecimal vaccineOrder;
+
+    private String vaccineState;
+
+    public Long getVaccineId() {
+        return vaccineId;
+    }
+
+    public void setVaccineId(Long vaccineId) {
+        this.vaccineId = vaccineId;
+    }
+
+    public String getVaccineName() {
+        return vaccineName;
+    }
+
+    public void setVaccineName(String vaccineName) {
+        this.vaccineName = vaccineName;
+    }
+
+    public String getVaccineSx() {
+        return vaccineSx;
+    }
+
+    public void setVaccineSx(String vaccineSx) {
+        this.vaccineSx = vaccineSx;
+    }
+
+    public String getVaccineDisease() {
+        return vaccineDisease;
+    }
+
+    public void setVaccineDisease(String vaccineDisease) {
+        this.vaccineDisease = vaccineDisease;
+    }
+
+    public String getVaccineParts() {
+        return vaccineParts;
+    }
+
+    public void setVaccineParts(String vaccineParts) {
+        this.vaccineParts = vaccineParts;
+    }
+
+    public String getVaccineWay() {
+        return vaccineWay;
+    }
+
+    public void setVaccineWay(String vaccineWay) {
+        this.vaccineWay = vaccineWay;
+    }
+
+    public String getVaccineCount() {
+        return vaccineCount;
+    }
+
+    public void setVaccineCount(String vaccineCount) {
+        this.vaccineCount = vaccineCount;
+    }
+
+    public String getVaccineDose() {
+        return vaccineDose;
+    }
+
+    public void setVaccineDose(String vaccineDose) {
+        this.vaccineDose = vaccineDose;
+    }
+
+    public String getVaccineDes() {
+        return vaccineDes;
+    }
+
+    public void setVaccineDes(String vaccineDes) {
+        this.vaccineDes = vaccineDes;
+    }
+
+    public BigDecimal getVaccineOrder() {
+        return vaccineOrder;
+    }
+
+    public void setVaccineOrder(BigDecimal vaccineOrder) {
+        this.vaccineOrder = vaccineOrder;
+    }
+
+    public String getVaccineState() {
+        return vaccineState;
+    }
+
+    public void setVaccineState(String vaccineState) {
+        this.vaccineState = vaccineState;
+    }
+}

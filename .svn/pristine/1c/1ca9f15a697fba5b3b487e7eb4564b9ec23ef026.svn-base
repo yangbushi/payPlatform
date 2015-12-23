@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.TFeedBackMapper" >
+	<insert id="insertFeedBack" parameterType="com.tynet.model.FeedBack">
+		insert into t_feedback(id,patient_mobile,patient_email,patient_name,patient_card,feedback_content,czsj,source,version,HOS_PLAT_CODE) 
+		values(SEQ_T_FEEDBACK.nextval,#{patientMobile},#{patientEmail},#{patientName},#{patientCard},#{feedBackContent},sysdate,#{source},#{version},#{hosId})
+	</insert>
+</mapper>

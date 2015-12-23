@@ -1,0 +1,88 @@
+package com.soft.gh.service;
+
+import java.io.IOException;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.soft.gh.util.HttpUtil;
+
+@Service
+public class TransServiceClient implements TransactionService {
+    private static final Logger log = LoggerFactory.getLogger(TransactionService.class);
+
+    public JSONObject registerPatient(Map<String, String> parameters) throws IOException {
+        log.info("进入服务商用户注册接口,参数:[" + parameters + "]");
+        
+        String returnInfo = HttpUtil.doPost(URL, "utf-8", parameters);
+
+        return TransResult.transResult(returnInfo);
+    }
+
+    public JSONObject registerOrder(Map<String, String> parameters) throws IOException {
+        log.info("进入服务商预约接口,参数:[" + parameters + "]");
+        
+        String returnInfo = HttpUtil.doPost(URL, "utf-8", parameters);
+
+        return TransResult.transResult(returnInfo);
+    }
+
+    public JSONObject registerCancel(Map<String, String> parameters) throws IOException {
+        
+        log.info("进入服务商退号接口,参数:[" + parameters + "]");
+        
+        String returnInfo = HttpUtil.doPost(URL, "utf-8", parameters);
+        
+        return TransResult.transResult(returnInfo);
+    }
+
+    public JSONObject registerUpate(Map<String, String> parameters) throws IOException {
+        log.info("进入服务商患者修改接口,参数:[" + parameters + "]");
+        
+        String returnInfo = HttpUtil.doPost(URL, "utf-8", parameters);
+        
+        return TransResult.transResult(returnInfo);
+    }
+    
+    public JSONObject cancelPatient(Map<String,String> parameters) throws IOException {
+        log.info("进入服务商患者注销接口,参数:[" + parameters + "]");
+        
+        String returnInfo = HttpUtil.doPost(URL, "utf-8", parameters);
+        
+        return TransResult.transResult(returnInfo);
+    }
+    
+    public JSONObject PatientCheck(Map<String,String> parameters) throws IOException {
+        log.info("进入服务商患者注销接口,参数:[" + parameters + "]");
+        
+        String returnInfo = HttpUtil.doPost(URL, "utf-8", parameters);
+        
+        return TransResult.transResult(returnInfo);
+    }
+    
+    public JSONObject Idle(Map<String,String> parameters) throws IOException {
+        log.info("进入服务商患者Idle接口,参数:[" + parameters + "]");
+        
+        String returnInfo = HttpUtil.doPost(URL, "utf-8", parameters);
+        
+        return TransResult.transResult(returnInfo);
+    }
+
+	/**
+	 * 
+	 * @param methodName 接口名称（日志使用）
+	 * @param parameters 参数
+	 * @return
+	 * @throws IOException
+	 */
+	public JSONObject toTransService(String methodName, Map<String, String> parameters) throws IOException {
+		log.info("进入服务商" + methodName + "接口,参数:[" + parameters + "]");
+
+		String returnInfo = HttpUtil.doPost(URL, "utf-8", parameters);
+
+		return TransResult.transResult(returnInfo);
+	}
+}

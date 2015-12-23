@@ -1,0 +1,55 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class DzSymMap implements Serializable {
+    private Long symMapId;
+
+    private Long symId;
+
+    private String mapSymName;
+
+    private Long partId;
+
+    private String status;
+
+    public Long getSymMapId() {
+        return symMapId;
+    }
+
+    public void setSymMapId(Long symMapId) {
+        this.symMapId = symMapId;
+    }
+
+    public Long getSymId() {
+        return symId;
+    }
+
+    public void setSymId(Long symId) {
+        this.symId = symId;
+    }
+
+    public String getMapSymName() {
+        return mapSymName;
+    }
+
+    public void setMapSymName(String mapSymName) {
+        this.mapSymName = mapSymName;
+    }
+
+    public Long getPartId() {
+        return partId;
+    }
+
+    public void setPartId(Long partId) {
+        this.partId = partId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}

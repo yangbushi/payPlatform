@@ -1,0 +1,37 @@
+package com.herenit.cloud.util;
+
+public class attrNode
+{
+	private String strKey = null;
+	private String strValue = null;
+	
+	public attrNode()
+	{
+	}
+	
+	public attrNode(String key, String value)
+	{
+		strKey = key;
+		strValue = value;
+	}
+	
+	public String getKey()
+	{
+		return strKey;
+	}
+	
+	public String getValue()
+	{
+		return strValue;
+	}
+	
+	public void setKey(String s)
+	{
+		strKey = s;
+	}
+	
+	public void setValue(String s)
+	{
+		strValue = s;
+	}
+}

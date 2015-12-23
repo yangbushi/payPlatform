@@ -1,0 +1,65 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class SurveyQuestion implements Serializable {
+    private Long qid;
+
+    private String qtitle;
+
+    private String numstr;
+
+    private Short qtype;
+
+    private Long sid;
+    private List<SurveyAnswer> answer;
+
+    public List<SurveyAnswer> getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(List<SurveyAnswer> answer) {
+		this.answer = answer;
+	}
+
+	public Long getQid() {
+        return qid;
+    }
+
+    public void setQid(Long qid) {
+        this.qid = qid;
+    }
+
+    public String getQtitle() {
+        return qtitle;
+    }
+
+    public void setQtitle(String qtitle) {
+        this.qtitle = qtitle;
+    }
+
+    public String getNumstr() {
+        return numstr;
+    }
+
+    public void setNumstr(String numstr) {
+        this.numstr = numstr;
+    }
+
+    public Short getQtype() {
+        return qtype;
+    }
+
+    public void setQtype(Short qtype) {
+        this.qtype = qtype;
+    }
+
+    public Long getSid() {
+        return sid;
+    }
+
+    public void setSid(Long sid) {
+        this.sid = sid;
+    }
+}

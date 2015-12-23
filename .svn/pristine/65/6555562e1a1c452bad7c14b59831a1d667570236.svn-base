@@ -1,0 +1,129 @@
+package com.tynet.action;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.alibaba.fastjson.JSONObject;
+import com.alipay.util.AlipayNotify;
+import com.herenit.cloud.model.AppDeploy;
+import com.herenit.cloud.util.RequestForwarder;
+import com.soft.gh.dao.TOrderMapper;
+import com.soft.gh.dao.TPatientMapper;
+import com.soft.gh.domain.TOrder;
+import com.soft.gh.domain.TPatient;
+import com.tynet.dao.GhHospitalMapper;
+import com.tynet.dao.HosOrderMapper;
+import com.tynet.model.GhHospital;
+import com.tynet.model.HosOrder;
+import com.tynet.util.Utils;
+
+
+@Controller
+@Scope("prototype")
+public class CallbackOfAlipayAction extends BaseAction2 {
+	@Autowired
+	private HosOrderMapper hosOrderDao;
+	
+	private static final long serialVersionUID = -6287879347497083310L;
+	private static Logger log = LoggerFactory.getLogger(CallbackOfAlipayAction.class);
+	private String sign;	//签名
+	private String result;//交易状态
+	private String trade_no;//支付宝交易号
+	private String sign_type;	//签名类型
+	private String out_trade_no;//商户订单号
+	private String request_token;//授权令牌
+	
+	public String callbackOfAlipay() throws Exception{
+			Map<String,String> params = new HashMap<String,String>();
+			params.put("sign", sign);
+			params.put("result", result);
+			params.put("trade_no", trade_no);
+			params.put("sign_type", sign_type);
+			params.put("out_trade_no", out_trade_no);
+			params.put("request_token", request_token);
+			
+			boolean verify_result = AlipayNotify.verifyReturn(params);
+			log.info(verify_result+"###CallbackOfAlipayAction###"+params.toString());
+			if(verify_result){
+				//验证成功
+				String out_trade_no_db=out_trade_no.split("-")[0];
+				HosOrder hosOrder=hosOrderDao.selectByPrimaryKey(Long.valueOf(out_trade_no_db));
+				String before = hosOrder.getOrderStatus();
+				hosOrder.setOrderStatus("0");
+				hosOrder.setTradeNo(trade_no);
+				hosOrder.setPayType("1");
+				hosOrderDao.updateByPrimaryKey(hosOrder);
+				String after = hosOrder.getOrderStatus();
+				log.info(before+"###HosOrder Update###"+after+"###trade_no:"+trade_no);
+				return SUCCESS;
+			}else{
+				//该页面可做页面美工编辑
+				return "failure";
+			}
+		
+	}	
+
+	public HosOrderMapper getHosOrderDao() {
+		return hosOrderDao;
+	}
+
+	public void setHosOrderDao(HosOrderMapper hosOrderDao) {
+		this.hosOrderDao = hosOrderDao;
+	}
+
+	public String getSign() {
+		return sign;
+	}
+
+	public void setSign(String sign) {
+		this.sign = sign;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public String getTrade_no() {
+		return trade_no;
+	}
+
+	public void setTrade_no(String trade_no) {
+		this.trade_no = trade_no;
+	}
+
+	public String getSign_type() {
+		return sign_type;
+	}
+
+	public void setSign_type(String sign_type) {
+		this.sign_type = sign_type;
+	}
+
+	public String getOut_trade_no() {
+		return out_trade_no;
+	}
+
+	public void setOut_trade_no(String out_trade_no) {
+		this.out_trade_no = out_trade_no;
+	}
+
+	public String getRequest_token() {
+		return request_token;
+	}
+
+	public void setRequest_token(String request_token) {
+		this.request_token = request_token;
+	}
+	
+}

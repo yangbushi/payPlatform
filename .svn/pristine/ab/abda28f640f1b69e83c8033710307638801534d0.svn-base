@@ -1,0 +1,130 @@
+package com.herenit.cloud.rules.impl;
+
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.exception.FrontendModule;
+import com.herenit.cloud.rules.Business;
+import com.tynet.dao.GhDeptMapper;
+import com.tynet.dao.GhDocMapper;
+import com.tynet.util.Utils;
+
+/**
+ * 检查信息转化
+ * 
+ * @author Administrator
+ */
+@Service
+public class ExaminBusiness implements Business {
+
+	@Override
+	public void before(JSONObject request) throws BusException {
+		JSONObject args = request.getJSONObject("args");
+		if (args == null) {
+			return;
+		}
+		
+		String patId = args.getString("patId");
+		if (StringUtils.isNotEmpty(patId)) {
+			args.put("patid", patId);
+		}
+		
+		String patName = args.getString("patName");
+		if (StringUtils.isNotEmpty(patName)) {
+			args.put("patname", patName);
+		}
+		
+		String repId = args.getString("repId");
+		if (StringUtils.isNotEmpty(repId)) {
+			args.put("repid", repId);
+		}
+		
+	}
+
+	@Override
+	public void after(final JSONObject request, JSONObject response)
+			throws BusException {
+		String code = response.getString("code");
+		if (CODE.OK.value().equalsIgnoreCase(code)) {
+			JSONObject data = response.getJSONObject("data");
+			if (data == null) {
+				return;
+			}
+			
+			
+			String funcode =request.getString("funcode");
+		
+			
+			if ("100307".equals(funcode)) {
+				JSONArray array = data.getJSONArray("list");
+				if (array != null && array.size()>0) {
+					JSONArray array1 = new JSONArray();
+					for (int i = 0; i < array.size(); i++) {
+						JSONObject obj = array.getJSONObject(i);
+						if (obj == null) {
+							continue;
+						}else {
+							
+								String suggest=obj.getString("suggest");
+								if (StringUtils.isEmpty(suggest)) {
+									obj.put("suggest", "");
+								}
+								
+								String part=obj.getString("part");
+								if (StringUtils.isEmpty(part)) {
+									obj.put("part", "");
+								}
+								String reptime=obj.getString("reptime");
+								if (StringUtils.isNotEmpty(reptime)) {
+									try {
+										Date reptimeDate = Utils.sdf3.parse(reptime);
+										Calendar calendar = Calendar.getInstance();
+										calendar.add(Calendar.DAY_OF_MONTH, -15);
+										if (reptimeDate.after(calendar.getTime())) {
+											array1.add(obj);
+										}
+									} catch (ParseException e) {
+										e.printStackTrace();
+										throw FrontendModule.FRONTEND_0025;
+									}
+								}
+							
+							
+							
+						}
+						
+					}
+					data.remove("list");
+					data.put("list", array1);
+				}
+			}
+			JSONObject scheme = data.getJSONObject("scheme");
+			if (scheme!=null) {
+				if ("100308".equals(funcode)) {
+					String suggest=scheme.getString("suggest");
+					if (StringUtils.isEmpty(suggest)) {
+						scheme.put("suggest", "");
+					}
+					
+					String part=scheme.getString("part");
+					if (StringUtils.isEmpty(part)) {
+						scheme.put("part", "");
+					}
+				}
+			}
+
+		}
+	}
+
+	
+	
+
+}

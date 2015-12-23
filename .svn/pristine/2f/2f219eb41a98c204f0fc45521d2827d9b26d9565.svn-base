@@ -1,0 +1,34 @@
+package com.tynet.dao;
+
+import com.tynet.model.GhTjApp;
+import com.tynet.model.GhTjAppExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface GhTjAppMapper {
+    int countByExample(GhTjAppExample example);
+
+    int deleteByExample(GhTjAppExample example);
+
+    List<GhTjApp> selectByExample(GhTjAppExample example);
+
+    int updateByExampleSelective(@Param("record") GhTjApp record, @Param("example") GhTjAppExample example);
+
+    int updateByExample(@Param("record") GhTjApp record, @Param("example") GhTjAppExample example);
+
+    List<GhTjApp> selectByExampleAndPage(GhTjAppExample example, RowBounds rowBound);
+
+    int deleteByPrimaryKey(Long appId);
+
+    int insert(GhTjApp record);
+
+    int insertSelective(GhTjApp record);
+
+    GhTjApp selectByPrimaryKey(Long appId);
+
+    int updateByPrimaryKeySelective(GhTjApp record);
+
+    int updateByPrimaryKey(GhTjApp record);
+}

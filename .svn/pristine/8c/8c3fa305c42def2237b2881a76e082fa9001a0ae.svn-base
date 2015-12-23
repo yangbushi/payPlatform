@@ -1,0 +1,26 @@
+package com.soft.gh.util;
+
+public class ConfigConst {
+
+    public static final int CONNECCT_TIMEOUT = Integer.parseInt(ConfigUtil.getInstance().getString("connectTimeOut"));
+
+    public static final int READ_TIMEOUT = Integer.parseInt(ConfigUtil.getInstance().getString("readTimeOut"));
+
+    public static final String HTTP_URL = ConfigUtil.getInstance().getString("httpUrl");
+
+    public static final String SERVICE_URL = ConfigUtil.getInstance().getString("serviceUrl");
+
+    public static final String USERNAME = ConfigUtil.getInstance().getString("username");
+
+    public static final String PASSWORD = ConfigUtil.getInstance().getString("password");
+
+	public static final String CSS_URL = ConfigUtil.getInstance().getString("cssUrl");
+
+	public static final String UNDER_URL = ConfigUtil.getInstance().getString("underUrl");
+
+	public static final String HEAD_URL = ConfigUtil.getInstance().getString("headUrl");
+	
+	public static final String G_HEAD_URL = ConfigUtil.getInstance().getString("3gHeadUrl");
+	
+	public static final String G_UNDER_URL = ConfigUtil.getInstance().getString("3gUnderUrl");
+}

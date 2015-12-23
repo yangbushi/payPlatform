@@ -1,0 +1,243 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+public class GhHospital implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String hosCode;
+
+	private String hosName;
+
+	private String aliasName;
+
+	private String hosType;
+
+	private String hosLevel;
+
+	private String tcm;
+
+	private String tel;
+
+	private String addres;
+
+	private String url;
+
+	private String platCode;
+
+	private String intro;
+
+	private Integer bookCount;
+
+	private String weibo;
+
+	private String weixin;
+
+	private BigDecimal gisLng;
+
+	private BigDecimal gisLat;
+
+	private String schTime;
+
+	private String areaId;
+
+	private Integer showNo;
+
+	private String hosState;
+
+	private String pyCode;
+
+	private String scan;
+	/**
+	 * 是否收藏
+	 */
+	private boolean isCollect = false;
+
+	public String getPyCode() {
+		return pyCode;
+	}
+
+	public void setPyCode(String pyCode) {
+		this.pyCode = pyCode;
+	}
+
+	public String getHosCode() {
+		return hosCode;
+	}
+
+	public void setHosCode(String hosCode) {
+		this.hosCode = hosCode;
+	}
+
+	public String getHosName() {
+		return hosName;
+	}
+
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+
+	public String getAliasName() {
+		return aliasName;
+	}
+
+	public void setAliasName(String aliasName) {
+		this.aliasName = aliasName;
+	}
+
+	public String getHosType() {
+		return hosType;
+	}
+
+	public void setHosType(String hosType) {
+		this.hosType = hosType;
+	}
+
+	public String getHosLevel() {
+		return hosLevel;
+	}
+
+	public void setHosLevel(String hosLevel) {
+		this.hosLevel = hosLevel;
+	}
+
+	public String getTcm() {
+		return tcm;
+	}
+
+	public void setTcm(String tcm) {
+		this.tcm = tcm;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getAddres() {
+		return addres;
+	}
+
+	public void setAddres(String addres) {
+		this.addres = addres;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getPlatCode() {
+		return platCode;
+	}
+
+	public void setPlatCode(String platCode) {
+		this.platCode = platCode;
+	}
+
+	public String getIntro() {
+		return intro;
+	}
+
+	public void setIntro(String intro) {
+		this.intro = intro;
+	}
+
+	public Integer getBookCount() {
+		return bookCount;
+	}
+
+	public void setBookCount(Integer bookCount) {
+		this.bookCount = bookCount;
+	}
+
+	public String getWeibo() {
+		return weibo;
+	}
+
+	public void setWeibo(String weibo) {
+		this.weibo = weibo;
+	}
+
+	public String getWeixin() {
+		return weixin;
+	}
+
+	public void setWeixin(String weixin) {
+		this.weixin = weixin;
+	}
+
+	public BigDecimal getGisLng() {
+		return gisLng;
+	}
+
+	public void setGisLng(BigDecimal gisLng) {
+		this.gisLng = gisLng;
+	}
+
+	public BigDecimal getGisLat() {
+		return gisLat;
+	}
+
+	public void setGisLat(BigDecimal gisLat) {
+		this.gisLat = gisLat;
+	}
+
+	public String getSchTime() {
+		return schTime;
+	}
+
+	public void setSchTime(String schTime) {
+		this.schTime = schTime;
+	}
+
+	public String getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
+
+	public Integer getShowNo() {
+		return showNo;
+	}
+
+	public void setShowNo(Integer showNo) {
+		this.showNo = showNo;
+	}
+
+	public String getHosState() {
+		return hosState;
+	}
+
+	public void setHosState(String hosState) {
+		this.hosState = hosState;
+	}
+
+	public String getScan() {
+		return scan;
+	}
+
+	public void setScan(String scan) {
+		this.scan = scan;
+	}
+
+	public boolean isCollect() {
+		return isCollect;
+	}
+
+	public void setCollect(boolean isCollect) {
+		this.isCollect = isCollect;
+	}
+}

@@ -1,0 +1,19 @@
+package com.herenit.cloud.manager.impl;
+
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.manager.ExecuteStrategy;
+import com.herenit.cloud.model.AppFunction;
+
+@Service
+public class LocalExecuteStrategy implements ExecuteStrategy {
+
+	@Override
+	public String execute(AppFunction fun, JSONObject args) throws BusException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}

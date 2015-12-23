@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.SysDictMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.SysDict" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LABEL" property="label" jdbcType="VARCHAR" />
+    <result column="VALUE" property="value" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="DESCIPTION" property="desciption" jdbcType="VARCHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="DEL_FLAG" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, "LABEL", "VALUE", "TYPE", DESCIPTION, SORT, DEL_FLAG
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.SysDictExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from YYGH.SYS_DICT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.SysDictExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from YYGH.SYS_DICT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.SysDictExample" >
+    delete from YYGH.SYS_DICT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.SysDictExample" resultType="java.lang.Integer" >
+    select count(*) from YYGH.SYS_DICT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update YYGH.SYS_DICT
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.label != null" >
+        "LABEL" = #{record.label,jdbcType=VARCHAR},
+      </if>
+      <if test="record.value != null" >
+        "VALUE" = #{record.value,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        "TYPE" = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.desciption != null" >
+        DESCIPTION = #{record.desciption,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null" >
+        SORT = #{record.sort,jdbcType=DECIMAL},
+      </if>
+      <if test="record.delFlag != null" >
+        DEL_FLAG = #{record.delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update YYGH.SYS_DICT
+    set ID = #{record.id,jdbcType=DECIMAL},
+      "LABEL" = #{record.label,jdbcType=VARCHAR},
+      "VALUE" = #{record.value,jdbcType=VARCHAR},
+      "TYPE" = #{record.type,jdbcType=VARCHAR},
+      DESCIPTION = #{record.desciption,jdbcType=VARCHAR},
+      SORT = #{record.sort,jdbcType=DECIMAL},
+      DEL_FLAG = #{record.delFlag,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from YYGH.SYS_DICT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from YYGH.SYS_DICT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.SysDict" >
+    insert into YYGH.SYS_DICT (ID, "LABEL", "VALUE", 
+      "TYPE", DESCIPTION, SORT, 
+      DEL_FLAG)
+    values (#{id,jdbcType=DECIMAL}, #{label,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{desciption,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.SysDict" >
+    insert into YYGH.SYS_DICT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      "LABEL",
+      "VALUE",
+      "TYPE",
+      DESCIPTION,
+      SORT,
+      DEL_FLAG,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      #{label,jdbcType=VARCHAR},
+      #{value,jdbcType=VARCHAR},
+      #{type,jdbcType=VARCHAR},
+      #{desciption,jdbcType=VARCHAR},
+      #{sort,jdbcType=DECIMAL},
+      #{delFlag,jdbcType=CHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.SysDict" >
+    update YYGH.SYS_DICT
+    <set >
+      <if test="label != null" >
+        "LABEL" = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        "VALUE" = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        "TYPE" = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="desciption != null" >
+        DESCIPTION = #{desciption,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="delFlag != null" >
+        DEL_FLAG = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.SysDict" >
+    update YYGH.SYS_DICT
+    set "LABEL" = #{label,jdbcType=VARCHAR},
+      "VALUE" = #{value,jdbcType=VARCHAR},
+      "TYPE" = #{type,jdbcType=VARCHAR},
+      DESCIPTION = #{desciption,jdbcType=VARCHAR},
+      SORT = #{sort,jdbcType=DECIMAL},
+      DEL_FLAG = #{delFlag,jdbcType=CHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="selectLableByValue" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from YYGH.SYS_DICT
+    where VALUE = #{value,jdbcType=VARCHAR} and TYPE = 'card_type'
+  </select>
+</mapper>

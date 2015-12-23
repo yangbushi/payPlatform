@@ -1,0 +1,86 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+public class JzVaccinePlan implements Serializable {
+    private BigDecimal planId;
+
+    private BigDecimal vaccineId;
+
+    private String times;
+
+    private String age;
+
+    private String status;
+    
+    private String ageZhCh;
+    
+    private String vaccineName;
+    
+    private String vaccineDisease;
+
+    public String getVaccineDisease() {
+		return vaccineDisease;
+	}
+
+	public void setVaccineDisease(String vaccineDisease) {
+		this.vaccineDisease = vaccineDisease;
+	}
+
+	public String getAgeZhCh() {
+		return ageZhCh;
+	}
+
+	public void setAgeZhCh(String ageZhCh) {
+		this.ageZhCh = ageZhCh;
+	}
+
+	public String getVaccineName() {
+		return vaccineName;
+	}
+
+	public void setVaccineName(String vaccineName) {
+		this.vaccineName = vaccineName;
+	}
+
+	public BigDecimal getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(BigDecimal planId) {
+        this.planId = planId;
+    }
+
+    public BigDecimal getVaccineId() {
+        return vaccineId;
+    }
+
+    public void setVaccineId(BigDecimal vaccineId) {
+        this.vaccineId = vaccineId;
+    }
+
+    public String getTimes() {
+        return times;
+    }
+
+    public void setTimes(String times) {
+        this.times = times;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}

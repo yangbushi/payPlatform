@@ -1,0 +1,38 @@
+package com.tynet.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+
+import com.tynet.model.CmsContent;
+import com.tynet.model.CmsContentExample;
+@Repository
+public interface CmsContentMapper {
+    int countByExample(CmsContentExample example);
+
+    int deleteByExample(CmsContentExample example);
+
+    List<CmsContent> selectByExampleWithBLOBs(CmsContentExample example);
+
+    List<CmsContent> selectByExample(CmsContentExample example);
+
+    int updateByExampleSelective(@Param("record") CmsContent record, @Param("example") CmsContentExample example);
+
+    int updateByExampleWithBLOBs(@Param("record") CmsContent record, @Param("example") CmsContentExample example);
+
+    int updateByExample(@Param("record") CmsContent record, @Param("example") CmsContentExample example);
+
+    List<CmsContent> selectByExampleWithBLOBsAndPage(CmsContentExample example, RowBounds rowBound);
+
+    List<CmsContent> selectByExampleAndPage(CmsContentExample example, RowBounds rowBound);
+
+    int insert(CmsContent record);
+
+    int insertSelective(CmsContent record);
+
+	CmsContent selectById(long id);
+
+	void updateById(CmsContent record);
+}

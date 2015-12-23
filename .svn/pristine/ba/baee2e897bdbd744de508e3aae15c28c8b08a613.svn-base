@@ -1,0 +1,55 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class DzSymDept implements Serializable {
+    private Long symDeptId;
+
+    private Long symId;
+
+    private Long symMapId;
+
+    private String gbDeptId;
+
+    private String status;
+
+    public Long getSymDeptId() {
+        return symDeptId;
+    }
+
+    public void setSymDeptId(Long symDeptId) {
+        this.symDeptId = symDeptId;
+    }
+
+    public Long getSymId() {
+        return symId;
+    }
+
+    public void setSymId(Long symId) {
+        this.symId = symId;
+    }
+
+    public Long getSymMapId() {
+        return symMapId;
+    }
+
+    public void setSymMapId(Long symMapId) {
+        this.symMapId = symMapId;
+    }
+
+    public String getGbDeptId() {
+        return gbDeptId;
+    }
+
+    public void setGbDeptId(String gbDeptId) {
+        this.gbDeptId = gbDeptId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}

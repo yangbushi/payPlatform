@@ -1,0 +1,162 @@
+package com.herenit.cloud.rules.impl;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.herenit.cloud.Constant.CODE;
+import com.herenit.cloud.exception.BusException;
+import com.herenit.cloud.rules.Business;
+import com.herenit.cloud.util.DataCache;
+import com.tynet.dao.GhDeptMapper;
+import com.tynet.dao.GhDocMapper;
+import com.tynet.model.GhDept;
+import com.tynet.model.GhDoc;
+
+/**
+ * 排班信息转化
+ * 
+ * @author Administrator
+ */
+@Service
+public class ExpertSchemeBusiness implements Business {
+	public static Logger logger = LoggerFactory.getLogger("logfile");
+	@Autowired
+	private GhDeptMapper ghDeptDao;
+	@Autowired
+	private GhDocMapper ghDocDao;
+
+	@Override
+	public void before(JSONObject request) throws BusException {
+		
+	}
+
+	@Override
+	public void after(final JSONObject request, JSONObject response)
+			throws BusException {
+		String code = response.getString("code");
+		if (CODE.OK.value().equalsIgnoreCase(code)) {
+			JSONObject data = response.getJSONObject("data");
+			if (data == null) {
+				return;
+			}
+			String hosId = request.getString("hosId");
+			JSONArray array = data.getJSONArray("list");
+			
+			if (array != null && array.size()>0) {
+				for (int i = 0; i < array.size(); i++) {
+					JSONObject obj = array.getJSONObject(i);
+					if (obj == null) {
+						continue;
+					} else {
+						JSONArray list1=obj.getJSONArray("list");
+						if (list1!=null && list1.size()>0) {
+							for (int j = 0; j < list1.size(); j++) {
+								JSONObject obj1=list1.getJSONObject(j);
+								if (obj1==null) {
+									continue;
+								} else {
+									JSONArray list2=obj1.getJSONArray("list");
+									if (list2!=null && list2.size()>0) {
+										for (int k = 0; k < list2.size(); k++) {
+											JSONObject obj2=list2.getJSONObject(k);
+											if (obj2==null) {
+												continue;
+											} else {
+												String deptId2 =obj2.getString("deptid");
+												String docId2 = obj2.getString("docid");
+												GhDept dept2 = null;
+												
+												if (StringUtils.isNotEmpty(deptId2)) {
+													if (DataCache.depts==null) {
+														DataCache.depts=new HashMap<String, GhDept>(100);
+														List<GhDept>list=ghDeptDao.selectByExample(null);
+														if (list!=null && list.size()>0) {
+															for (GhDept ghDept : list) {
+																DataCache.depts.put(ghDept.getHosId()+ghDept.getPlatDeptId(), ghDept);
+															}
+														}
+													}
+													dept2 = DataCache.depts.get(hosId+deptId2);
+													if (dept2 != null) {
+														obj2.put("deptid", dept2.getDeptId());
+													}else {
+														dept2 = ghDeptDao.selectByPlatDeptId(deptId2, hosId);
+														if (dept2!=null) {
+															DataCache.depts.put(hosId+deptId2, dept2);
+															obj2.put("deptid", dept2.getDeptId());
+														} 
+													}
+												}else {
+													obj2.put("deptid", "");
+												}
+												
+												
+												GhDoc doc2 = null;
+												if (DataCache.titleMap == null) {
+													DataCache.initTitleMap();
+												}
+												if (StringUtils.isNotEmpty(docId2)) {
+													if (DataCache.docs==null) {
+														DataCache.docs=new HashMap<String, GhDoc>(100);
+														List<GhDoc>list=ghDocDao.selectByExample(null);
+														if (list!=null && list.size()>0) {
+															for (GhDoc ghDoc : list) {
+																DataCache.docs.put(ghDoc.getHosId()+ghDoc.getPlatDocId(), ghDoc);
+															}
+														}
+													}
+													doc2 =DataCache.docs.get(hosId+docId2);
+													if (doc2 != null) {
+														obj2.put("docid", doc2.getDocId());
+														obj2.put("docgood", doc2.getGoodat());
+														if (DataCache.titleMap.get(doc2.getDocTitle()) != null) {
+															obj2.put("title",DataCache.titleMap.get(doc2.getDocTitle()));
+														}
+													} else {
+														doc2 = ghDocDao.selectByPlatDocId(docId2, hosId);
+														if(doc2 != null){
+															DataCache.docs.put(hosId+docId2, doc2);
+															obj2.put("docid", doc2.getDocId());
+															obj2.put("docgood", doc2.getGoodat());
+														}else {
+															obj2.put("docid", docId2);
+															obj2.put("docgood", "");
+														}
+														
+													}
+												} else {
+													obj2.put("docid", "");
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						
+
+					}
+
+				}
+			}
+				
+			
+			
+
+		}
+	}
+
+	
+	
+	
+
+}

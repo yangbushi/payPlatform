@@ -1,0 +1,28 @@
+package com.tynet.dao;
+
+import com.tynet.model.GhPatient;
+import com.tynet.model.GhPatientExample;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface GhPatientMapper {
+    int countByExample(GhPatientExample example);
+
+    int deleteByExample(GhPatientExample example);
+
+    List<GhPatient> selectByExample(GhPatientExample example);
+
+    int updateByExampleSelective(@Param("record") GhPatient record, @Param("example") GhPatientExample example);
+
+    int updateByExample(@Param("record") GhPatient record, @Param("example") GhPatientExample example);
+
+    List<GhPatient> selectByExampleAndPage(GhPatientExample example, RowBounds rowBound);
+
+    int insert(GhPatient record);
+
+    int insertSelective(GhPatient record);
+}

@@ -1,0 +1,35 @@
+package com.defray.dao;
+
+
+
+import java.util.List;
+import java.util.Map;
+import java.lang.Integer;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.defray.bean.DefrayRefundRecordEntity;
+
+
+ 
+@Repository
+public interface DefrayRefundRecordMapper {
+
+	 
+	public Integer insert(DefrayRefundRecordEntity defrayRefundRecord);
+	public Integer update(DefrayRefundRecordEntity defrayRefundRecord);
+	
+	public Integer deleteByKey(@Param("key")Integer key);
+	public DefrayRefundRecordEntity getByKey (@Param("key") Integer key);
+	
+	public Integer deleteByKey(@Param("key")String key);
+	public DefrayRefundRecordEntity getByKey (@Param("key") String key);
+	
+	
+	public List<DefrayRefundRecordEntity>  findEntitys(@Param("param")Map<String ,Object>  param);
+	public Integer getEntitysCount(@Param("param")Map<String ,Object>  param);
+		
+		
+ 
+}

@@ -1,0 +1,36 @@
+package com.soft.gh.domain;
+
+import java.io.Serializable;
+
+public class GhCount implements Serializable {
+    private String channel;
+
+    public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+
+	private String count;
+    
+    private String dayCount;
+
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
+	public String getDayCount() {
+		return dayCount;
+	}
+
+	public void setDayCount(String dayCount) {
+		this.dayCount = dayCount;
+	}
+
+}

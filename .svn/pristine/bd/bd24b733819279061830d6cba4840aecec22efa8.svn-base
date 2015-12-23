@@ -1,0 +1,65 @@
+package com.soft.gh.domain;
+
+public class TBillBoard {
+
+
+    private String hospitalId;
+
+    private String hospitalName;
+
+    private String deptName;
+    
+    private String docName;
+    
+    private String count;
+    
+    private String rowNum;
+
+	public String getHospitalId() {
+		return hospitalId;
+	}
+
+	public void setHospitalId(String hospitalId) {
+		this.hospitalId = hospitalId;
+	}
+
+	public String getHospitalName() {
+		return hospitalName;
+	}
+
+	public void setHospitalName(String hospitalName) {
+		this.hospitalName = hospitalName;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getDocName() {
+		return docName;
+	}
+
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
+	public String getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(String rowNum) {
+		this.rowNum = rowNum;
+	}
+}

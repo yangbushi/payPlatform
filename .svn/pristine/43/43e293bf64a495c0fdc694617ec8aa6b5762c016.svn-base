@@ -1,0 +1,11 @@
+package com.soft.gh.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.soft.gh.domain.TSms;
+
+@Repository
+public interface TSmsMapper {
+
+	int insert(TSms sms);
+}

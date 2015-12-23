@@ -1,0 +1,104 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+import com.tynet.model.GhDoc;
+
+public class DocForm extends GhDoc implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String platHosCode;
+	
+	private String platDeptCode;
+	
+	private String deptName;
+	
+	private String hosName;
+	
+	private Integer deptId;
+	
+	private String titleName;
+	
+	private String rateDoctor;
+	
+	private Integer platHosId;
+	
+	private Long collectId;
+
+
+	public Integer getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
+	}
+
+	public Long getCollectId() {
+		return collectId;
+	}
+
+	public void setCollectId(Long collectId) {
+		this.collectId = collectId;
+	}
+
+	public Integer getPlatHosId() {
+		return platHosId;
+	}
+
+	public void setPlatHosId(Integer platHosId) {
+		this.platHosId = platHosId;
+	}
+
+	public String getRateDoctor() {
+		return rateDoctor;
+	}
+
+	public void setRateDoctor(String rateDoctor) {
+		this.rateDoctor = rateDoctor;
+	}
+
+	public String getTitleName() {
+		return titleName;
+	}
+
+	public void setTitleName(String titleName) {
+		this.titleName = titleName;
+	}
+
+	public String getPlatHosCode() {
+		return platHosCode;
+	}
+
+	public void setPlatHosCode(String platHosCode) {
+		this.platHosCode = platHosCode;
+	}
+
+	public String getPlatDeptCode() {
+		return platDeptCode;
+	}
+
+	public void setPlatDeptCode(String platDeptCode) {
+		this.platDeptCode = platDeptCode;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getHosName() {
+		return hosName;
+	}
+
+	public void setHosName(String hosName) {
+		this.hosName = hosName;
+	}
+	
+}

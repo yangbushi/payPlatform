@@ -1,0 +1,43 @@
+package com.herenit.cloud.model;
+
+import java.io.Serializable;
+
+public class AppFunction implements Serializable {
+	private static final long serialVersionUID = 1214442210427027727L;
+	private String funcode;
+	private String funname;
+	private String description;
+	private String implType;
+
+	public String getFuncode() {
+		return funcode;
+	}
+
+	public void setFuncode(String funcode) {
+		this.funcode = funcode == null ? null : funcode.trim();
+	}
+
+	public String getFunname() {
+		return funname;
+	}
+
+	public void setFunname(String funname) {
+		this.funname = funname == null ? null : funname.trim();
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description == null ? null : description.trim();
+	}
+
+	public String getImplType() {
+		return implType;
+	}
+
+	public void setImplType(String implType) {
+		this.implType = implType == null ? null : implType.trim();
+	}
+}

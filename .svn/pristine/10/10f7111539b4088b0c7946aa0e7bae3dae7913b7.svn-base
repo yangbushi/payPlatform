@@ -1,0 +1,35 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class JzPatientChild implements Serializable {
+    private Long patientId;
+
+    private String childId;
+
+    private String childBirth;
+
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
+
+    public String getChildId() {
+        return childId;
+    }
+
+    public void setChildId(String childId) {
+        this.childId = childId;
+    }
+
+    public String getChildBirth() {
+        return childBirth;
+    }
+
+    public void setChildBirth(String childBirth) {
+        this.childBirth = childBirth;
+    }
+}

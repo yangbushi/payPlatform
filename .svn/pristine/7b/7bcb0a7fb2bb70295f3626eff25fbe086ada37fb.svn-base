@@ -1,0 +1,55 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+
+public class SurveyResult implements Serializable {
+    private Long scoreId;
+
+    private Long sId;
+
+    private Integer scoreMin;
+
+    private Integer scoreMax;
+
+    private String scoreResult;
+
+    public Long getScoreId() {
+        return scoreId;
+    }
+
+    public void setScoreId(Long scoreId) {
+        this.scoreId = scoreId;
+    }
+
+    public Long getsId() {
+        return sId;
+    }
+
+    public void setsId(Long sId) {
+        this.sId = sId;
+    }
+
+    public Integer getScoreMin() {
+        return scoreMin;
+    }
+
+    public void setScoreMin(Integer scoreMin) {
+        this.scoreMin = scoreMin;
+    }
+
+    public Integer getScoreMax() {
+        return scoreMax;
+    }
+
+    public void setScoreMax(Integer scoreMax) {
+        this.scoreMax = scoreMax;
+    }
+
+    public String getScoreResult() {
+        return scoreResult;
+    }
+
+    public void setScoreResult(String scoreResult) {
+        this.scoreResult = scoreResult;
+    }
+}

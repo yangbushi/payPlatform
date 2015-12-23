@@ -1,0 +1,110 @@
+package com.tynet.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class TBulletin implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private Long bulletinId;
+
+	private String bulletinTitle;
+
+	private String bulletinContent;
+
+	private String bulletinSource;
+
+	private String bulletinImg;
+
+	private Date bulletinDate;
+
+	private Long collectId;
+
+	private int place;
+
+	private String hosId;
+
+	private String typeId;
+
+	public int getPlace() {
+		return place;
+	}
+
+	public void setPlace(int place) {
+		this.place = place;
+	}
+
+	public Long getCollectId() {
+		return collectId;
+	}
+
+	public void setCollectId(Long collectId) {
+		this.collectId = collectId;
+	}
+
+	public Long getBulletinId() {
+		return bulletinId;
+	}
+
+	public void setBulletinId(Long bulletinId) {
+		this.bulletinId = bulletinId;
+	}
+
+	public String getBulletinTitle() {
+		return bulletinTitle;
+	}
+
+	public void setBulletinTitle(String bulletinTitle) {
+		this.bulletinTitle = bulletinTitle;
+	}
+
+	public String getBulletinContent() {
+		return bulletinContent;
+	}
+
+	public void setBulletinContent(String bulletinContent) {
+		this.bulletinContent = bulletinContent;
+	}
+
+	public String getBulletinSource() {
+		return bulletinSource;
+	}
+
+	public void setBulletinSource(String bulletinSource) {
+		this.bulletinSource = bulletinSource;
+	}
+
+	public String getBulletinImg() {
+		return bulletinImg;
+	}
+
+	public void setBulletinImg(String bulletinImg) {
+		this.bulletinImg = bulletinImg;
+	}
+
+	public Date getBulletinDate() {
+		return bulletinDate;
+	}
+
+	public void setBulletinDate(Date bulletinDate) {
+		this.bulletinDate = bulletinDate;
+	}
+
+	public String getHosId() {
+		return hosId;
+	}
+
+	public void setHosId(String hosId) {
+		this.hosId = hosId;
+	}
+
+	public String getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(String typeId) {
+		this.typeId = typeId;
+	}
+
+}

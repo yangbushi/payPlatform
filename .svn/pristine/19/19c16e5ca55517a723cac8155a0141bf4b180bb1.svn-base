@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.tynet.dao.GhMycollectMapper" >
+  <resultMap id="BaseResultMap" type="com.tynet.model.GhMycollect" >
+    <id column="COLLECT_ID" property="collectId" jdbcType="DECIMAL" />
+    <result column="COLLECT_TYPE" property="collectType" jdbcType="VARCHAR" />
+    <result column="COLLECT_CONTENT" property="collectContent" jdbcType="VARCHAR" />
+    <result column="COLLECT_PATIENT" property="collectPatient" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="COUNT" property="collectCount" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    COLLECT_ID, COLLECT_TYPE, COLLECT_CONTENT, COLLECT_PATIENT, DEPT_ID
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tynet.model.GhMycollectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GH_MYCOLLECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.tynet.model.GhMycollectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GH_MYCOLLECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tynet.model.GhMycollectExample" >
+    delete from GH_MYCOLLECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.tynet.model.GhMycollectExample" resultType="java.lang.Integer" >
+    select count(*) from GH_MYCOLLECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update GH_MYCOLLECT
+    <set >
+      <if test="record.collectId != null" >
+        COLLECT_ID = #{record.collectId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.collectType != null" >
+        COLLECT_TYPE = #{record.collectType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collectContent != null" >
+        COLLECT_CONTENT = #{record.collectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collectPatient != null" >
+        COLLECT_PATIENT = #{record.collectPatient,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deptId != null" >
+        DEPT_ID = #{record.deptId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update GH_MYCOLLECT
+    set COLLECT_ID = #{record.collectId,jdbcType=DECIMAL},
+      COLLECT_TYPE = #{record.collectType,jdbcType=VARCHAR},
+      COLLECT_CONTENT = #{record.collectContent,jdbcType=VARCHAR},
+      COLLECT_PATIENT = #{record.collectPatient,jdbcType=VARCHAR},
+      DEPT_ID = #{record.deptId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from GH_MYCOLLECT
+    where COLLECT_ID = #{collectId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from GH_MYCOLLECT
+    where COLLECT_ID = #{collectId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tynet.model.GhMycollect" >
+    insert into GH_MYCOLLECT (COLLECT_ID, COLLECT_TYPE, COLLECT_CONTENT, 
+      COLLECT_PATIENT, DEPT_ID)
+    values (#{collectId,jdbcType=DECIMAL}, #{collectType,jdbcType=VARCHAR}, #{collectContent,jdbcType=VARCHAR}, 
+      #{collectPatient,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tynet.model.GhMycollect" >
+    insert into GH_MYCOLLECT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      COLLECT_ID,
+      COLLECT_TYPE,
+      COLLECT_CONTENT,
+      COLLECT_PATIENT,
+      DEPT_ID,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      collect_seq.nextval,
+      #{collectType,jdbcType=VARCHAR},
+      #{collectContent,jdbcType=VARCHAR},
+      #{collectPatient,jdbcType=VARCHAR},
+      #{deptId,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tynet.model.GhMycollect" >
+    update GH_MYCOLLECT
+    <set >
+      <if test="collectType != null" >
+        COLLECT_TYPE = #{collectType,jdbcType=VARCHAR},
+      </if>
+      <if test="collectContent != null" >
+        COLLECT_CONTENT = #{collectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="collectPatient != null" >
+        COLLECT_PATIENT = #{collectPatient,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COLLECT_ID = #{collectId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tynet.model.GhMycollect" >
+    update GH_MYCOLLECT
+    set COLLECT_TYPE = #{collectType,jdbcType=VARCHAR},
+      COLLECT_CONTENT = #{collectContent,jdbcType=VARCHAR},
+      COLLECT_PATIENT = #{collectPatient,jdbcType=VARCHAR},
+      DEPT_ID = #{deptId,jdbcType=VARCHAR}
+    where COLLECT_ID = #{collectId,jdbcType=DECIMAL}
+  </update>
+    <select id="myCollectCount" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select collect_type,count(collect_type) count from gh_mycollect where collect_patient=#{patientId} group by collect_type
+  </select>
+    <select id="myDocCollectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+       select count(1) from (select collect_type,collect_content from gh_mycollect where collect_patient=#{patientId} and collect_type=2) t left join gh_dept_doc gd on t.collect_content=gd.doc_id  
+  </select>
+  
+    <select id="myCollectDocCount" resultType="java.lang.Integer">
+         select  count(collect_content) from (select distinct collect_content from gh_mycollect where collect_type=#{type} and collect_patient=#{patientId}) t left join gh_doc gd on t.collect_content=gd.doc_id
+ where hos_id in 
+ <foreach item="item" index="index" collection="hosId" open="(" separator="," close=")">
+    #{item}
+ </foreach> 
+    </select>
+</mapper>

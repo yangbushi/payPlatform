@@ -1,0 +1,668 @@
+package com.tynet.model;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+public class GhRateHosExample {
+    protected String pk_name = "ID";
+
+    protected String orderByClause;
+
+    protected boolean distinct;
+
+    protected List<Criteria> oredCriteria;
+
+    public GhRateHosExample() {
+        oredCriteria = new ArrayList<Criteria>();
+    }
+
+    public void setPk_name(String pk_name) {
+        this.pk_name = pk_name;
+    }
+
+    public String getPk_name() {
+        return pk_name;
+    }
+
+    public void setOrderByClause(String orderByClause) {
+        this.orderByClause = orderByClause;
+    }
+
+    public String getOrderByClause() {
+        return orderByClause;
+    }
+
+    public void setDistinct(boolean distinct) {
+        this.distinct = distinct;
+    }
+
+    public boolean isDistinct() {
+        return distinct;
+    }
+
+    public List<Criteria> getOredCriteria() {
+        return oredCriteria;
+    }
+
+    public void or(Criteria criteria) {
+        oredCriteria.add(criteria);
+    }
+
+    public Criteria or() {
+        Criteria criteria = createCriteriaInternal();
+        oredCriteria.add(criteria);
+        return criteria;
+    }
+
+    public Criteria createCriteria() {
+        Criteria criteria = createCriteriaInternal();
+        if (oredCriteria.size() == 0) {
+            oredCriteria.add(criteria);
+        }
+        return criteria;
+    }
+
+    protected Criteria createCriteriaInternal() {
+        Criteria criteria = new Criteria();
+        return criteria;
+    }
+
+    public void clear() {
+        oredCriteria.clear();
+        orderByClause = null;
+        distinct = false;
+    }
+
+    protected abstract static class GeneratedCriteria {
+        protected List<Criterion> criteria;
+
+        protected GeneratedCriteria() {
+            super();
+            criteria = new ArrayList<Criterion>();
+        }
+
+        public boolean isValid() {
+            return criteria.size() > 0;
+        }
+
+        public List<Criterion> getAllCriteria() {
+            return criteria;
+        }
+
+        public List<Criterion> getCriteria() {
+            return criteria;
+        }
+
+        protected void addCriterion(String condition) {
+            if (condition == null) {
+                throw new RuntimeException("Value for condition cannot be null");
+            }
+            criteria.add(new Criterion(condition));
+        }
+
+        protected void addCriterion(String condition, Object value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            criteria.add(new Criterion(condition, value));
+        }
+
+        protected void addCriterion(String condition, Object value1, Object value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
+        }
+
+        public Criteria andIdIsNull() {
+            addCriterion("ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdIsNotNull() {
+            addCriterion("ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdEqualTo(Long value) {
+            addCriterion("ID =", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotEqualTo(Long value) {
+            addCriterion("ID <>", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdGreaterThan(Long value) {
+            addCriterion("ID >", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("ID >=", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdLessThan(Long value) {
+            addCriterion("ID <", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdLessThanOrEqualTo(Long value) {
+            addCriterion("ID <=", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdIn(List<Long> values) {
+            addCriterion("ID in", values, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotIn(List<Long> values) {
+            addCriterion("ID not in", values, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdBetween(Long value1, Long value2) {
+            addCriterion("ID between", value1, value2, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotBetween(Long value1, Long value2) {
+            addCriterion("ID not between", value1, value2, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdIsNull() {
+            addCriterion("PATIENT_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdIsNotNull() {
+            addCriterion("PATIENT_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdEqualTo(Long value) {
+            addCriterion("PATIENT_ID =", value, "patientId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdNotEqualTo(Long value) {
+            addCriterion("PATIENT_ID <>", value, "patientId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdGreaterThan(Long value) {
+            addCriterion("PATIENT_ID >", value, "patientId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("PATIENT_ID >=", value, "patientId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdLessThan(Long value) {
+            addCriterion("PATIENT_ID <", value, "patientId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdLessThanOrEqualTo(Long value) {
+            addCriterion("PATIENT_ID <=", value, "patientId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdIn(List<Long> values) {
+            addCriterion("PATIENT_ID in", values, "patientId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdNotIn(List<Long> values) {
+            addCriterion("PATIENT_ID not in", values, "patientId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdBetween(Long value1, Long value2) {
+            addCriterion("PATIENT_ID between", value1, value2, "patientId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPatientIdNotBetween(Long value1, Long value2) {
+            addCriterion("PATIENT_ID not between", value1, value2, "patientId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdIsNull() {
+            addCriterion("HOS_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdIsNotNull() {
+            addCriterion("HOS_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdEqualTo(Long value) {
+            addCriterion("HOS_ID =", value, "hosId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdNotEqualTo(Long value) {
+            addCriterion("HOS_ID <>", value, "hosId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdGreaterThan(Long value) {
+            addCriterion("HOS_ID >", value, "hosId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("HOS_ID >=", value, "hosId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdLessThan(Long value) {
+            addCriterion("HOS_ID <", value, "hosId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdLessThanOrEqualTo(Long value) {
+            addCriterion("HOS_ID <=", value, "hosId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdIn(List<Long> values) {
+            addCriterion("HOS_ID in", values, "hosId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdNotIn(List<Long> values) {
+            addCriterion("HOS_ID not in", values, "hosId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdBetween(Long value1, Long value2) {
+            addCriterion("HOS_ID between", value1, value2, "hosId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHosIdNotBetween(Long value1, Long value2) {
+            addCriterion("HOS_ID not between", value1, value2, "hosId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceIsNull() {
+            addCriterion("RATE_GUIDE_SERVICE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceIsNotNull() {
+            addCriterion("RATE_GUIDE_SERVICE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceEqualTo(Integer value) {
+            addCriterion("RATE_GUIDE_SERVICE =", value, "rateGuideService");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceNotEqualTo(Integer value) {
+            addCriterion("RATE_GUIDE_SERVICE <>", value, "rateGuideService");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceGreaterThan(Integer value) {
+            addCriterion("RATE_GUIDE_SERVICE >", value, "rateGuideService");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("RATE_GUIDE_SERVICE >=", value, "rateGuideService");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceLessThan(Integer value) {
+            addCriterion("RATE_GUIDE_SERVICE <", value, "rateGuideService");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceLessThanOrEqualTo(Integer value) {
+            addCriterion("RATE_GUIDE_SERVICE <=", value, "rateGuideService");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceIn(List<Integer> values) {
+            addCriterion("RATE_GUIDE_SERVICE in", values, "rateGuideService");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceNotIn(List<Integer> values) {
+            addCriterion("RATE_GUIDE_SERVICE not in", values, "rateGuideService");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceBetween(Integer value1, Integer value2) {
+            addCriterion("RATE_GUIDE_SERVICE between", value1, value2, "rateGuideService");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateGuideServiceNotBetween(Integer value1, Integer value2) {
+            addCriterion("RATE_GUIDE_SERVICE not between", value1, value2, "rateGuideService");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeIsNull() {
+            addCriterion("RATE_WAITING_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeIsNotNull() {
+            addCriterion("RATE_WAITING_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeEqualTo(Integer value) {
+            addCriterion("RATE_WAITING_TIME =", value, "rateWaitingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeNotEqualTo(Integer value) {
+            addCriterion("RATE_WAITING_TIME <>", value, "rateWaitingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeGreaterThan(Integer value) {
+            addCriterion("RATE_WAITING_TIME >", value, "rateWaitingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("RATE_WAITING_TIME >=", value, "rateWaitingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeLessThan(Integer value) {
+            addCriterion("RATE_WAITING_TIME <", value, "rateWaitingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeLessThanOrEqualTo(Integer value) {
+            addCriterion("RATE_WAITING_TIME <=", value, "rateWaitingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeIn(List<Integer> values) {
+            addCriterion("RATE_WAITING_TIME in", values, "rateWaitingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeNotIn(List<Integer> values) {
+            addCriterion("RATE_WAITING_TIME not in", values, "rateWaitingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeBetween(Integer value1, Integer value2) {
+            addCriterion("RATE_WAITING_TIME between", value1, value2, "rateWaitingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateWaitingTimeNotBetween(Integer value1, Integer value2) {
+            addCriterion("RATE_WAITING_TIME not between", value1, value2, "rateWaitingTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentIsNull() {
+            addCriterion("RATE_CONTENT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentIsNotNull() {
+            addCriterion("RATE_CONTENT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentEqualTo(String value) {
+            addCriterion("RATE_CONTENT =", value, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentNotEqualTo(String value) {
+            addCriterion("RATE_CONTENT <>", value, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentGreaterThan(String value) {
+            addCriterion("RATE_CONTENT >", value, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentGreaterThanOrEqualTo(String value) {
+            addCriterion("RATE_CONTENT >=", value, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentLessThan(String value) {
+            addCriterion("RATE_CONTENT <", value, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentLessThanOrEqualTo(String value) {
+            addCriterion("RATE_CONTENT <=", value, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentLike(String value) {
+            addCriterion("RATE_CONTENT like", value, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentNotLike(String value) {
+            addCriterion("RATE_CONTENT not like", value, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentIn(List<String> values) {
+            addCriterion("RATE_CONTENT in", values, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentNotIn(List<String> values) {
+            addCriterion("RATE_CONTENT not in", values, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentBetween(String value1, String value2) {
+            addCriterion("RATE_CONTENT between", value1, value2, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateContentNotBetween(String value1, String value2) {
+            addCriterion("RATE_CONTENT not between", value1, value2, "rateContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeIsNull() {
+            addCriterion("RATE_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeIsNotNull() {
+            addCriterion("RATE_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("RATE_TIME =", value, "rateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("RATE_TIME <>", value, "rateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("RATE_TIME >", value, "rateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("RATE_TIME >=", value, "rateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeLessThan(Date value) {
+            addCriterionForJDBCDate("RATE_TIME <", value, "rateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("RATE_TIME <=", value, "rateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("RATE_TIME in", values, "rateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("RATE_TIME not in", values, "rateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("RATE_TIME between", value1, value2, "rateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRateTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("RATE_TIME not between", value1, value2, "rateTime");
+            return (Criteria) this;
+        }
+    }
+
+    public static class Criteria extends GeneratedCriteria {
+
+        protected Criteria() {
+            super();
+        }
+    }
+
+    public static class Criterion {
+        private String condition;
+
+        private Object value;
+
+        private Object secondValue;
+
+        private boolean noValue;
+
+        private boolean singleValue;
+
+        private boolean betweenValue;
+
+        private boolean listValue;
+
+        private String typeHandler;
+
+        public String getCondition() {
+            return condition;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public Object getSecondValue() {
+            return secondValue;
+        }
+
+        public boolean isNoValue() {
+            return noValue;
+        }
+
+        public boolean isSingleValue() {
+            return singleValue;
+        }
+
+        public boolean isBetweenValue() {
+            return betweenValue;
+        }
+
+        public boolean isListValue() {
+            return listValue;
+        }
+
+        public String getTypeHandler() {
+            return typeHandler;
+        }
+
+        protected Criterion(String condition) {
+            super();
+            this.condition = condition;
+            this.typeHandler = null;
+            this.noValue = true;
+        }
+
+        protected Criterion(String condition, Object value, String typeHandler) {
+            super();
+            this.condition = condition;
+            this.value = value;
+            this.typeHandler = typeHandler;
+            if (value instanceof List<?>) {
+                this.listValue = true;
+            } else {
+                this.singleValue = true;
+            }
+        }
+
+        protected Criterion(String condition, Object value) {
+            this(condition, value, null);
+        }
+
+        protected Criterion(String condition, Object value, Object secondValue, String typeHandler) {
+            super();
+            this.condition = condition;
+            this.value = value;
+            this.secondValue = secondValue;
+            this.typeHandler = typeHandler;
+            this.betweenValue = true;
+        }
+
+        protected Criterion(String condition, Object value, Object secondValue) {
+            this(condition, value, secondValue, null);
+        }
+    }
+}

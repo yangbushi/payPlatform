@@ -1,0 +1,115 @@
+package com.soft.gh.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.soft.gh.domain.GhCount;
+import com.soft.gh.domain.TCard;
+import com.soft.gh.domain.TPatient;
+
+@Repository
+public interface TPatientMapper {
+
+	int insert(TPatient patient);
+	int insertHosPatient(TPatient patient);
+	
+	void delete(TPatient patient);
+
+	TPatient selectByPatientCard(String patientCard);
+
+	TPatient selectByPatientId(long patientId);
+
+	void takePassword(TPatient patient);
+
+	int update(TPatient patient);
+
+	void updatePwd(TPatient patient);
+
+	int updatePatientStateByPatientIdPatientIdCard(TPatient patient);
+
+	String selectPatientByNameMobile(TPatient patient);
+
+	void addPwd(TPatient patient);
+
+	List<GhCount> selectRegCount();
+
+	List<GhCount> selectRegDayCount(String day);
+
+	List<TPatient> selectList();
+	
+	List<TPatient> mgQuery(@Param("patientName") String patientName,@Param("start") Integer start,@Param("end") Integer end);
+	
+	int mgQueryCount(@Param("patientName") String patientName);
+	
+	TPatient selectInfo(String patientId);
+
+	TPatient selectByOpenId(String openId);
+
+	void updateOpenId(@Param("patientCard") String patientCard, @Param("openId") String openId);
+
+	TPatient selectByUid(String uid);
+
+	void updateUid(@Param("patientCard") String patientCard, @Param("uid") String uid);
+	
+	/**
+	 * 根据机构号和用户账号查询用户
+	 * @param uid
+	 * @return
+	 */
+	TPatient selectPatient(@Param("orgCode")String orgCode, @Param("userCode")String userCode);
+	
+	/**
+	 * 个人资料完善
+	 * @param map
+	 */
+	void updatePatientInfo(Map<String, String> map);
+	
+	/**
+	 * 个人基本信息查询
+	 * @param map
+	 * @return
+	 */
+	TPatient selectPatientBasicInfo(Map<String, String> map);
+	
+	TPatient selectPatientByWeixinOpenId(Map<String, String> map);
+	
+	TPatient selectPatientByAlipayOpenID(Map<String, String> map);
+	/**
+	 * 新增个人基本信息
+	 * @param map
+	 * @return
+	 */
+	int insertPatient(TPatient patient);
+	
+	int insertPatient2(TPatient patient);
+	
+	/**
+	 * 修改密码
+	 * @param map
+	 * @return
+	 */
+	void updatePassword(Map<String, String> map);
+	
+	void updateWeixinOpenId(Map<String, String> map);
+	
+	void updateAlipayOpenID(Map<String, String> map);
+	/**
+	 * 新增就诊卡
+	 * @param map
+	 * @return
+	 */
+	int insertPatientCard(Map<String, String> map);
+	
+	int deletePatientCard(Map<String, String> map);
+	/**
+	 * 获取医疗卡信息
+	 * @param map
+	 * @return
+	 */
+	List<TCard> selectCards(Map<String, String> map);
+	
+	List<TCard> selectCards2(Map<String, String> map);
+}
